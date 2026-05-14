@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useSearch } from "wouter";
 import { useListProducts } from "@workspace/api-client-react";
-import { ShoppingBag, Filter } from "lucide-react";
+import { Filter, ArrowRight } from "lucide-react";
 
 const CATEGORIES = [
   { value: "", label: "All Products" },
@@ -11,11 +11,117 @@ const CATEGORIES = [
   { value: "food", label: "Gourmet" },
 ];
 
+function RevealSection({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const [vis, setVis] = useState(false);
+  const ref = (el: HTMLDivElement | null) => {
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setVis(true); obs.disconnect(); } },
+      { threshold: 0.05, rootMargin: "0px 0px -20px 0px" }
+    );
+    obs.observe(el);
+  };
+  return (
+    <div
+      ref={ref}
+      style={{
+        transition: `opacity 0.8s ease ${delay}ms, transform 0.8s ease ${delay}ms`,
+        opacity: vis ? 1 : 0,
+        transform: vis ? "translateY(0)" : "translateY(24px)",
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function ProductCard({ product, delay = 0 }: {
+  product: {
+    id: number;
+    name: string;
+    price: number;
+    category: string;
+    images: unknown;
+    featured?: boolean | null;
+    deliveryIncluded?: boolean | null;
+  };
+  delay?: number;
+}) {
+  const images = (product.images as string[]) ?? [];
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <RevealSection delay={delay}>
+      <Link href={`/product/${product.id}`}>
+        <div
+          className="group cursor-pointer"
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+        >
+          <div className="relative overflow-hidden bg-card mb-4" style={{ aspectRatio: "3/4" }}>
+            {/* Main image */}
+            <img
+              src={images[0]}
+              alt={product.name}
+              loading="lazy"
+              className="absolute inset-0 w-full h-full object-cover transition-all duration-700"
+              style={{ transform: hovered ? "scale(1.06)" : "scale(1)", opacity: hovered && images[1] ? 0 : 1 }}
+            />
+            {/* Hover alternate image */}
+            {images[1] && (
+              <img
+                src={images[1]}
+                alt={product.name}
+                loading="lazy"
+                className="absolute inset-0 w-full h-full object-cover transition-all duration-700"
+                style={{ transform: hovered ? "scale(1.04)" : "scale(1.08)", opacity: hovered ? 1 : 0 }}
+              />
+            )}
+
+            {/* Featured badge */}
+            {product.featured && (
+              <div className="absolute top-3 left-3 z-10 bg-primary text-primary-foreground text-[9px] uppercase tracking-widest px-3 py-1 font-body">
+                Featured
+              </div>
+            )}
+
+            {/* Hover overlay */}
+            <div
+              className="absolute inset-0 bg-black/50 flex items-end pb-6 px-4 transition-opacity duration-400"
+              style={{ opacity: hovered ? 1 : 0 }}
+            >
+              <span className="text-white text-[10px] uppercase tracking-[0.25em] font-body border-b border-primary pb-1 flex items-center gap-2">
+                View Details <ArrowRight size={10} />
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <p className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground font-body mb-1">
+              {product.category.replace(/-/g, " ")}
+            </p>
+            <h3 className="font-serif text-base text-foreground group-hover:text-primary transition-colors duration-300 leading-tight mb-1">
+              {product.name}
+            </h3>
+            <p className="text-sm font-body text-primary font-medium">
+              £{product.price}
+              {product.deliveryIncluded && (
+                <span className="text-muted-foreground text-xs font-normal ml-2">
+                  inc. delivery
+                </span>
+              )}
+            </p>
+          </div>
+        </div>
+      </Link>
+    </RevealSection>
+  );
+}
+
 export function Shop() {
   const search = useSearch();
   const params = new URLSearchParams(search);
-  const initialCat = params.get("category") ?? "";
-  const [activeCategory, setActiveCategory] = useState(initialCat);
+  const [activeCategory, setActiveCategory] = useState(params.get("category") ?? "");
 
   const { data: products, isLoading } = useListProducts(
     activeCategory ? { category: activeCategory } : {}
@@ -23,94 +129,98 @@ export function Shop() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Hero Banner */}
-      <div className="relative h-64 bg-gradient-to-r from-background via-card to-background flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 opacity-10" style={{
-          backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(201,168,76,0.1) 40px, rgba(201,168,76,0.1) 41px)"
-        }} />
-        <div className="text-center relative z-10">
-          <p className="text-xs uppercase tracking-[0.3em] text-primary font-body mb-3">Our Collection</p>
-          <h1 className="text-5xl md:text-6xl font-serif gold-shimmer mb-4">The Edit</h1>
-          <div className="luxury-divider w-40 mx-auto">
-            <span className="text-xs text-primary tracking-[0.2em] font-body">LUXE & LINE</span>
-          </div>
+      {/* Page hero */}
+      <div className="relative overflow-hidden border-b border-border/30" style={{ height: "44vh", minHeight: 280 }}>
+        {/* Grid pattern bg */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: "linear-gradient(hsl(220,20%,14%) 1px, transparent 1px), linear-gradient(90deg, hsl(220,20%,14%) 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
+            backgroundColor: "hsl(220,20%,9%)",
+          }}
+        />
+        {/* Radial fade */}
+        <div
+          className="absolute inset-0"
+          style={{ background: "radial-gradient(ellipse at 50% 120%, rgba(201,168,76,0.07) 0%, transparent 65%)" }}
+        />
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
+          <p className="text-[10px] uppercase tracking-[0.45em] text-primary font-body mb-5">
+            Our Collection
+          </p>
+          <h1
+            className="font-serif mb-5 leading-none"
+            style={{ fontSize: "clamp(3rem, 8vw, 7rem)" }}
+          >
+            <span className="text-white">The </span>
+            <em className="text-primary">Edit</em>
+          </h1>
+          <div
+            style={{
+              width: 80,
+              height: 1,
+              background: "linear-gradient(90deg, transparent, hsl(43,65%,50%), transparent)",
+            }}
+          />
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-12">
-        {/* Category Filter */}
-        <div className="flex items-center gap-2 mb-10 overflow-x-auto pb-2">
-          <Filter size={14} className="text-primary shrink-0" />
+        {/* Category filter bar */}
+        <div className="flex items-center gap-2 mb-12 overflow-x-auto pb-2 scrollbar-none">
+          <Filter size={13} className="text-primary shrink-0 opacity-60" />
           {CATEGORIES.map((cat) => (
             <button
               key={cat.value}
               data-testid={`filter-${cat.value || "all"}`}
               onClick={() => setActiveCategory(cat.value)}
-              className={`px-5 py-2 text-xs uppercase tracking-widest font-body border transition-all duration-300 whitespace-nowrap ${
-                activeCategory === cat.value
-                  ? "bg-primary text-primary-foreground border-primary"
-                  : "border-border text-muted-foreground hover:border-primary hover:text-primary"
-              }`}
+              className="px-6 py-2.5 text-[10px] uppercase tracking-[0.25em] font-body border transition-all duration-300 whitespace-nowrap"
+              style={{
+                borderColor: activeCategory === cat.value ? "hsl(43,65%,50%)" : "hsl(220,15%,20%)",
+                background: activeCategory === cat.value ? "hsl(43,65%,50%)" : "transparent",
+                color: activeCategory === cat.value ? "hsl(220,20%,8%)" : "hsl(45,15%,55%)",
+              }}
             >
               {cat.label}
             </button>
           ))}
         </div>
 
-        {/* Products Grid */}
-        {isLoading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        {/* Product count */}
+        {!isLoading && products && (
+          <p className="text-xs font-body text-muted-foreground mb-8 tracking-widest uppercase">
+            {products.length} {activeCategory ? activeCategory.replace(/-/g, " ") : "products"}
+          </p>
+        )}
+
+        {/* Skeleton */}
+        {isLoading && (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {Array.from({ length: 8 }).map((_, i) => (
               <div key={i} className="animate-pulse">
-                <div className="bg-card h-80 mb-4" />
+                <div className="bg-card mb-3" style={{ aspectRatio: "3/4" }} />
+                <div className="h-3 bg-card w-1/2 mb-2" />
                 <div className="h-4 bg-card w-3/4 mb-2" />
-                <div className="h-4 bg-card w-1/2" />
+                <div className="h-3 bg-card w-1/3" />
               </div>
-            ))}
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {(products ?? []).map((product) => (
-              <Link key={product.id} href={`/product/${product.id}`} data-testid={`card-product-${product.id}`}>
-                <div className="group cursor-pointer">
-                  <div className="relative overflow-hidden bg-card aspect-[3/4] mb-4">
-                    <img
-                      src={(product.images as string[])[0]}
-                      alt={product.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = "/product-images/wallets-reference.jpg";
-                      }}
-                    />
-                    {product.featured && (
-                      <div className="absolute top-3 left-3 bg-primary text-primary-foreground text-[10px] uppercase tracking-widest px-3 py-1 font-body">
-                        Featured
-                      </div>
-                    )}
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <span className="text-white text-xs uppercase tracking-widest font-body border border-white px-6 py-3">View Details</span>
-                    </div>
-                  </div>
-                  <div>
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-body mb-1">
-                      {product.category.replace("-", " ")}
-                    </p>
-                    <h3 className="font-serif text-lg text-foreground mb-1 group-hover:text-primary transition-colors">{product.name}</h3>
-                    <p className="text-primary font-body font-medium">
-                      £{product.price}
-                      {product.deliveryIncluded && <span className="text-muted-foreground text-xs ml-1">inc. delivery</span>}
-                    </p>
-                  </div>
-                </div>
-              </Link>
             ))}
           </div>
         )}
 
-        {products?.length === 0 && (
-          <div className="text-center py-24">
-            <ShoppingBag size={48} className="mx-auto text-muted-foreground mb-4" />
-            <p className="text-muted-foreground font-body">No products found in this category.</p>
+        {/* Products grid */}
+        {!isLoading && (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12">
+            {(products ?? []).map((product, i) => (
+              <ProductCard key={product.id} product={product} delay={i * 40} />
+            ))}
+          </div>
+        )}
+
+        {!isLoading && !products?.length && (
+          <div className="py-32 text-center">
+            <p className="font-serif text-2xl text-muted-foreground mb-3">Nothing here yet</p>
+            <p className="font-body text-sm text-muted-foreground">Try a different filter.</p>
           </div>
         )}
       </div>

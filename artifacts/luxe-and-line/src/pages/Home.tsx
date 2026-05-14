@@ -1,100 +1,193 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { Link } from "wouter";
-import { ChevronDown, ChevronUp, ArrowRight } from "lucide-react";
-import { useListProducts, useAddToCart, getGetCartQueryKey } from "@workspace/api-client-react";
+import { ArrowDown, ArrowRight } from "lucide-react";
+import { useAddToCart, getGetCartQueryKey } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 
-const VIDEO_SECTIONS = [
+/* ─── Typography animation hook ─────────────────────────── */
+function useRevealOnScroll() {
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("revealed");
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -60px 0px" }
+    );
+    const els = document.querySelectorAll(".reveal");
+    els.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  });
+}
+
+/* ─── Luxury animated button ─────────────────────────────── */
+function LuxuryButton({
+  href,
+  children,
+  dark = false,
+  testId,
+}: {
+  href: string;
+  children: React.ReactNode;
+  dark?: boolean;
+  testId?: string;
+}) {
+  return (
+    <Link href={href}>
+      <button
+        data-testid={testId}
+        className={`luxury-btn group relative overflow-hidden inline-flex items-center gap-3 px-10 py-4 uppercase tracking-[0.25em] text-xs font-body font-medium transition-all duration-500 ${
+          dark
+            ? "bg-primary text-primary-foreground"
+            : "border border-white/60 text-white hover:border-primary"
+        }`}
+      >
+        <span className="relative z-10 flex items-center gap-3">
+          {children}
+          <ArrowRight
+            size={13}
+            className="group-hover:translate-x-1 transition-transform duration-300"
+          />
+        </span>
+        {/* Shimmer sweep */}
+        <span className="luxury-btn-shine" />
+      </button>
+    </Link>
+  );
+}
+
+/* ─── Video Hero — scroll-snap fullscreen ─────────────────── */
+const VIDEOS = [
   {
     src: "/videos/video1.mp4",
-    title: "ELEGANCE REDEFINED",
-    subtitle: "Luxury Shalwar Kameez for the Modern Woman",
+    label: "Couture",
+    title: ["ELEGANCE", "REDEFINED"],
+    sub: "Luxury Shalwar Kameez · Delivered Across the UK",
     cta: "Shop Now",
     link: "/shop?category=shalwar-kameez",
   },
   {
     src: "/videos/video2.mp4",
-    title: "CRAFTED FOR YOU",
-    subtitle: "Premium Embroidered Suits, Delivered to Your Door",
+    label: "Heritage",
+    title: ["CRAFTED", "FOR YOU"],
+    sub: "Premium Embroidered Suits · Stitched to Your Measurements",
     cta: "Explore Collection",
     link: "/shop",
   },
   {
     src: "/videos/video3.mp4",
-    title: "DENIM LUXE",
-    subtitle: "Premium Jeans, Styled for the UK Streets",
+    label: "Denim",
+    title: ["DENIM", "LUXE"],
+    sub: "Premium Jeans Styled for UK Streets",
     cta: "Shop Jeans",
     link: "/shop?category=jeans",
   },
 ];
 
-function VideoHero() {
+function VideoHero({ onExit }: { onExit: () => void }) {
   const [current, setCurrent] = useState(0);
-  const [transitioning, setTransitioning] = useState(false);
-  const [pastVideos, setPastVideos] = useState(false);
-  const heroRef = useRef<HTMLDivElement>(null);
+  const [textVisible, setTextVisible] = useState(false);
+  const [locked, setLocked] = useState(false);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const lastScrollTime = useRef(0);
 
-  const goTo = (idx: number) => {
-    if (transitioning || idx === current) return;
-    setTransitioning(true);
-    setCurrent(idx);
-    setTimeout(() => setTransitioning(false), 900);
-  };
-
-  const next = () => {
-    if (current < VIDEO_SECTIONS.length - 1) goTo(current + 1);
-    else setPastVideos(true);
-  };
-
-  const prev = () => {
-    if (pastVideos) { setPastVideos(false); return; }
-    if (current > 0) goTo(current - 1);
-  };
-
+  // Show text after short delay when video changes
   useEffect(() => {
-    const handleWheel = (e: WheelEvent) => {
-      if (pastVideos) return;
-      e.preventDefault();
-      if (e.deltaY > 40) next();
-      else if (e.deltaY < -40) prev();
-    };
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowDown") next();
-      if (e.key === "ArrowUp") prev();
-    };
-    window.addEventListener("wheel", handleWheel, { passive: false });
-    window.addEventListener("keydown", handleKey);
-    return () => {
-      window.removeEventListener("wheel", handleWheel);
-      window.removeEventListener("keydown", handleKey);
-    };
-  }, [current, pastVideos, transitioning]);
+    setTextVisible(false);
+    const t = setTimeout(() => setTextVisible(true), 300);
+    return () => clearTimeout(t);
+  }, [current]);
 
+  // Play active video
   useEffect(() => {
     videoRefs.current.forEach((v, i) => {
       if (!v) return;
-      if (i === current) v.play().catch(() => {});
-      else { v.pause(); v.currentTime = 0; }
+      if (i === current) {
+        v.currentTime = 0;
+        v.play().catch(() => {});
+      } else {
+        v.pause();
+      }
     });
   }, [current]);
 
-  if (pastVideos) return null;
+  const advance = useCallback(() => {
+    if (locked) return;
+    const now = Date.now();
+    if (now - lastScrollTime.current < 800) return;
+    lastScrollTime.current = now;
+    setLocked(true);
+
+    if (current < VIDEOS.length - 1) {
+      setCurrent((c) => c + 1);
+    } else {
+      onExit();
+    }
+    setTimeout(() => setLocked(false), 900);
+  }, [current, locked, onExit]);
+
+  const retreat = useCallback(() => {
+    if (locked || current === 0) return;
+    const now = Date.now();
+    if (now - lastScrollTime.current < 800) return;
+    lastScrollTime.current = now;
+    setLocked(true);
+    setCurrent((c) => c - 1);
+    setTimeout(() => setLocked(false), 900);
+  }, [current, locked]);
+
+  useEffect(() => {
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      if (e.deltaY > 30) advance();
+      else if (e.deltaY < -30) retreat();
+    };
+    let touchStartY = 0;
+    const onTouchStart = (e: TouchEvent) => { touchStartY = e.touches[0].clientY; };
+    const onTouchEnd = (e: TouchEvent) => {
+      const dy = touchStartY - e.changedTouches[0].clientY;
+      if (Math.abs(dy) > 50) dy > 0 ? advance() : retreat();
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowDown" || e.key === " ") advance();
+      if (e.key === "ArrowUp") retreat();
+    };
+    window.addEventListener("wheel", onWheel, { passive: false });
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchend", onTouchEnd, { passive: true });
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchend", onTouchEnd);
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [advance, retreat]);
 
   return (
     <div
-      ref={heroRef}
-      className="fixed inset-0 z-40 bg-black overflow-hidden"
+      ref={containerRef}
+      className="fixed inset-0 z-50 bg-black overflow-hidden"
       style={{ touchAction: "none" }}
     >
-      {VIDEO_SECTIONS.map((vid, idx) => (
+      {VIDEOS.map((vid, idx) => (
         <div
           key={idx}
-          className="absolute inset-0 transition-all duration-900 ease-in-out"
+          className="absolute inset-0"
           style={{
+            transition: "opacity 1s ease, transform 1s ease",
             opacity: current === idx ? 1 : 0,
-            transform: current === idx ? "translateY(0)" : idx < current ? "translateY(-8%)" : "translateY(8%)",
+            transform:
+              current === idx
+                ? "scale(1)"
+                : idx < current
+                ? "scale(1.04) translateY(-2%)"
+                : "scale(1.04) translateY(2%)",
             zIndex: current === idx ? 2 : 1,
             pointerEvents: current === idx ? "auto" : "none",
           }}
@@ -103,437 +196,677 @@ function VideoHero() {
             ref={(el) => { videoRefs.current[idx] = el; }}
             src={vid.src}
             className="absolute inset-0 w-full h-full object-cover"
-            autoPlay={idx === 0}
             muted
             loop
             playsInline
+            preload="auto"
           />
-          {/* Dark overlay */}
-          <div className="absolute inset-0 video-overlay" />
-
-          {/* Content */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-8 z-10">
-            <p className="text-[10px] md:text-xs uppercase tracking-[0.4em] text-primary font-body mb-4 opacity-80">
-              Luxe & Line — {idx === 2 ? "Denim" : "Couture"}
-            </p>
-            <h1 className="font-serif text-5xl md:text-8xl text-white mb-6 tracking-wider uppercase drop-shadow-2xl leading-tight">
-              {vid.title}
-            </h1>
-            <p className="font-body text-base md:text-xl text-white/80 mb-10 max-w-xl tracking-wide">
-              {vid.subtitle}
-            </p>
-            <Link href={vid.link}>
-              <button
-                data-testid={`button-video-cta-${idx}`}
-                className="group border border-white text-white px-10 py-4 uppercase tracking-[0.25em] text-xs font-body hover:bg-primary hover:border-primary transition-all duration-300 flex items-center gap-3"
-              >
-                {vid.cta}
-                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-              </button>
-            </Link>
-          </div>
+          {/* Cinematic gradient */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.05) 30%, rgba(0,0,0,0.05) 60%, rgba(0,0,0,0.65) 100%)",
+            }}
+          />
+          {/* Vignette sides */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.5) 100%)",
+            }}
+          />
         </div>
       ))}
 
-      {/* Navigation Dots */}
-      <div className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col gap-4 z-50">
-        {VIDEO_SECTIONS.map((_, idx) => (
-          <button
-            key={idx}
-            data-testid={`dot-video-${idx}`}
-            onClick={() => goTo(idx)}
-            className={`rounded-full transition-all duration-500 ${
-              current === idx ? "bg-primary w-2 h-10" : "bg-white/40 hover:bg-white/70 w-2 h-2"
-            }`}
-          />
-        ))}
-      </div>
-
-      {/* Up/Down Arrows */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-3">
-        {current > 0 && (
-          <button
-            data-testid="button-prev-video"
-            onClick={prev}
-            className="text-white/60 hover:text-primary transition-colors p-2"
-          >
-            <ChevronUp size={28} />
-          </button>
-        )}
-        <button
-          data-testid="button-next-video"
-          onClick={next}
-          className="text-white/60 hover:text-primary transition-colors p-2 animate-bounce"
+      {/* Text content — per video */}
+      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6 pointer-events-none">
+        <div
+          style={{
+            transition: "opacity 0.7s ease, transform 0.7s ease",
+            opacity: textVisible ? 1 : 0,
+            transform: textVisible ? "translateY(0)" : "translateY(24px)",
+          }}
         >
-          <ChevronDown size={28} />
-        </button>
-        <span className="text-white/30 text-[9px] uppercase tracking-[0.3em] font-body">
-          {current < VIDEO_SECTIONS.length - 1 ? "scroll" : "discover more"}
-        </span>
-      </div>
-
-      {/* Video counter */}
-      <div className="absolute top-8 right-8 z-50 text-white/40 text-xs font-body tracking-widest">
-        {String(current + 1).padStart(2, "0")} / {String(VIDEO_SECTIONS.length).padStart(2, "0")}
-      </div>
-    </div>
-  );
-}
-
-function FeaturedProducts() {
-  const { data: products } = useListProducts({ featured: true });
-  const addToCart = useAddToCart();
-  const queryClient = useQueryClient();
-  const { toast } = useToast();
-
-  const handleAdd = (product: NonNullable<typeof products>[0]) => {
-    addToCart.mutate(
-      { data: { productId: product.id, quantity: 1, size: null } },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: getGetCartQueryKey() });
-          toast({ title: "Added to bag", description: `${product.name} added.` });
-        },
-      }
-    );
-  };
-
-  if (!products?.length) return null;
-
-  return (
-    <section className="py-24 px-6 bg-background">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <p className="text-[10px] uppercase tracking-[0.35em] text-primary font-body mb-4">Curated For You</p>
-          <h2 className="font-serif text-4xl md:text-5xl text-foreground mb-4">Featured Collection</h2>
-          <div className="luxury-divider w-40 mx-auto" />
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {products.slice(0, 8).map((p, i) => (
-            <div
-              key={p.id}
-              className="group fade-in-up"
-              style={{ animationDelay: `${i * 0.1}s` }}
-              data-testid={`card-featured-${p.id}`}
-            >
-              <Link href={`/product/${p.id}`}>
-                <div className="relative overflow-hidden bg-card aspect-[3/4] mb-4 cursor-pointer">
-                  <img
-                    src={(p.images as string[])[0]}
-                    alt={p.name}
-                    className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700"
-                    style={{ transform: "scale(1)" }}
-                    onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.05)")}
-                    onMouseLeave={e => (e.currentTarget.style.transform = "scale(1)")}
-                    onError={(e) => { (e.target as HTMLImageElement).src = "/product-images/wallets-reference.jpg"; }}
-                  />
-                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-3">
-                    <span className="text-white text-[10px] uppercase tracking-widest font-body border border-white px-5 py-2">View Details</span>
-                  </div>
-                  <div className="absolute top-3 left-3 bg-primary text-primary-foreground text-[9px] uppercase tracking-widest px-2 py-1 font-body">
-                    Featured
-                  </div>
-                </div>
-              </Link>
-              <p className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground font-body mb-1">
-                {p.category.replace("-", " ")}
-              </p>
-              <h3 className="font-serif text-lg text-foreground mb-1 group-hover:text-primary transition-colors">
-                {p.name}
-              </h3>
-              <div className="flex items-center justify-between">
-                <span className="text-primary font-body font-medium text-sm">
-                  £{p.price}
-                  {p.deliveryIncluded && <span className="text-muted-foreground text-xs ml-1">inc. del.</span>}
-                </span>
-                <button
-                  data-testid={`button-quick-add-${p.id}`}
-                  onClick={() => handleAdd(p)}
-                  className="text-[9px] uppercase tracking-widest font-body text-muted-foreground hover:text-primary transition-colors border border-transparent hover:border-primary px-2 py-1"
-                >
-                  + Bag
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="text-center mt-12">
-          <Link href="/shop">
-            <button data-testid="button-view-all" className="border border-primary text-primary px-12 py-4 uppercase tracking-[0.25em] text-xs font-body hover:bg-primary hover:text-primary-foreground transition-all duration-300 flex items-center gap-3 mx-auto">
-              View All Products <ArrowRight size={14} />
-            </button>
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function BrandStory() {
-  return (
-    <section className="py-24 px-6 bg-card border-t border-border">
-      <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-        <div>
-          <p className="text-[10px] uppercase tracking-[0.35em] text-primary font-body mb-4">Our Promise</p>
-          <h2 className="font-serif text-4xl md:text-5xl text-foreground mb-6 leading-tight">
-            Lahore's Finest,<br />Delivered to Liverpool
-          </h2>
-          <p className="text-muted-foreground font-body text-sm leading-relaxed mb-6">
-            We curate only the finest pieces from Pakistan's most celebrated fashion houses — Nureh, Charizma, Zeenet — and deliver them directly to your door across the UK. Every piece tells a story of craftsmanship, heritage, and artistry.
+          {/* Label */}
+          <p className="text-[10px] md:text-xs uppercase tracking-[0.5em] text-primary font-body mb-6 opacity-80">
+            Luxe & Line — {VIDEOS[current].label}
           </p>
-          <div className="space-y-3 mb-8">
-            {["Free UK delivery on all orders", "Authentic designs, premium quality", "Available stitched to your measurements", "WhatsApp support — fast, personal service"].map((point) => (
-              <div key={point} className="flex items-center gap-3 text-sm font-body text-foreground">
-                <div className="w-1 h-1 bg-primary rounded-full" />
-                {point}
+
+          {/* Hero title — two lines */}
+          <div className="mb-6">
+            {VIDEOS[current].title.map((line, i) => (
+              <div key={i} className="overflow-hidden">
+                <h1
+                  className="font-serif text-[13vw] md:text-[10vw] lg:text-[9vw] leading-[0.9] text-white tracking-tight uppercase"
+                  style={{
+                    transition: `opacity 0.7s ease ${i * 0.12}s, transform 0.7s ease ${i * 0.12}s`,
+                    opacity: textVisible ? 1 : 0,
+                    transform: textVisible ? "translateY(0)" : "translateY(40px)",
+                    textShadow: "0 4px 40px rgba(0,0,0,0.4)",
+                    fontStyle: i === 1 ? "italic" : "normal",
+                  }}
+                >
+                  {i === 1 ? (
+                    <span className="text-primary">{line}</span>
+                  ) : (
+                    line
+                  )}
+                </h1>
               </div>
             ))}
           </div>
-          <Link href="/about">
-            <button data-testid="button-our-story" className="text-xs uppercase tracking-widest font-body text-primary hover:text-foreground transition-colors flex items-center gap-2 border-b border-primary pb-1">
-              Our Story <ArrowRight size={12} />
-            </button>
-          </Link>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          {[
-            { num: "500+", label: "Happy Customers" },
-            { num: "3", label: "Luxury Brands" },
-            { num: "100%", label: "UK Delivery" },
-            { num: "5★", label: "Customer Rating" },
-          ].map((s) => (
-            <div key={s.label} className="bg-background border border-border p-6 text-center float-animation" style={{ animationDelay: `${Math.random() * 2}s` }}>
-              <p className="font-serif text-3xl text-primary mb-1">{s.num}</p>
-              <p className="text-[10px] uppercase tracking-widest font-body text-muted-foreground">{s.label}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
-function Categories() {
-  const cats = [
-    { label: "Shalwar Kameez", value: "shalwar-kameez", desc: "Traditional luxury, modern elegance" },
-    { label: "Premium Jeans", value: "jeans", desc: "UK street style meets South Asian craft" },
-    { label: "Leather Wallets", value: "wallets", desc: "Handcrafted accessories for the discerning" },
-    { label: "Gourmet", value: "food", desc: "Pistachio Kunafa Bites & more" },
-  ];
-
-  return (
-    <section className="py-24 px-6 bg-background border-t border-border">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <p className="text-[10px] uppercase tracking-[0.35em] text-primary font-body mb-4">Explore</p>
-          <h2 className="font-serif text-4xl md:text-5xl text-foreground mb-4">Shop by Category</h2>
-          <div className="luxury-divider w-40 mx-auto" />
-        </div>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {cats.map((cat) => (
-            <Link key={cat.value} href={`/shop?category=${cat.value}`}>
-              <div data-testid={`link-category-${cat.value}`} className="group bg-card border border-border p-8 text-center hover:border-primary transition-all duration-300 cursor-pointer h-48 flex flex-col items-center justify-center">
-                <h3 className="font-serif text-lg text-foreground group-hover:text-primary transition-colors mb-2">{cat.label}</h3>
-                <p className="text-[10px] font-body text-muted-foreground uppercase tracking-wider">{cat.desc}</p>
-                <div className="mt-4 text-[10px] uppercase tracking-widest font-body text-primary opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
-                  Shop Now <ArrowRight size={10} />
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-export function Home() {
-  const [videosDone, setVideosDone] = useState(false);
-
-  useEffect(() => {
-    const handleWheel = () => {};
-    return () => {};
-  }, []);
-
-  return (
-    <div className="w-full">
-      {/* Fixed video hero — occupies full screen, blocks scroll */}
-      {!videosDone && (
-        <div className="fixed inset-0 z-40">
-          <VideoHeroWithCallback onExit={() => setVideosDone(true)} />
-        </div>
-      )}
-
-      {/* Main content — visible after videos */}
-      <div className={videosDone ? "block" : "invisible"}>
-        <FeaturedProducts />
-        <Categories />
-        <BrandStory />
-
-        {/* Contact Strip */}
-        <section className="py-16 px-6 bg-card border-t border-border text-center">
-          <p className="text-[10px] uppercase tracking-[0.35em] text-primary font-body mb-3">Get in Touch</p>
-          <h2 className="font-serif text-3xl text-foreground mb-6">Questions? We're here for you.</h2>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-sm font-body text-muted-foreground">
-            <a href="tel:+447405358689" className="hover:text-primary transition-colors flex items-center gap-2">
-              +44 7405 358689
-            </a>
-            <span className="hidden sm:block text-border">|</span>
-            <a href="mailto:hello@luxeandline.co.uk" className="hover:text-primary transition-colors">
-              hello@luxeandline.co.uk
-            </a>
-            <span className="hidden sm:block text-border">|</span>
-            <span>39 Stanley Street, Liverpool L7 0JN</span>
-          </div>
-          <div className="mt-8">
-            <Link href="/contact">
-              <button data-testid="button-contact-us" className="border border-primary text-primary px-10 py-3 uppercase tracking-[0.25em] text-xs font-body hover:bg-primary hover:text-primary-foreground transition-all duration-300">
-                Contact Us
-              </button>
-            </Link>
-          </div>
-        </section>
-      </div>
-    </div>
-  );
-}
-
-function VideoHeroWithCallback({ onExit }: { onExit: () => void }) {
-  const [current, setCurrent] = useState(0);
-  const [transitioning, setTransitioning] = useState(false);
-  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
-
-  const goTo = (idx: number) => {
-    if (transitioning || idx === current) return;
-    setTransitioning(true);
-    setCurrent(idx);
-    setTimeout(() => setTransitioning(false), 900);
-  };
-
-  const next = () => {
-    if (current < VIDEO_SECTIONS.length - 1) goTo(current + 1);
-    else onExit();
-  };
-
-  const prev = () => {
-    if (current > 0) goTo(current - 1);
-  };
-
-  useEffect(() => {
-    const handleWheel = (e: WheelEvent) => {
-      e.preventDefault();
-      if (e.deltaY > 40) next();
-      else if (e.deltaY < -40) prev();
-    };
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowDown") next();
-      if (e.key === "ArrowUp") prev();
-    };
-    window.addEventListener("wheel", handleWheel, { passive: false });
-    window.addEventListener("keydown", handleKey);
-    return () => {
-      window.removeEventListener("wheel", handleWheel);
-      window.removeEventListener("keydown", handleKey);
-    };
-  }, [current, transitioning]);
-
-  useEffect(() => {
-    videoRefs.current.forEach((v, i) => {
-      if (!v) return;
-      if (i === current) v.play().catch(() => {});
-      else { v.pause(); v.currentTime = 0; }
-    });
-  }, [current]);
-
-  return (
-    <div className="w-full h-full bg-black overflow-hidden" style={{ touchAction: "none" }}>
-      {VIDEO_SECTIONS.map((vid, idx) => (
-        <div
-          key={idx}
-          className="absolute inset-0 transition-all ease-in-out"
-          style={{
-            transitionDuration: "900ms",
-            opacity: current === idx ? 1 : 0,
-            transform: current === idx ? "translateY(0)" : idx < current ? "translateY(-6%)" : "translateY(6%)",
-            zIndex: current === idx ? 2 : 1,
-            pointerEvents: current === idx ? "auto" : "none",
-          }}
-        >
-          <video
-            ref={(el) => { videoRefs.current[idx] = el; }}
-            src={vid.src}
-            className="absolute inset-0 w-full h-full object-cover"
-            autoPlay={idx === 0}
-            muted
-            loop
-            playsInline
-          />
-          <div className="absolute inset-0 video-overlay" />
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-8 z-10">
-            <p className="text-[10px] md:text-xs uppercase tracking-[0.4em] text-primary font-body mb-6 opacity-80">
-              Luxe & Line — {idx === 2 ? "Denim" : "Couture"}
-            </p>
-            <h1 className="font-serif text-5xl md:text-8xl lg:text-9xl text-white mb-6 tracking-wider uppercase drop-shadow-2xl leading-none">
-              {vid.title}
-            </h1>
-            <p className="font-body text-sm md:text-lg text-white/80 mb-10 max-w-xl tracking-wide">
-              {vid.subtitle}
-            </p>
-            <Link href={vid.link}>
-              <button
-                data-testid={`button-video-cta-${idx}`}
-                className="group border border-white/70 text-white px-10 py-4 uppercase tracking-[0.25em] text-xs font-body hover:bg-primary hover:border-primary transition-all duration-300 flex items-center gap-3"
-              >
-                {vid.cta}
-                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-              </button>
-            </Link>
-          </div>
-        </div>
-      ))}
-
-      {/* Dots */}
-      <div className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col gap-4 z-50">
-        {VIDEO_SECTIONS.map((_, idx) => (
-          <button
-            key={idx}
-            data-testid={`dot-video-${idx}`}
-            onClick={() => goTo(idx)}
-            className="rounded-full transition-all duration-500"
+          {/* Divider */}
+          <div
+            className="mx-auto mb-6"
             style={{
-              width: "8px",
-              height: current === idx ? "40px" : "8px",
-              backgroundColor: current === idx ? "hsl(43 65% 50%)" : "rgba(255,255,255,0.4)",
+              width: textVisible ? "120px" : "0px",
+              height: "1px",
+              background: "linear-gradient(90deg, transparent, hsl(43,65%,50%), transparent)",
+              transition: "width 1s ease 0.4s",
+            }}
+          />
+
+          {/* Subtitle */}
+          <p
+            className="font-body text-sm md:text-base text-white/70 mb-10 tracking-widest"
+            style={{
+              transition: "opacity 0.7s ease 0.5s, transform 0.7s ease 0.5s",
+              opacity: textVisible ? 1 : 0,
+              transform: textVisible ? "translateY(0)" : "translateY(20px)",
+            }}
+          >
+            {VIDEOS[current].sub}
+          </p>
+
+          {/* CTA button */}
+          <div
+            className="pointer-events-auto"
+            style={{
+              transition: "opacity 0.7s ease 0.65s, transform 0.7s ease 0.65s",
+              opacity: textVisible ? 1 : 0,
+              transform: textVisible ? "translateY(0)" : "translateY(20px)",
+            }}
+          >
+            <LuxuryButton href={VIDEOS[current].link} testId={`cta-video-${current}`}>
+              {VIDEOS[current].cta}
+            </LuxuryButton>
+          </div>
+        </div>
+      </div>
+
+      {/* Progress dots */}
+      <div className="absolute right-8 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-4">
+        {VIDEOS.map((_, i) => (
+          <button
+            key={i}
+            data-testid={`dot-${i}`}
+            onClick={() => { if (!locked) setCurrent(i); }}
+            className="transition-all duration-500 rounded-full"
+            style={{
+              width: 6,
+              height: current === i ? 42 : 6,
+              backgroundColor:
+                current === i
+                  ? "hsl(43,65%,50%)"
+                  : "rgba(255,255,255,0.35)",
             }}
           />
         ))}
       </div>
 
-      {/* Nav arrows */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-2">
-        {current > 0 && (
-          <button data-testid="button-prev-video" onClick={prev} className="text-white/50 hover:text-primary transition-colors p-2">
-            <ChevronUp size={28} />
-          </button>
-        )}
-        <button data-testid="button-next-video" onClick={next} className="text-white/50 hover:text-primary transition-colors p-2 animate-bounce">
-          <ChevronDown size={28} />
-        </button>
-        <span className="text-white/25 text-[9px] uppercase tracking-[0.3em] font-body">
-          {current < VIDEO_SECTIONS.length - 1 ? "scroll or click" : "enter site"}
+      {/* Bottom — scroll indicator */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-3 pointer-events-auto">
+        <div
+          className="scroll-indicator cursor-pointer"
+          onClick={advance}
+          style={{
+            transition: "opacity 0.7s ease 0.8s",
+            opacity: textVisible ? 1 : 0,
+          }}
+        >
+          <div className="scroll-line" />
+        </div>
+        <span className="text-[9px] uppercase tracking-[0.35em] font-body text-white/30">
+          {current < VIDEOS.length - 1 ? "Scroll" : "Enter"}
         </span>
       </div>
 
-      {/* Counter */}
-      <div className="absolute top-8 right-16 z-50 text-white/30 text-xs font-body tracking-widest">
-        {String(current + 1).padStart(2, "0")} / {String(VIDEO_SECTIONS.length).padStart(2, "0")}
+      {/* Video counter top-right */}
+      <div className="absolute top-6 right-20 z-20 font-body text-xs text-white/25 tracking-widest">
+        {String(current + 1).padStart(2, "0")} /{" "}
+        {String(VIDEOS.length).padStart(2, "0")}
       </div>
+    </div>
+  );
+}
 
-      {/* Brand name */}
-      <div className="absolute top-8 left-8 z-50">
-        <span className="font-serif text-xl tracking-[0.3em] text-white/80">LUXE & LINE</span>
+/* ─── Section reveal wrapper ─────────────────────────────── */
+function RevealSection({
+  children,
+  className = "",
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [vis, setVis] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setVis(true); obs.disconnect(); } },
+      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        transition: `opacity 0.9s ease ${delay}ms, transform 0.9s ease ${delay}ms`,
+        opacity: vis ? 1 : 0,
+        transform: vis ? "translateY(0)" : "translateY(36px)",
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+/* ─── Catalog section heading ────────────────────────────── */
+function CatalogHeading({
+  eyebrow,
+  title,
+  italic,
+  desc,
+}: {
+  eyebrow: string;
+  title: string;
+  italic?: string;
+  desc: string;
+}) {
+  return (
+    <RevealSection className="text-center mb-16">
+      <p className="text-[10px] uppercase tracking-[0.45em] text-primary font-body mb-5">
+        {eyebrow}
+      </p>
+      <h2 className="font-serif text-5xl md:text-6xl text-foreground mb-3 leading-tight">
+        {title}
+        {italic && <> <em className="text-primary">{italic}</em></>}
+      </h2>
+      <div
+        className="mx-auto my-5"
+        style={{
+          width: 80,
+          height: 1,
+          background:
+            "linear-gradient(90deg, transparent, hsl(43,65%,50%), transparent)",
+        }}
+      />
+      <p className="text-sm font-body text-muted-foreground max-w-xl mx-auto leading-relaxed">
+        {desc}
+      </p>
+    </RevealSection>
+  );
+}
+
+/* ─── Single product card ────────────────────────────────── */
+function CatalogCard({
+  name,
+  price,
+  img,
+  href,
+  delay = 0,
+  code,
+}: {
+  name: string;
+  price: number;
+  img: string;
+  href: string;
+  delay?: number;
+  code?: string;
+}) {
+  const addToCart = useAddToCart();
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+
+  return (
+    <RevealSection delay={delay}>
+      <Link href={href}>
+        <div className="group cursor-pointer">
+          <div className="relative overflow-hidden bg-card aspect-[3/4] mb-4">
+            <img
+              src={img}
+              alt={name}
+              loading="lazy"
+              className="w-full h-full object-cover transition-transform duration-700"
+              style={{ transform: "scale(1)" }}
+              onMouseEnter={(e) =>
+                ((e.target as HTMLElement).style.transform = "scale(1.06)")
+              }
+              onMouseLeave={(e) =>
+                ((e.target as HTMLElement).style.transform = "scale(1)")
+              }
+            />
+            {code && (
+              <div className="absolute top-3 left-3 bg-black/60 text-white text-[9px] uppercase tracking-widest px-2 py-1 font-body">
+                {code}
+              </div>
+            )}
+            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+              <span className="text-white text-[10px] uppercase tracking-[0.25em] font-body border border-white/70 px-6 py-3">
+                View Details
+              </span>
+            </div>
+          </div>
+          <p className="font-serif text-base text-foreground group-hover:text-primary transition-colors leading-tight mb-1">
+            {name}
+          </p>
+          <p className="text-sm font-body text-primary font-medium">
+            £{price}{" "}
+            <span className="text-muted-foreground text-xs font-normal">
+              inc. delivery
+            </span>
+          </p>
+        </div>
+      </Link>
+    </RevealSection>
+  );
+}
+
+/* ─── Nureh Gardenia section ─────────────────────────────── */
+const NUREH_ITEMS = [
+  { code: "NSG-215", img: "/product-images/nureh-gardenia/nsg-215.jpg", name: "Gardenia NSG-215", price: 75 },
+  { code: "NSG-216", img: "/product-images/nureh-gardenia/nsg-216.jpg", name: "Gardenia NSG-216", price: 75 },
+  { code: "NSG-217", img: "/product-images/nureh-gardenia/nsg-217.jpg", name: "Gardenia NSG-217", price: 75 },
+  { code: "NSG-218", img: "/product-images/nureh-gardenia/nsg-218.jpg", name: "Gardenia NSG-218", price: 75 },
+  { code: "NSG-219", img: "/product-images/nureh-gardenia/nsg-219.jpg", name: "Gardenia NSG-219", price: 75 },
+  { code: "NSG-220", img: "/product-images/nureh-gardenia/nsg-220.jpg", name: "Gardenia NSG-220", price: 75 },
+  { code: "NSG-221", img: "/product-images/nureh-gardenia/nsg-221.jpg", name: "Gardenia NSG-221", price: 75 },
+  { code: "NSG-222", img: "/product-images/nureh-gardenia/nsg-222.jpg", name: "Gardenia NSG-222", price: 75 },
+];
+
+function NurehGardeniaSection() {
+  return (
+    <section className="py-28 px-6 bg-background border-t border-border/30">
+      <div className="max-w-7xl mx-auto">
+        {/* Featured image strip */}
+        <RevealSection className="mb-20">
+          <div className="grid grid-cols-3 gap-3 h-[65vh]">
+            <div className="col-span-2 overflow-hidden">
+              <img
+                src="/product-images/nureh-gardenia/nsg-main.jpg"
+                alt="Nureh Gardenia"
+                className="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div className="flex flex-col gap-3">
+              <div className="flex-1 overflow-hidden">
+                <img
+                  src="/product-images/nureh-gardenia/nsg-hero.jpg"
+                  alt="Nureh Gardenia"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="flex-1 overflow-hidden">
+                <img
+                  src="/product-images/nureh-gardenia/nsg-215b.jpg"
+                  alt="Nureh Gardenia"
+                  className="w-full h-full object-cover object-top"
+                />
+              </div>
+            </div>
+          </div>
+        </RevealSection>
+
+        <CatalogHeading
+          eyebrow="Nureh · Summer 2025"
+          title="Gardenia"
+          italic="Collection"
+          desc="Prints that express freedom like a whisper — adorned with botanical patterns on lawn that dance on the edge of serene style. Classic weave in embroidered & printed tales of love & joy."
+        />
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-14">
+          {NUREH_ITEMS.map((item, i) => (
+            <CatalogCard
+              key={item.code}
+              code={item.code}
+              name={item.name}
+              price={item.price}
+              img={item.img}
+              href={`/shop?category=shalwar-kameez`}
+              delay={i * 60}
+            />
+          ))}
+        </div>
+
+        <RevealSection className="text-center">
+          <LuxuryButton href="/shop?category=shalwar-kameez" dark testId="btn-nureh-shop">
+            Shop Full Gardenia Range
+          </LuxuryButton>
+        </RevealSection>
+      </div>
+    </section>
+  );
+}
+
+/* ─── Luxury Embroidery Pret section ─────────────────────── */
+const PRET_ITEMS = [
+  { img: "/product-images/embroidery-pret/zamira.jpg", name: "Zamira 3pc", price: 89, desc: "Ivory embroidered pret" },
+  { img: "/product-images/embroidery-pret/nayel.jpg", name: "Nayel 3pc", price: 95, desc: "Black silver threadwork" },
+  { img: "/product-images/embroidery-pret/alaya.jpg", name: "Alaya 3pc", price: 85, desc: "Rich plum with goldwork" },
+  { img: "/product-images/embroidery-pret/zaraya.jpg", name: "Zaraya 3pc", price: 92, desc: "Lavender organza dupatta" },
+  { img: "/product-images/embroidery-pret/elia.jpg", name: "Elia 3pc", price: 88, desc: "Mint sage zardozi" },
+];
+
+function EmbroideryPretSection() {
+  return (
+    <section
+      className="py-28 px-6 border-t border-border/30"
+      style={{
+        background: "linear-gradient(180deg, hsl(220,20%,7%) 0%, hsl(220,20%,10%) 100%)",
+      }}
+    >
+      <div className="max-w-7xl mx-auto">
+        <CatalogHeading
+          eyebrow="Luxury Pret · Embroidered"
+          title="Luxury Embroidery"
+          italic="Pret"
+          desc="Ready-to-wear luxury — intricate hand-embroidered 3-piece suits crafted for the modern British-Pakistani woman. Stitched, delivered, and ready to wear."
+        />
+
+        {/* Featured hero layout for Pret */}
+        <RevealSection className="mb-16">
+          <div className="grid grid-cols-2 gap-6 mb-6">
+            <div className="overflow-hidden aspect-[4/5]">
+              <img
+                src="/product-images/embroidery-pret/nayel.jpg"
+                alt="Nayel"
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+              />
+            </div>
+            <div className="flex flex-col gap-6">
+              <div className="overflow-hidden" style={{ flex: 1 }}>
+                <img
+                  src="/product-images/embroidery-pret/alaya.jpg"
+                  alt="Alaya"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                />
+              </div>
+              <div className="overflow-hidden" style={{ flex: 1 }}>
+                <img
+                  src="/product-images/embroidery-pret/zaraya.jpg"
+                  alt="Zaraya"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                />
+              </div>
+            </div>
+          </div>
+        </RevealSection>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 mb-14">
+          {PRET_ITEMS.map((item, i) => (
+            <RevealSection key={item.name} delay={i * 70}>
+              <Link href="/shop?category=shalwar-kameez">
+                <div className="group cursor-pointer">
+                  <div className="relative overflow-hidden bg-card aspect-[3/4] mb-3">
+                    <img
+                      src={item.img}
+                      alt={item.name}
+                      loading="lazy"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <span className="text-white text-[9px] uppercase tracking-[0.2em] font-body border border-white/70 px-4 py-2">
+                        View
+                      </span>
+                    </div>
+                  </div>
+                  <p className="font-serif text-base text-foreground group-hover:text-primary transition-colors mb-1">
+                    {item.name}
+                  </p>
+                  <p className="text-[10px] font-body text-muted-foreground mb-1">{item.desc}</p>
+                  <p className="text-sm font-body text-primary font-medium">
+                    £{item.price} <span className="text-muted-foreground text-xs">inc. delivery</span>
+                  </p>
+                </div>
+              </Link>
+            </RevealSection>
+          ))}
+        </div>
+
+        <RevealSection className="text-center">
+          <LuxuryButton href="/shop?category=shalwar-kameez" dark testId="btn-pret-shop">
+            Shop Luxury Pret
+          </LuxuryButton>
+        </RevealSection>
+      </div>
+    </section>
+  );
+}
+
+/* ─── Charizma Sunshine placeholder section ────────────────── */
+function CharizmaSection() {
+  return (
+    <section className="py-28 px-6 bg-background border-t border-border/30">
+      <div className="max-w-7xl mx-auto">
+        <CatalogHeading
+          eyebrow="Charizma · Summer 2025"
+          title="Sunshine"
+          italic="Collection"
+          desc="The Sun Shone collection by Charizma captures the warmth of golden sunlight in every thread. Hand-embroidered with intricate threadwork on luxurious fabric."
+        />
+
+        {/* 3-column layout using existing images */}
+        <div className="grid grid-cols-3 gap-5 mb-16">
+          {[
+            { img: "/product-images/nureh-gardenia/nsg-218.jpg", name: "Sunshine — Ivory Bloom", price: 85 },
+            { img: "/product-images/nureh-gardenia/nsg-222.jpg", name: "Sunshine — Lavender Dream", price: 85 },
+            { img: "/product-images/nureh-gardenia/nsg-221.jpg", name: "Sunshine — Teal Splendour", price: 85 },
+          ].map((item, i) => (
+            <RevealSection key={item.name} delay={i * 80} className="group cursor-pointer">
+              <Link href="/shop?category=shalwar-kameez">
+                <div className="relative overflow-hidden aspect-[3/4] mb-4">
+                  <img
+                    src={item.img}
+                    alt={item.name}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <span className="text-white text-[10px] uppercase tracking-widest font-body border border-white/70 px-6 py-3">
+                      View Details
+                    </span>
+                  </div>
+                </div>
+                <p className="font-serif text-lg text-foreground hover:text-primary transition-colors mb-1">{item.name}</p>
+                <p className="font-body text-sm text-primary">£{item.price} <span className="text-xs text-muted-foreground">inc. delivery</span></p>
+              </Link>
+            </RevealSection>
+          ))}
+        </div>
+
+        <RevealSection className="text-center">
+          <LuxuryButton href="/shop?category=shalwar-kameez" dark testId="btn-charizma-shop">
+            Shop Charizma Sunshine
+          </LuxuryButton>
+        </RevealSection>
+      </div>
+    </section>
+  );
+}
+
+/* ─── Accessories & Gourmet strip ────────────────────────── */
+function AccessoriesStrip() {
+  return (
+    <section
+      className="py-24 px-6 border-t border-border/30"
+      style={{ background: "hsl(220,20%,6%)" }}
+    >
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {[
+            {
+              label: "Premium Jeans",
+              desc: "Slim fit & straight cut denim crafted for the modern silhouette.",
+              link: "/shop?category=jeans",
+              cta: "Shop Jeans",
+              bg: "hsl(220,20%,11%)",
+            },
+            {
+              label: "Leather Wallets",
+              desc: "Handcrafted genuine leather — bifold wallets & card holders.",
+              link: "/shop?category=wallets",
+              cta: "Shop Wallets",
+              bg: "hsl(220,20%,11%)",
+            },
+            {
+              label: "Pistachio Kunafa Bites",
+              desc: "1kg jar of premium dark chocolate kunafa bites with real pistachio filling.",
+              link: "/shop?category=food",
+              cta: "Order Now",
+              bg: "hsl(220,20%,11%)",
+              img: "/product-images/kunafa-front.jpg",
+            },
+          ].map((item, i) => (
+            <RevealSection key={item.label} delay={i * 100}>
+              <div
+                className="border border-border/40 p-8 h-full flex flex-col hover:border-primary/40 transition-colors duration-500"
+                style={{ background: item.bg }}
+              >
+                {item.img && (
+                  <div className="h-40 overflow-hidden mb-5">
+                    <img src={item.img} alt={item.label} className="w-full h-full object-cover" />
+                  </div>
+                )}
+                <h3 className="font-serif text-2xl text-foreground mb-3">{item.label}</h3>
+                <p className="font-body text-sm text-muted-foreground leading-relaxed mb-6 flex-1">
+                  {item.desc}
+                </p>
+                <Link href={item.link}>
+                  <button className="text-xs uppercase tracking-[0.25em] font-body text-primary hover:text-foreground transition-colors flex items-center gap-2 border-b border-primary pb-1 w-fit">
+                    {item.cta} <ArrowRight size={11} />
+                  </button>
+                </Link>
+              </div>
+            </RevealSection>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── Brand promise banner ───────────────────────────────── */
+function BrandBanner() {
+  return (
+    <section className="py-24 px-6 bg-background border-t border-border/30">
+      <div className="max-w-5xl mx-auto text-center">
+        <RevealSection>
+          <p className="text-[10px] uppercase tracking-[0.45em] text-primary font-body mb-5">
+            Our Promise
+          </p>
+          <h2 className="font-serif text-4xl md:text-6xl text-foreground mb-6 leading-tight">
+            Lahore&apos;s Finest,
+            <br />
+            <em className="text-primary">Delivered to Liverpool</em>
+          </h2>
+          <p className="font-body text-sm text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-10">
+            Every piece we curate is hand-selected from Pakistan&apos;s most celebrated fashion
+            houses. All prices include free UK delivery. WhatsApp us on{" "}
+            <a href="tel:+447405358689" className="text-primary hover:underline">
+              +44 7405 358689
+            </a>{" "}
+            for custom orders.
+          </p>
+          <div className="flex flex-wrap gap-3 justify-center mb-10">
+            {[
+              "Free UK Delivery",
+              "Authentic Designs",
+              "Custom Stitching Available",
+              "WhatsApp Support",
+              "Secure Checkout",
+            ].map((tag) => (
+              <span
+                key={tag}
+                className="border border-primary/30 text-primary text-[10px] uppercase tracking-widest font-body px-4 py-2"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+          <LuxuryButton href="/shop" dark testId="btn-banner-shop">
+            Explore All Products
+          </LuxuryButton>
+        </RevealSection>
+      </div>
+    </section>
+  );
+}
+
+/* ─── Contact footer strip ──────────────────────────────── */
+function ContactStrip() {
+  return (
+    <section
+      className="py-16 px-6 border-t border-border/30 text-center"
+      style={{ background: "hsl(220,20%,6%)" }}
+    >
+      <RevealSection>
+        <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-body mb-3">
+          Liverpool, UK
+        </p>
+        <h2 className="font-serif text-3xl text-foreground mb-6">
+          Questions? We&apos;re here for you.
+        </h2>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-5 text-sm font-body text-muted-foreground mb-8">
+          <a href="tel:+447405358689" className="hover:text-primary transition-colors">
+            +44 7405 358689
+          </a>
+          <span className="hidden sm:block text-border">·</span>
+          <a href="mailto:hello@luxeandline.co.uk" className="hover:text-primary transition-colors">
+            hello@luxeandline.co.uk
+          </a>
+          <span className="hidden sm:block text-border">·</span>
+          <span>39 Stanley Street, Liverpool L7 0JN</span>
+        </div>
+        <LuxuryButton href="/contact" testId="btn-contact">
+          Contact Us
+        </LuxuryButton>
+      </RevealSection>
+    </section>
+  );
+}
+
+/* ─── Home root ─────────────────────────────────────────── */
+export function Home() {
+  const [videoDone, setVideoDone] = useState(false);
+  useRevealOnScroll();
+
+  return (
+    <div className="w-full">
+      {!videoDone && <VideoHero onExit={() => setVideoDone(true)} />}
+      {/* Main content — only visible after video hero is dismissed */}
+      <div
+        style={{
+          visibility: videoDone ? "visible" : "hidden",
+          transition: "opacity 0.6s ease",
+          opacity: videoDone ? 1 : 0,
+        }}
+      >
+        <NurehGardeniaSection />
+        <EmbroideryPretSection />
+        <CharizmaSection />
+        <AccessoriesStrip />
+        <BrandBanner />
+        <ContactStrip />
       </div>
     </div>
   );
