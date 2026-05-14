@@ -1,0 +1,44 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "VDZDpy2oENgBMujw37q5Y"
+uri = "file://artifacts/luxe-and-line/public/images/dress-1.png"
+type = "image"
+title = "Nureh Gardenia Shalwar Kameez"
+
+[[generated]]
+id = "0SzVsnB8io8OBUHsWXWN7"
+uri = "file://artifacts/luxe-and-line/public/images/dress-2.png"
+type = "image"
+title = "Charizma Sun Shone Shalwar Kameez"
+
+[[generated]]
+id = "dMtC3Od0u_-Bye-VhlHz1"
+uri = "file://artifacts/luxe-and-line/public/images/dress-3.png"
+type = "image"
+title = "Zeenet Embroidered Shalwar Kameez"
+
+[[generated]]
+id = "r2e4j_JvXif5Y0ZoJVFr_"
+uri = "file://artifacts/luxe-and-line/public/images/jeans-1.png"
+type = "image"
+title = "Luxe Slim Fit Jeans"
+
+[[generated]]
+id = "oIWOZKDvIeZfvOXAvea2p"
+uri = "file://artifacts/luxe-and-line/public/images/jeans-2.png"
+type = "image"
+title = "Heritage Straight Cut Jeans"
+
+[[generated]]
+id = "tDieAt5nqwaQOToNmTG96"
+uri = "file://artifacts/luxe-and-line/public/images/wallet-1.png"
+type = "image"
+title = "Signature Leather Bifold Wallet"
+
+[[generated]]
+id = "E1-Bexf9KoQnroB_zc884"
+uri = "file://artifacts/luxe-and-line/public/images/wallet-2.png"
+type = "image"
+title = "Heritage Card Holder"
