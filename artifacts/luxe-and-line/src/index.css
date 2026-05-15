@@ -57,56 +57,56 @@
 }
 
 :root {
-  --button-outline: rgba(201,168,76, .20);
-  --badge-outline: rgba(201,168,76, .10);
+  --button-outline: rgba(147, 51, 234, .22);
+  --badge-outline: rgba(147, 51, 234, .12);
   --opaque-button-border-intensity: -8;
-  --elevate-1: rgba(201,168,76, .05);
-  --elevate-2: rgba(201,168,76, .10);
+  --elevate-1: rgba(147, 51, 234, .06);
+  --elevate-2: rgba(147, 51, 234, .12);
 
-  /* Deep navy/charcoal background — luxury dark */
-  --background: 220 20% 8%;
-  --foreground: 45 30% 92%;
+  /* Deep dark purple background — premium 3D */
+  --background: 265 30% 6%;
+  --foreground: 280 20% 94%;
 
-  --border: 220 15% 18%;
-  --input: 220 15% 16%;
-  --ring: 43 65% 50%;
+  --border: 265 18% 16%;
+  --input: 265 18% 14%;
+  --ring: 270 80% 65%;
 
-  --card: 220 18% 11%;
-  --card-foreground: 45 30% 92%;
-  --card-border: 220 15% 20%;
+  --card: 265 25% 9%;
+  --card-foreground: 280 20% 94%;
+  --card-border: 265 18% 18%;
 
-  --sidebar: 220 20% 7%;
-  --sidebar-foreground: 45 30% 92%;
-  --sidebar-border: 220 15% 16%;
-  --sidebar-primary: 43 65% 50%;
-  --sidebar-primary-foreground: 220 20% 8%;
-  --sidebar-accent: 220 18% 13%;
-  --sidebar-accent-foreground: 45 30% 92%;
-  --sidebar-ring: 43 65% 50%;
+  --sidebar: 265 30% 5%;
+  --sidebar-foreground: 280 20% 94%;
+  --sidebar-border: 265 18% 14%;
+  --sidebar-primary: 270 80% 65%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 265 22% 12%;
+  --sidebar-accent-foreground: 280 20% 94%;
+  --sidebar-ring: 270 80% 65%;
 
-  --popover: 220 18% 11%;
-  --popover-foreground: 45 30% 92%;
-  --popover-border: 220 15% 20%;
+  --popover: 265 25% 9%;
+  --popover-foreground: 280 20% 94%;
+  --popover-border: 265 18% 18%;
 
-  /* Gold primary */
-  --primary: 43 65% 50%;
-  --primary-foreground: 220 20% 8%;
+  /* Purple primary — premium violet */
+  --primary: 270 80% 65%;
+  --primary-foreground: 0 0% 100%;
 
-  --secondary: 220 18% 16%;
-  --secondary-foreground: 45 30% 92%;
+  --secondary: 265 22% 15%;
+  --secondary-foreground: 280 20% 94%;
 
-  --muted: 220 15% 14%;
-  --muted-foreground: 45 15% 55%;
+  --muted: 265 18% 12%;
+  --muted-foreground: 270 12% 58%;
 
-  --accent: 43 45% 35%;
-  --accent-foreground: 45 30% 92%;
+  --accent: 270 55% 38%;
+  --accent-foreground: 280 20% 94%;
 
   --destructive: 0 72% 51%;
   --destructive-foreground: 0 0% 98%;
 
-  --chart-1: 43 65% 50%;
-  --chart-2: 180 60% 50%;
-  --chart-3: 280 60% 60%;
+  --chart-1: 270 80% 65%;
+  --chart-2: 200 70% 55%;
+  --chart-3: 320 65% 60%;
   --chart-4: 30 80% 55%;
   --chart-5: 160 60% 45%;
 
@@ -115,19 +115,19 @@
   --app-font-mono: Menlo, monospace;
   --radius: 0.25rem;
 
-  --shadow-sm: 0 2px 8px rgba(0,0,0,.4);
-  --shadow: 0 4px 16px rgba(0,0,0,.5);
-  --shadow-md: 0 8px 24px rgba(0,0,0,.6);
-  --shadow-lg: 0 16px 40px rgba(0,0,0,.7);
-  --shadow-xl: 0 24px 64px rgba(0,0,0,.8);
+  --shadow-sm: 0 2px 8px rgba(80,0,160,.3);
+  --shadow: 0 4px 16px rgba(80,0,160,.4);
+  --shadow-md: 0 8px 24px rgba(80,0,160,.5);
+  --shadow-lg: 0 16px 40px rgba(80,0,160,.6);
+  --shadow-xl: 0 24px 64px rgba(80,0,160,.7);
 
-  --primary-border: hsl(43 65% 42%);
-  --secondary-border: hsl(220 18% 20%);
-  --muted-border: hsl(220 15% 18%);
-  --accent-border: hsl(43 45% 28%);
+  --primary-border: hsl(270 80% 55%);
+  --secondary-border: hsl(265 22% 20%);
+  --muted-border: hsl(265 18% 16%);
+  --accent-border: hsl(270 55% 30%);
   --destructive-border: hsl(0 72% 42%);
-  --sidebar-primary-border: hsl(43 65% 42%);
-  --sidebar-accent-border: hsl(220 18% 18%);
+  --sidebar-primary-border: hsl(270 80% 55%);
+  --sidebar-accent-border: hsl(265 22% 16%);
 }
 
 @layer base {
@@ -145,7 +145,7 @@
 }
 
 .gold-shimmer {
-  background: linear-gradient(90deg, hsl(43 65% 50%) 0%, hsl(48 80% 70%) 50%, hsl(43 65% 50%) 100%);
+  background: linear-gradient(90deg, hsl(270 80% 65%) 0%, hsl(290 85% 78%) 50%, hsl(270 80% 65%) 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -175,7 +175,7 @@
   content: '';
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, transparent, hsl(43 65% 50%), transparent);
+  background: linear-gradient(90deg, transparent, hsl(270 80% 65%), transparent);
 }
 
 @keyframes float {
@@ -231,7 +231,7 @@
   left: 50%;
   width: 0;
   height: 1px;
-  background: hsl(43 65% 50%);
+  background: hsl(270 80% 65%);
   transition: width 0.4s ease, left 0.4s ease;
 }
 .luxury-btn:hover::after {
@@ -259,7 +259,7 @@
   left: 0;
   width: 100%;
   height: 40%;
-  background: hsl(43 65% 60%);
+  background: hsl(270 80% 70%);
   animation: scrollDrop 1.8s ease-in-out infinite;
 }
 @keyframes scrollDrop {

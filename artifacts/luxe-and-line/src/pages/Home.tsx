@@ -256,7 +256,7 @@ function VideoHero({ onExit }: { onExit: () => void }) {
           style={{
             width: showText ? "140px" : "0px",
             height: "1px",
-            background: "linear-gradient(90deg, transparent, hsl(43,65%,50%), transparent)",
+            background: "linear-gradient(90deg, transparent, hsl(270,80%,65%), transparent)",
             transition: "width 1.1s ease 0.45s",
           }}
         />
@@ -297,7 +297,7 @@ function VideoHero({ onExit }: { onExit: () => void }) {
             style={{
               width: 6,
               height: videoIdx === i ? 42 : 6,
-              backgroundColor: videoIdx === i ? "hsl(43,65%,50%)" : "rgba(255,255,255,0.3)",
+              backgroundColor: videoIdx === i ? "hsl(270,80%,65%)" : "rgba(255,255,255,0.3)",
             }}
           />
         ))}
@@ -387,7 +387,7 @@ function CatalogHeading({
           width: 80,
           height: 1,
           background:
-            "linear-gradient(90deg, transparent, hsl(43,65%,50%), transparent)",
+            "linear-gradient(90deg, transparent, hsl(270,80%,65%), transparent)",
         }}
       />
       <p className="text-sm font-body text-muted-foreground max-w-xl mx-auto leading-relaxed">
@@ -463,57 +463,29 @@ function CatalogCard({
 
 /* ─── Nureh Gardenia section ─────────────────────────────── */
 const NUREH_ITEMS = [
-  { code: "NSG-215", img: "/product-images/nureh-gardenia/nsg-215.jpg", name: "Gardenia NSG-215", price: 75 },
-  { code: "NSG-216", img: "/product-images/nureh-gardenia/nsg-216.jpg", name: "Gardenia NSG-216", price: 75 },
-  { code: "NSG-217", img: "/product-images/nureh-gardenia/nsg-217.jpg", name: "Gardenia NSG-217", price: 75 },
-  { code: "NSG-218", img: "/product-images/nureh-gardenia/nsg-218.jpg", name: "Gardenia NSG-218", price: 75 },
-  { code: "NSG-219", img: "/product-images/nureh-gardenia/nsg-219.jpg", name: "Gardenia NSG-219", price: 75 },
-  { code: "NSG-220", img: "/product-images/nureh-gardenia/nsg-220.jpg", name: "Gardenia NSG-220", price: 75 },
-  { code: "NSG-221", img: "/product-images/nureh-gardenia/nsg-221.jpg", name: "Gardenia NSG-221", price: 75 },
-  { code: "NSG-222", img: "/product-images/nureh-gardenia/nsg-222.jpg", name: "Gardenia NSG-222", price: 75 },
+  { code: "NSG-215", img: "/product-images/nureh-gardenia/nsg-215.png", name: "NSG-215", price: 65, id: 1 },
+  { code: "NSG-216", img: "/product-images/nureh-gardenia/nsg-216.png", name: "NSG-216", price: 65, id: 9 },
+  { code: "NSG-217", img: "/product-images/nureh-gardenia/nsg-217.png", name: "NSG-217", price: 65, id: 10 },
+  { code: "NSG-218", img: "/product-images/nureh-gardenia/nsg-218.png", name: "NSG-218", price: 65, id: 11 },
+  { code: "NSG-219", img: "/product-images/nureh-gardenia/nsg-219.png", name: "NSG-219", price: 65, id: 12 },
+  { code: "NSG-221", img: "/product-images/nureh-gardenia/nsg-221.png", name: "NSG-221", price: 65, id: 14 },
+  { code: "NSG-222", img: "/product-images/nureh-gardenia/nsg-222.png", name: "NSG-222", price: 65, id: 15 },
+  { code: "NSG-223", img: "/product-images/nureh-gardenia/nsg-223.png", name: "NSG-223", price: 65, id: 22 },
+  { code: "NSG-224", img: "/product-images/nureh-gardenia/nsg-224.png", name: "NSG-224", price: 65, id: 16 },
 ];
 
 function NurehGardeniaSection() {
   return (
     <section className="py-28 px-6 bg-background border-t border-border/30">
       <div className="max-w-7xl mx-auto">
-        {/* Featured image strip */}
-        <RevealSection className="mb-20">
-          <div className="grid grid-cols-3 gap-3 h-[65vh]">
-            <div className="col-span-2 overflow-hidden">
-              <img
-                src="/product-images/nureh-gardenia/nsg-main.jpg"
-                alt="Nureh Gardenia"
-                className="w-full h-full object-cover object-top"
-              />
-            </div>
-            <div className="flex flex-col gap-3">
-              <div className="flex-1 overflow-hidden">
-                <img
-                  src="/product-images/nureh-gardenia/nsg-hero.jpg"
-                  alt="Nureh Gardenia"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="flex-1 overflow-hidden">
-                <img
-                  src="/product-images/nureh-gardenia/nsg-215b.jpg"
-                  alt="Nureh Gardenia"
-                  className="w-full h-full object-cover object-top"
-                />
-              </div>
-            </div>
-          </div>
-        </RevealSection>
-
         <CatalogHeading
-          eyebrow="Nureh · Summer 2025"
+          eyebrow="Gardenia by Nurèh · Summer 2026 New Arrival"
           title="Gardenia"
-          italic="Collection"
-          desc="Prints that express freedom like a whisper — adorned with botanical patterns on lawn that dance on the edge of serene style. Classic weave in embroidered & printed tales of love & joy."
+          italic="by Nurèh"
+          desc="Embroidered and printed lawn collection with embroidered chiffon dupatta — by Riaz Arts. 10 piece set. Unstitched — delivered as fabric pieces, ready for your tailor."
         />
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-14">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 mb-14">
           {NUREH_ITEMS.map((item, i) => (
             <CatalogCard
               key={item.code}
@@ -521,8 +493,8 @@ function NurehGardeniaSection() {
               name={item.name}
               price={item.price}
               img={item.img}
-              href={`/shop?category=shalwar-kameez`}
-              delay={i * 60}
+              href={`/product/${item.id}`}
+              delay={i * 50}
             />
           ))}
         </div>
@@ -537,64 +509,33 @@ function NurehGardeniaSection() {
   );
 }
 
-/* ─── Luxury Embroidery Pret section ─────────────────────── */
-const PRET_ITEMS = [
-  { img: "/product-images/embroidery-pret/zamira.jpg", name: "Zamira 3pc", price: 89, desc: "Ivory embroidered pret" },
-  { img: "/product-images/embroidery-pret/nayel.jpg", name: "Nayel 3pc", price: 95, desc: "Black silver threadwork" },
-  { img: "/product-images/embroidery-pret/alaya.jpg", name: "Alaya 3pc", price: 85, desc: "Rich plum with goldwork" },
-  { img: "/product-images/embroidery-pret/zaraya.jpg", name: "Zaraya 3pc", price: 92, desc: "Lavender organza dupatta" },
-  { img: "/product-images/embroidery-pret/elia.jpg", name: "Elia 3pc", price: 88, desc: "Mint sage zardozi" },
+/* ─── Zeenat Solid Pret section ──────────────────────────── */
+const ZEENET_ITEMS = [
+  { img: "/product-images/embroidery-pret/zamira.jpg", name: "Vol-1 Design 1", id: 17 },
+  { img: "/product-images/embroidery-pret/nayel.jpg", name: "Vol-1 Design 2", id: 18 },
+  { img: "/product-images/embroidery-pret/alaya.jpg", name: "Vol-1 Design 3", id: 19 },
+  { img: "/product-images/embroidery-pret/zaraya.jpg", name: "Vol-1 Design 4", id: 20 },
+  { img: "/product-images/embroidery-pret/elia.jpg", name: "Vol-1 Design 5", id: 21 },
 ];
 
-function EmbroideryPretSection() {
+function ZeenatSection() {
   return (
     <section
       className="py-28 px-6 border-t border-border/30"
-      style={{
-        background: "linear-gradient(180deg, hsl(220,20%,7%) 0%, hsl(220,20%,10%) 100%)",
-      }}
+      style={{ background: "linear-gradient(180deg, hsl(265,28%,7%) 0%, hsl(265,25%,9%) 100%)" }}
     >
       <div className="max-w-7xl mx-auto">
         <CatalogHeading
-          eyebrow="Luxury Pret · Embroidered"
-          title="Luxury Embroidery"
-          italic="Pret"
-          desc="Ready-to-wear luxury — intricate hand-embroidered 3-piece suits crafted for the modern British-Pakistani woman. Stitched, delivered, and ready to wear."
+          eyebrow="Zeenat · Summer 2026 New Arrival"
+          title="Zeenat Solid Pret"
+          italic="Vol-1"
+          desc="ZEENAT SOLID PRET STITCHED COTTON LAWN VOL-1 — Embroidered lawn with printed embroidered fancy chiffon dupatta. 9 designs · Sizes S, M, L · 27 pcs in a set · £45 per suit · Booking open now!"
         />
 
-        {/* Featured hero layout for Pret */}
-        <RevealSection className="mb-16">
-          <div className="grid grid-cols-2 gap-6 mb-6">
-            <div className="overflow-hidden aspect-[4/5]">
-              <img
-                src="/product-images/embroidery-pret/nayel.jpg"
-                alt="Nayel"
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-              />
-            </div>
-            <div className="flex flex-col gap-6">
-              <div className="overflow-hidden" style={{ flex: 1 }}>
-                <img
-                  src="/product-images/embroidery-pret/alaya.jpg"
-                  alt="Alaya"
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                />
-              </div>
-              <div className="overflow-hidden" style={{ flex: 1 }}>
-                <img
-                  src="/product-images/embroidery-pret/zaraya.jpg"
-                  alt="Zaraya"
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                />
-              </div>
-            </div>
-          </div>
-        </RevealSection>
-
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 mb-14">
-          {PRET_ITEMS.map((item, i) => (
-            <RevealSection key={item.name} delay={i * 70}>
-              <Link href="/shop?category=shalwar-kameez">
+          {ZEENET_ITEMS.map((item, i) => (
+            <RevealSection key={item.name} delay={i * 60}>
+              <Link href={`/product/${item.id}`}>
                 <div className="group cursor-pointer">
                   <div className="relative overflow-hidden bg-card aspect-[3/4] mb-3">
                     <img
@@ -604,18 +545,18 @@ function EmbroideryPretSection() {
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <span className="text-white text-[9px] uppercase tracking-[0.2em] font-body border border-white/70 px-4 py-2">
+                      <span className="text-white text-[9px] uppercase tracking-[0.2em] font-body border border-white/60 px-4 py-2">
                         View
                       </span>
                     </div>
                   </div>
                   <p className="font-serif text-base text-foreground group-hover:text-primary transition-colors mb-1">
-                    {item.name}
+                    Zeenat {item.name}
                   </p>
-                  <p className="text-[10px] font-body text-muted-foreground mb-1">{item.desc}</p>
-                  <p className="text-sm font-body text-primary font-medium">
-                    £{item.price} <span className="text-muted-foreground text-xs">inc. delivery</span>
-                  </p>
+                  <div className="flex items-baseline gap-2">
+                    <p className="text-sm font-body text-primary font-medium">£45</p>
+                    <p className="text-xs font-body text-red-400 line-through">£60</p>
+                  </div>
                 </div>
               </Link>
             </RevealSection>
@@ -624,7 +565,7 @@ function EmbroideryPretSection() {
 
         <RevealSection className="text-center">
           <LuxuryButton href="/shop?category=shalwar-kameez" dark testId="btn-pret-shop">
-            Shop Luxury Pret
+            Shop Zeenat Collection
           </LuxuryButton>
         </RevealSection>
       </div>
@@ -632,48 +573,76 @@ function EmbroideryPretSection() {
   );
 }
 
-/* ─── Charizma Sunshine placeholder section ────────────────── */
+/* ─── Charizma Sunshine section ───────────────────────────── */
 function CharizmaSection() {
   return (
     <section className="py-28 px-6 bg-background border-t border-border/30">
       <div className="max-w-7xl mx-auto">
         <CatalogHeading
-          eyebrow="Charizma · Summer 2025"
-          title="Sunshine"
-          italic="Collection"
-          desc="The Sun Shone collection by Charizma captures the warmth of golden sunlight in every thread. Hand-embroidered with intricate threadwork on luxurious fabric."
+          eyebrow="Charizma · Summer 2026 New Arrival"
+          title="Sun Shine"
+          italic="Vol. 01"
+          desc="Charizma Sun Shine Stitched Embroidered Lawn Suit Collection with Embroidered Chiffon Dupatta. 3-piece suit collection. 10 pieces per set. Stitched and ready to wear."
         />
 
-        {/* 3-column layout using existing images */}
-        <div className="grid grid-cols-3 gap-5 mb-16">
+        {/* Booking open banner */}
+        <RevealSection className="mb-12">
+          <div
+            className="border border-primary/30 text-center py-6 px-8"
+            style={{ background: "linear-gradient(135deg, rgba(147,51,234,0.08) 0%, rgba(147,51,234,0.03) 100%)" }}
+          >
+            <p className="text-primary text-xs uppercase tracking-[0.4em] font-body font-semibold mb-1">
+              Booking Open Now
+            </p>
+            <p className="font-serif text-2xl text-foreground mb-2">
+              3-Piece Stitched Suit · £85 <span className="text-base text-red-400 line-through ml-2">£115</span>
+            </p>
+            <p className="font-body text-sm text-muted-foreground">
+              Embroidered lawn with embroidered chiffon dupatta · 10 pieces per set
+            </p>
+          </div>
+        </RevealSection>
+
+        {/* Charizma product cards — link to product page */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
           {[
-            { img: "/product-images/nureh-gardenia/nsg-218.jpg", name: "Sunshine — Ivory Bloom", price: 85 },
-            { img: "/product-images/nureh-gardenia/nsg-222.jpg", name: "Sunshine — Lavender Dream", price: 85 },
-            { img: "/product-images/nureh-gardenia/nsg-221.jpg", name: "Sunshine — Teal Splendour", price: 85 },
+            { name: "Sunshine Vol.01 — Design A", bg: "linear-gradient(135deg, hsl(265,30%,12%), hsl(270,25%,9%))" },
+            { name: "Sunshine Vol.01 — Design B", bg: "linear-gradient(135deg, hsl(270,25%,9%), hsl(280,30%,12%))" },
+            { name: "Sunshine Vol.01 — Design C", bg: "linear-gradient(135deg, hsl(280,30%,12%), hsl(265,30%,12%))" },
           ].map((item, i) => (
-            <RevealSection key={item.name} delay={i * 80} className="group cursor-pointer">
-              <Link href="/shop?category=shalwar-kameez">
-                <div className="relative overflow-hidden aspect-[3/4] mb-4">
-                  <img
-                    src={item.img}
-                    alt={item.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <span className="text-white text-[10px] uppercase tracking-widest font-body border border-white/70 px-6 py-3">
-                      View Details
-                    </span>
+            <RevealSection key={item.name} delay={i * 80}>
+              <Link href="/product/2">
+                <div className="group cursor-pointer">
+                  <div
+                    className="relative overflow-hidden aspect-[3/4] mb-4 flex flex-col items-center justify-center border border-primary/20"
+                    style={{ background: item.bg }}
+                  >
+                    <div className="text-center px-6">
+                      <p className="text-primary text-[9px] uppercase tracking-widest font-body mb-3">Charizma</p>
+                      <p className="font-serif text-2xl text-foreground mb-2">Sun Shine</p>
+                      <p className="text-muted-foreground font-body text-xs tracking-widest">Vol. 01 · 2026</p>
+                    </div>
+                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-primary/40" />
+                    <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-all duration-500 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                      <span className="text-white text-[9px] uppercase tracking-widest font-body border border-white/50 px-4 py-2">
+                        View Details
+                      </span>
+                    </div>
+                  </div>
+                  <p className="font-serif text-base text-foreground group-hover:text-primary transition-colors mb-1">{item.name}</p>
+                  <div className="flex items-baseline gap-2">
+                    <p className="text-sm font-body text-primary font-medium">£85</p>
+                    <p className="text-xs font-body text-red-400 line-through">£115</p>
+                    <p className="text-xs font-body text-muted-foreground">inc. delivery</p>
                   </div>
                 </div>
-                <p className="font-serif text-lg text-foreground hover:text-primary transition-colors mb-1">{item.name}</p>
-                <p className="font-body text-sm text-primary">£{item.price} <span className="text-xs text-muted-foreground">inc. delivery</span></p>
               </Link>
             </RevealSection>
           ))}
         </div>
 
         <RevealSection className="text-center">
-          <LuxuryButton href="/shop?category=shalwar-kameez" dark testId="btn-charizma-shop">
+          <LuxuryButton href="/product/2" dark testId="btn-charizma-shop">
             Shop Charizma Sunshine
           </LuxuryButton>
         </RevealSection>
@@ -687,45 +656,54 @@ function AccessoriesStrip() {
   return (
     <section
       className="py-24 px-6 border-t border-border/30"
-      style={{ background: "hsl(220,20%,6%)" }}
+      style={{ background: "hsl(265,28%,5%)" }}
     >
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
             {
               label: "Premium Jeans",
-              desc: "Slim fit & straight cut denim crafted for the modern silhouette.",
+              desc: "Slim fit & straight cut denim for men and women. Crafted for the modern silhouette. Delivered to your door.",
               link: "/shop?category=jeans",
               cta: "Shop Jeans",
-              bg: "hsl(220,20%,11%)",
+              imgs: ["/product-images/nureh-gardenia/nsg-215.png"],
+              price: "From £38",
             },
             {
-              label: "Leather Wallets",
-              desc: "Handcrafted genuine leather — bifold wallets & card holders.",
+              label: "Atrix Leather Wallets",
+              desc: "Genuine leather accordion card wallets — zip-around, 8+ slots. Available in brown & beige. Premium everyday carry. £12 each.",
               link: "/shop?category=wallets",
               cta: "Shop Wallets",
-              bg: "hsl(220,20%,11%)",
+              imgs: ["/product-images/wallets/wallet-brown-1.png", "/product-images/wallets/wallet-beige.png"],
+              price: "£12",
             },
             {
-              label: "Pistachio Kunafa Bites",
-              desc: "1kg jar of premium dark chocolate kunafa bites with real pistachio filling.",
+              label: "B.C.C. Pistachio Kunafa",
+              desc: "Classic Middle Eastern pistachio kunafa in premium chocolate form. Rich creamy pistachio filling with a satisfying crunch. Perfect gift. £25.",
               link: "/shop?category=food",
               cta: "Order Now",
-              bg: "hsl(220,20%,11%)",
-              img: "/product-images/kunafa-front.jpg",
+              imgs: ["/product-images/kunafa-piece.png", "/product-images/kunafa-pack.png"],
+              price: "£25",
             },
           ].map((item, i) => (
             <RevealSection key={item.label} delay={i * 100}>
               <div
-                className="border border-border/40 p-8 h-full flex flex-col hover:border-primary/40 transition-colors duration-500"
-                style={{ background: item.bg }}
+                className="border border-border/40 p-6 h-full flex flex-col hover:border-primary/40 transition-colors duration-500"
+                style={{ background: "hsl(265,25%,8%)" }}
               >
-                {item.img && (
-                  <div className="h-40 overflow-hidden mb-5">
-                    <img src={item.img} alt={item.label} className="w-full h-full object-cover" />
+                {item.imgs && (
+                  <div className="h-44 overflow-hidden mb-5 flex gap-2">
+                    {item.imgs.map((img, ii) => (
+                      <div key={ii} className="flex-1 overflow-hidden">
+                        <img src={img} alt={item.label} className="w-full h-full object-cover" />
+                      </div>
+                    ))}
                   </div>
                 )}
-                <h3 className="font-serif text-2xl text-foreground mb-3">{item.label}</h3>
+                <div className="flex items-baseline gap-3 mb-2">
+                  <h3 className="font-serif text-xl text-foreground">{item.label}</h3>
+                  <span className="text-primary font-body text-sm font-medium">{item.price}</span>
+                </div>
                 <p className="font-body text-sm text-muted-foreground leading-relaxed mb-6 flex-1">
                   {item.desc}
                 </p>
@@ -795,7 +773,7 @@ function ContactStrip() {
   return (
     <section
       className="py-16 px-6 border-t border-border/30 text-center"
-      style={{ background: "hsl(220,20%,6%)" }}
+      style={{ background: "hsl(265,28%,5%)" }}
     >
       <RevealSection>
         <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-body mb-3">
@@ -840,7 +818,7 @@ export function Home() {
         }}
       >
         <NurehGardeniaSection />
-        <EmbroideryPretSection />
+        <ZeenatSection />
         <CharizmaSection />
         <AccessoriesStrip />
         <BrandBanner />
