@@ -60,102 +60,100 @@ function LuxuryButton({
   );
 }
 
-/* ─── Video Hero — scroll-snap fullscreen ─────────────────── */
+/* ─── Video Hero — 6-stage scroll (video → text → video → …) ── */
+// stage 0,2,4 = video playing (no text overlay)
+// stage 1,3,5 = text visible over that video
+// Each scroll increments stage by 1; after stage 5 user exits hero.
 const VIDEOS = [
   {
     src: "/videos/video1.mp4",
-    label: "Couture",
+    label: "The Collection",
     title: ["ELEGANCE", "REDEFINED"],
-    sub: "Luxury Shalwar Kameez · Delivered Across the UK",
-    cta: "Shop Now",
+    sub: "Luxury Unstitched Lawn · Delivered Across the UK",
+    cta: "Shop Collection",
     link: "/shop?category=shalwar-kameez",
   },
   {
     src: "/videos/video2.mp4",
     label: "Heritage",
     title: ["CRAFTED", "FOR YOU"],
-    sub: "Premium Embroidered Suits · Stitched to Your Measurements",
-    cta: "Explore Collection",
+    sub: "Premium Embroidery Pret · Pakistani Heritage in Every Stitch",
+    cta: "Explore Now",
     link: "/shop",
   },
   {
     src: "/videos/video3.mp4",
     label: "Denim",
-    title: ["DENIM", "LUXE"],
-    sub: "Premium Jeans Styled for UK Streets",
+    title: ["PREMIUM", "DENIM"],
+    sub: "Signature Jeans · Cut for UK Streets · Exclusive Fits",
     cta: "Shop Jeans",
     link: "/shop?category=jeans",
   },
 ];
 
 function VideoHero({ onExit }: { onExit: () => void }) {
-  const [current, setCurrent] = useState(0);
-  const [textVisible, setTextVisible] = useState(false);
+  // 6 stages: 0 = video1 no text, 1 = video1 text, 2 = video2 no text,
+  //           3 = video2 text, 4 = video3 no text, 5 = video3 text
+  const [stage, setStage] = useState(0);
   const [locked, setLocked] = useState(false);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
-  const containerRef = useRef<HTMLDivElement>(null);
   const lastScrollTime = useRef(0);
 
-  // Show text after short delay when video changes
-  useEffect(() => {
-    setTextVisible(false);
-    const t = setTimeout(() => setTextVisible(true), 300);
-    return () => clearTimeout(t);
-  }, [current]);
+  const videoIdx = Math.floor(stage / 2);   // 0, 1, 2
+  const showText = stage % 2 === 1;          // true for stages 1, 3, 5
 
   // Play active video
   useEffect(() => {
     videoRefs.current.forEach((v, i) => {
       if (!v) return;
-      if (i === current) {
+      if (i === videoIdx) {
         v.currentTime = 0;
         v.play().catch(() => {});
       } else {
         v.pause();
       }
     });
-  }, [current]);
+  }, [videoIdx]);
 
   const advance = useCallback(() => {
     if (locked) return;
     const now = Date.now();
-    if (now - lastScrollTime.current < 800) return;
+    if (now - lastScrollTime.current < 700) return;
     lastScrollTime.current = now;
     setLocked(true);
-
-    if (current < VIDEOS.length - 1) {
-      setCurrent((c) => c + 1);
+    if (stage < 5) {
+      setStage((s) => s + 1);
     } else {
       onExit();
     }
-    setTimeout(() => setLocked(false), 900);
-  }, [current, locked, onExit]);
+    setTimeout(() => setLocked(false), 750);
+  }, [stage, locked, onExit]);
 
   const retreat = useCallback(() => {
-    if (locked || current === 0) return;
+    if (locked || stage === 0) return;
     const now = Date.now();
-    if (now - lastScrollTime.current < 800) return;
+    if (now - lastScrollTime.current < 700) return;
     lastScrollTime.current = now;
     setLocked(true);
-    setCurrent((c) => c - 1);
-    setTimeout(() => setLocked(false), 900);
-  }, [current, locked]);
+    setStage((s) => s - 1);
+    setTimeout(() => setLocked(false), 750);
+  }, [stage, locked]);
 
   useEffect(() => {
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
-      if (e.deltaY > 30) advance();
-      else if (e.deltaY < -30) retreat();
+      if (e.deltaY > 20) advance();
+      else if (e.deltaY < -20) retreat();
     };
     let touchStartY = 0;
     const onTouchStart = (e: TouchEvent) => { touchStartY = e.touches[0].clientY; };
     const onTouchEnd = (e: TouchEvent) => {
       const dy = touchStartY - e.changedTouches[0].clientY;
-      if (Math.abs(dy) > 50) dy > 0 ? advance() : retreat();
+      if (Math.abs(dy) > 40) dy > 0 ? advance() : retreat();
     };
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowDown" || e.key === " ") advance();
-      if (e.key === "ArrowUp") retreat();
+      if (e.key === "ArrowDown" || e.key === " ") { e.preventDefault(); advance(); }
+      if (e.key === "ArrowUp") { e.preventDefault(); retreat(); }
     };
     window.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("touchstart", onTouchStart, { passive: true });
@@ -171,25 +169,24 @@ function VideoHero({ onExit }: { onExit: () => void }) {
 
   return (
     <div
-      ref={containerRef}
       className="fixed inset-0 z-50 bg-black overflow-hidden"
       style={{ touchAction: "none" }}
     >
+      {/* Videos */}
       {VIDEOS.map((vid, idx) => (
         <div
           key={idx}
           className="absolute inset-0"
           style={{
-            transition: "opacity 1s ease, transform 1s ease",
-            opacity: current === idx ? 1 : 0,
+            transition: "opacity 1.1s ease, transform 1.1s ease",
+            opacity: videoIdx === idx ? 1 : 0,
             transform:
-              current === idx
+              videoIdx === idx
                 ? "scale(1)"
-                : idx < current
-                ? "scale(1.04) translateY(-2%)"
-                : "scale(1.04) translateY(2%)",
-            zIndex: current === idx ? 2 : 1,
-            pointerEvents: current === idx ? "auto" : "none",
+                : idx < videoIdx
+                ? "scale(1.05) translateY(-3%)"
+                : "scale(1.05) translateY(3%)",
+            zIndex: videoIdx === idx ? 2 : 1,
           }}
         >
           <video
@@ -201,143 +198,124 @@ function VideoHero({ onExit }: { onExit: () => void }) {
             playsInline
             preload="auto"
           />
-          {/* Cinematic gradient */}
           <div
             className="absolute inset-0"
             style={{
-              background:
-                "linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.05) 30%, rgba(0,0,0,0.05) 60%, rgba(0,0,0,0.65) 100%)",
+              background: showText
+                ? "linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.1) 30%, rgba(0,0,0,0.1) 60%, rgba(0,0,0,0.75) 100%)"
+                : "linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, transparent 40%, rgba(0,0,0,0.3) 100%)",
+              transition: "background 1s ease",
             }}
           />
-          {/* Vignette sides */}
           <div
             className="absolute inset-0"
-            style={{
-              background:
-                "radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.5) 100%)",
-            }}
+            style={{ background: "radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.45) 100%)" }}
           />
         </div>
       ))}
 
-      {/* Text content — per video */}
-      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6 pointer-events-none">
+      {/* Text overlay — only visible on odd stages */}
+      <div
+        className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6 pointer-events-none"
+        style={{
+          transition: "opacity 0.8s ease, transform 0.8s ease",
+          opacity: showText ? 1 : 0,
+          transform: showText ? "translateY(0)" : "translateY(30px)",
+        }}
+      >
+        <p
+          className="text-[10px] md:text-xs uppercase tracking-[0.5em] text-primary font-body mb-6 opacity-90"
+          style={{ transition: "opacity 0.7s ease 0.1s", opacity: showText ? 0.9 : 0 }}
+        >
+          Luxe &amp; Line — {VIDEOS[videoIdx].label}
+        </p>
+
+        <div className="mb-6">
+          {VIDEOS[videoIdx].title.map((line, i) => (
+            <div key={`${videoIdx}-${i}`} className="overflow-hidden">
+              <h1
+                className="font-serif leading-[0.88] text-white tracking-tight uppercase"
+                style={{
+                  fontSize: "clamp(3.5rem, 12vw, 10rem)",
+                  transition: `opacity 0.7s ease ${0.15 + i * 0.12}s, transform 0.7s ease ${0.15 + i * 0.12}s`,
+                  opacity: showText ? 1 : 0,
+                  transform: showText ? "translateY(0)" : "translateY(50px)",
+                  textShadow: "0 4px 50px rgba(0,0,0,0.5)",
+                  fontStyle: i === 1 ? "italic" : "normal",
+                }}
+              >
+                {i === 1 ? <span className="text-primary">{line}</span> : line}
+              </h1>
+            </div>
+          ))}
+        </div>
+
+        {/* Gold divider */}
         <div
+          className="mx-auto mb-6"
           style={{
-            transition: "opacity 0.7s ease, transform 0.7s ease",
-            opacity: textVisible ? 1 : 0,
-            transform: textVisible ? "translateY(0)" : "translateY(24px)",
+            width: showText ? "140px" : "0px",
+            height: "1px",
+            background: "linear-gradient(90deg, transparent, hsl(43,65%,50%), transparent)",
+            transition: "width 1.1s ease 0.45s",
+          }}
+        />
+
+        <p
+          className="font-body text-sm md:text-base text-white/70 mb-10 tracking-[0.15em]"
+          style={{
+            transition: "opacity 0.7s ease 0.55s, transform 0.7s ease 0.55s",
+            opacity: showText ? 1 : 0,
+            transform: showText ? "translateY(0)" : "translateY(20px)",
           }}
         >
-          {/* Label */}
-          <p className="text-[10px] md:text-xs uppercase tracking-[0.5em] text-primary font-body mb-6 opacity-80">
-            Luxe & Line — {VIDEOS[current].label}
-          </p>
+          {VIDEOS[videoIdx].sub}
+        </p>
 
-          {/* Hero title — two lines */}
-          <div className="mb-6">
-            {VIDEOS[current].title.map((line, i) => (
-              <div key={i} className="overflow-hidden">
-                <h1
-                  className="font-serif text-[13vw] md:text-[10vw] lg:text-[9vw] leading-[0.9] text-white tracking-tight uppercase"
-                  style={{
-                    transition: `opacity 0.7s ease ${i * 0.12}s, transform 0.7s ease ${i * 0.12}s`,
-                    opacity: textVisible ? 1 : 0,
-                    transform: textVisible ? "translateY(0)" : "translateY(40px)",
-                    textShadow: "0 4px 40px rgba(0,0,0,0.4)",
-                    fontStyle: i === 1 ? "italic" : "normal",
-                  }}
-                >
-                  {i === 1 ? (
-                    <span className="text-primary">{line}</span>
-                  ) : (
-                    line
-                  )}
-                </h1>
-              </div>
-            ))}
-          </div>
-
-          {/* Divider */}
-          <div
-            className="mx-auto mb-6"
-            style={{
-              width: textVisible ? "120px" : "0px",
-              height: "1px",
-              background: "linear-gradient(90deg, transparent, hsl(43,65%,50%), transparent)",
-              transition: "width 1s ease 0.4s",
-            }}
-          />
-
-          {/* Subtitle */}
-          <p
-            className="font-body text-sm md:text-base text-white/70 mb-10 tracking-widest"
-            style={{
-              transition: "opacity 0.7s ease 0.5s, transform 0.7s ease 0.5s",
-              opacity: textVisible ? 1 : 0,
-              transform: textVisible ? "translateY(0)" : "translateY(20px)",
-            }}
-          >
-            {VIDEOS[current].sub}
-          </p>
-
-          {/* CTA button */}
-          <div
-            className="pointer-events-auto"
-            style={{
-              transition: "opacity 0.7s ease 0.65s, transform 0.7s ease 0.65s",
-              opacity: textVisible ? 1 : 0,
-              transform: textVisible ? "translateY(0)" : "translateY(20px)",
-            }}
-          >
-            <LuxuryButton href={VIDEOS[current].link} testId={`cta-video-${current}`}>
-              {VIDEOS[current].cta}
-            </LuxuryButton>
-          </div>
+        <div
+          className="pointer-events-auto"
+          style={{
+            transition: "opacity 0.7s ease 0.7s, transform 0.7s ease 0.7s",
+            opacity: showText ? 1 : 0,
+            transform: showText ? "translateY(0)" : "translateY(20px)",
+          }}
+        >
+          <LuxuryButton href={VIDEOS[videoIdx].link} testId={`cta-video-${videoIdx}`}>
+            {VIDEOS[videoIdx].cta}
+          </LuxuryButton>
         </div>
       </div>
 
-      {/* Progress dots */}
+      {/* Progress dots — one per VIDEO (3 dots), active when that video is showing */}
       <div className="absolute right-8 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-4">
         {VIDEOS.map((_, i) => (
           <button
             key={i}
             data-testid={`dot-${i}`}
-            onClick={() => { if (!locked) setCurrent(i); }}
+            onClick={() => { if (!locked) setStage(i * 2); }}
             className="transition-all duration-500 rounded-full"
             style={{
               width: 6,
-              height: current === i ? 42 : 6,
-              backgroundColor:
-                current === i
-                  ? "hsl(43,65%,50%)"
-                  : "rgba(255,255,255,0.35)",
+              height: videoIdx === i ? 42 : 6,
+              backgroundColor: videoIdx === i ? "hsl(43,65%,50%)" : "rgba(255,255,255,0.3)",
             }}
           />
         ))}
       </div>
 
-      {/* Bottom — scroll indicator */}
+      {/* Scroll indicator — always visible, changes label */}
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-3 pointer-events-auto">
-        <div
-          className="scroll-indicator cursor-pointer"
-          onClick={advance}
-          style={{
-            transition: "opacity 0.7s ease 0.8s",
-            opacity: textVisible ? 1 : 0,
-          }}
-        >
+        <div className="scroll-indicator cursor-pointer" onClick={advance}>
           <div className="scroll-line" />
         </div>
-        <span className="text-[9px] uppercase tracking-[0.35em] font-body text-white/30">
-          {current < VIDEOS.length - 1 ? "Scroll" : "Enter"}
+        <span className="text-[9px] uppercase tracking-[0.4em] font-body text-white/35">
+          {stage === 5 ? "Enter" : showText ? "Next" : "Scroll"}
         </span>
       </div>
 
-      {/* Video counter top-right */}
+      {/* Video counter */}
       <div className="absolute top-6 right-20 z-20 font-body text-xs text-white/25 tracking-widest">
-        {String(current + 1).padStart(2, "0")} /{" "}
-        {String(VIDEOS.length).padStart(2, "0")}
+        {String(videoIdx + 1).padStart(2, "0")} / {String(VIDEOS.length).padStart(2, "0")}
       </div>
     </div>
   );

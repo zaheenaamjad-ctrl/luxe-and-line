@@ -2,7 +2,6 @@ import { Link, useLocation } from "wouter";
 import { ShoppingBag, Menu, X, User } from "lucide-react";
 import { useState } from "react";
 import { useGetCart } from "@workspace/api-client-react";
-
 export function Navbar() {
   const [location] = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -22,8 +21,8 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           <div className="flex items-center">
-            <Link href="/" className="font-serif text-2xl tracking-widest text-primary font-bold">
-              LUXE & LINE
+            <Link href="/" className="flex items-center">
+              <img src="/logo-transparent.png" alt="Luxe & Line" className="h-12 w-12 object-contain" />
             </Link>
           </div>
           

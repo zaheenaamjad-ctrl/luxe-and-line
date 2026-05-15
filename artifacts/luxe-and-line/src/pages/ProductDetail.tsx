@@ -1,18 +1,163 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams } from "wouter";
 import { useGetProduct, useAddToCart, getGetCartQueryKey } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
-import { ChevronLeft, ChevronRight, ShoppingBag, Check, Truck } from "lucide-react";
+import { ShoppingBag, Check, Truck, ZoomIn, X, ChevronLeft, ChevronRight, RotateCcw } from "lucide-react";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
+
+function computeOriginalPrice(price: number): number {
+  const bumped = price / 0.75;
+  return Math.ceil(bumped / 5) * 5;
+}
+
+function ZoomModal({
+  images,
+  startIdx,
+  onClose,
+}: {
+  images: string[];
+  startIdx: number;
+  onClose: () => void;
+}) {
+  const [idx, setIdx] = useState(startIdx);
+  const [scale, setScale] = useState(1);
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  const dragging = useRef(false);
+  const dragStart = useRef({ x: 0, y: 0, px: 0, py: 0 });
+
+  useEffect(() => {
+    setScale(1);
+    setPos({ x: 0, y: 0 });
+  }, [idx]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowLeft") setIdx((i) => Math.max(0, i - 1));
+      if (e.key === "ArrowRight") setIdx((i) => Math.min(images.length - 1, i + 1));
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [images.length, onClose]);
+
+  const handleWheel = (e: React.WheelEvent) => {
+    e.preventDefault();
+    setScale((s) => Math.max(1, Math.min(4, s - e.deltaY * 0.002)));
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (scale <= 1) return;
+    dragging.current = true;
+    dragStart.current = { x: e.clientX, y: e.clientY, px: pos.x, py: pos.y };
+  };
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!dragging.current) return;
+    setPos({
+      x: dragStart.current.px + (e.clientX - dragStart.current.x),
+      y: dragStart.current.py + (e.clientY - dragStart.current.y),
+    });
+  };
+  const handleMouseUp = () => { dragging.current = false; };
+
+  return (
+    <div
+      className="fixed inset-0 z-[200] bg-black/95 flex flex-col"
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+    >
+      {/* Top bar */}
+      <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
+        <p className="text-white/50 font-body text-xs uppercase tracking-widest">
+          {idx + 1} / {images.length}
+        </p>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => { setScale(1); setPos({ x: 0, y: 0 }); }}
+            className="text-white/50 hover:text-primary transition-colors"
+            title="Reset zoom"
+          >
+            <RotateCcw size={16} />
+          </button>
+          <span className="text-white/30 font-body text-xs">{Math.round(scale * 100)}%</span>
+          <button onClick={onClose} className="text-white/50 hover:text-white transition-colors ml-2">
+            <X size={20} />
+          </button>
+        </div>
+      </div>
+
+      {/* Image area */}
+      <div
+        className="flex-1 relative overflow-hidden flex items-center justify-center select-none"
+        onWheel={handleWheel}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+        style={{ cursor: scale > 1 ? "grab" : "zoom-in" }}
+      >
+        <img
+          src={images[idx]}
+          alt=""
+          draggable={false}
+          className="max-h-full max-w-full object-contain transition-transform duration-100"
+          style={{
+            transform: `scale(${scale}) translate(${pos.x / scale}px, ${pos.y / scale}px)`,
+          }}
+          onClick={() => setScale((s) => (s >= 2.5 ? 1 : s + 0.75))}
+        />
+      </div>
+
+      {/* Scroll to zoom hint */}
+      <p className="text-center text-white/20 text-[10px] font-body tracking-widest py-2 uppercase">
+        Scroll to zoom · Click image to step zoom · Drag to pan
+      </p>
+
+      {/* Thumbnail strip */}
+      {images.length > 1 && (
+        <div className="flex justify-center gap-3 pb-5 px-6 overflow-x-auto scrollbar-none">
+          {images.map((img, i) => (
+            <button
+              key={i}
+              onClick={() => setIdx(i)}
+              className="shrink-0 w-16 h-16 overflow-hidden border-2 transition-all"
+              style={{ borderColor: idx === i ? "hsl(43,65%,50%)" : "rgba(255,255,255,0.15)" }}
+            >
+              <img src={img} alt="" className="w-full h-full object-cover" />
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Prev / Next */}
+      {images.length > 1 && (
+        <>
+          <button
+            onClick={() => setIdx((i) => Math.max(0, i - 1))}
+            className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-primary text-white p-3 transition-all"
+            style={{ display: idx === 0 ? "none" : "block" }}
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <button
+            onClick={() => setIdx((i) => Math.min(images.length - 1, i + 1))}
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-primary text-white p-3 transition-all"
+            style={{ display: idx === images.length - 1 ? "none" : "block" }}
+          >
+            <ChevronRight size={20} />
+          </button>
+        </>
+      )}
+    </div>
+  );
+}
 
 export function ProductDetail() {
   const { id } = useParams<{ id: string }>();
   const productId = parseInt(id ?? "0");
   const [currentImage, setCurrentImage] = useState(0);
-  const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
+  const [zoomOpen, setZoomOpen] = useState(false);
 
   const { data: product, isLoading } = useGetProduct(productId, {
     query: { enabled: !!productId, queryKey: [["product", productId]] }
@@ -22,11 +167,13 @@ export function ProductDetail() {
   const { toast } = useToast();
 
   const images = (product?.images ?? []) as string[];
+  const isShalwarKameez = product?.category === "shalwar-kameez";
+  const originalPrice = product ? computeOriginalPrice(product.price) : null;
 
   const handleAddToCart = () => {
     if (!product) return;
     addToCart.mutate(
-      { data: { productId: product.id, quantity, size: selectedSize } },
+      { data: { productId: product.id, quantity } },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: getGetCartQueryKey() });
@@ -41,20 +188,17 @@ export function ProductDetail() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-muted-foreground font-body text-sm">Loading product...</p>
-        </div>
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-foreground font-serif text-2xl mb-4">Product not found</p>
-          <Link href="/shop" className="text-primary hover:underline font-body text-sm">Back to Shop</Link>
+      <div className="min-h-screen bg-background flex items-center justify-center text-center">
+        <div>
+          <p className="font-serif text-2xl text-foreground mb-4">Product not found</p>
+          <Link href="/shop" className="text-primary text-sm font-body hover:underline">Back to Shop</Link>
         </div>
       </div>
     );
@@ -62,6 +206,10 @@ export function ProductDetail() {
 
   return (
     <div className="min-h-screen bg-background">
+      {zoomOpen && (
+        <ZoomModal images={images} startIdx={currentImage} onClose={() => setZoomOpen(false)} />
+      )}
+
       {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-6 pt-8 pb-4">
         <nav className="text-xs font-body text-muted-foreground flex items-center gap-2">
@@ -75,38 +223,33 @@ export function ProductDetail() {
 
       <div className="max-w-7xl mx-auto px-6 pb-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          {/* Image Gallery */}
+
+          {/* ── Image Gallery ─────────────────────────────────────── */}
           <div className="space-y-4">
-            <div className="relative bg-card aspect-square overflow-hidden group">
+            {/* Main image */}
+            <div
+              className="relative bg-card overflow-hidden group cursor-zoom-in"
+              style={{ aspectRatio: "3/4" }}
+              onClick={() => setZoomOpen(true)}
+            >
               <img
                 src={images[currentImage]}
                 alt={product.name}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = "/product-images/wallets-reference.jpg";
-                }}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
               />
-              {images.length > 1 && (
-                <>
-                  <button
-                    data-testid="prev-image"
-                    onClick={() => setCurrentImage((c) => (c - 1 + images.length) % images.length)}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 transition-all opacity-0 group-hover:opacity-100"
-                  >
-                    <ChevronLeft size={20} />
-                  </button>
-                  <button
-                    data-testid="next-image"
-                    onClick={() => setCurrentImage((c) => (c + 1) % images.length)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 transition-all opacity-0 group-hover:opacity-100"
-                  >
-                    <ChevronRight size={20} />
-                  </button>
-                </>
-              )}
+              {/* Zoom hint overlay */}
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
+                <div className="bg-black/60 text-white px-4 py-2 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-xs font-body uppercase tracking-widest">
+                  <ZoomIn size={14} /> Click to zoom
+                </div>
+              </div>
+              {/* Sale badge */}
+              <div className="absolute top-3 right-3 bg-red-600 text-white text-[9px] uppercase tracking-widest px-3 py-1 font-body font-semibold">
+                Sale
+              </div>
             </div>
 
-            {/* Thumbnail Strip */}
+            {/* Thumbnail strip — view all angles */}
             {images.length > 1 && (
               <div className="flex gap-3">
                 {images.map((img, i) => (
@@ -114,93 +257,133 @@ export function ProductDetail() {
                     key={i}
                     data-testid={`thumbnail-${i}`}
                     onClick={() => setCurrentImage(i)}
-                    className={`w-20 h-20 overflow-hidden border-2 transition-all ${currentImage === i ? "border-primary" : "border-border hover:border-primary/50"}`}
+                    className="relative overflow-hidden border-2 transition-all"
+                    style={{
+                      width: 88,
+                      height: 108,
+                      borderColor: currentImage === i ? "hsl(43,65%,50%)" : "hsl(220,15%,18%)",
+                    }}
                   >
-                    <img src={img} alt="" className="w-full h-full object-cover"
-                      onError={(e) => { (e.target as HTMLImageElement).src = "/product-images/wallets-reference.jpg"; }} />
+                    <img src={img} alt="" className="w-full h-full object-cover" />
+                    {currentImage === i && (
+                      <div className="absolute inset-0 bg-primary/10" />
+                    )}
                   </button>
                 ))}
+                {/* Click-to-zoom hint under thumbnails */}
+                <button
+                  onClick={() => setZoomOpen(true)}
+                  className="w-[88px] h-[108px] border-2 border-dashed flex flex-col items-center justify-center gap-1 text-muted-foreground hover:text-primary hover:border-primary transition-all"
+                  style={{ borderColor: "hsl(220,15%,18%)" }}
+                >
+                  <ZoomIn size={18} />
+                  <span className="text-[9px] uppercase tracking-widest font-body">360°</span>
+                </button>
               </div>
             )}
           </div>
 
-          {/* Product Info */}
-          <div className="flex flex-col">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-primary font-body mb-3">
-              {product.category.replace("-", " ")}
-            </p>
-            <h1 className="font-serif text-4xl md:text-5xl text-foreground mb-4">{product.name}</h1>
-
-            <div className="flex items-baseline gap-3 mb-6">
-              <span className="font-serif text-3xl text-primary">£{product.price}</span>
-              {product.deliveryIncluded && (
-                <span className="text-xs font-body text-muted-foreground flex items-center gap-1">
-                  <Truck size={12} /> Free UK Delivery
+          {/* ── Product Info ──────────────────────────────────────── */}
+          <div className="flex flex-col lg:pt-4">
+            {/* Category + unstitched badge */}
+            <div className="flex items-center gap-3 mb-3">
+              <p className="text-[10px] uppercase tracking-[0.3em] text-primary font-body">
+                {product.category.replace(/-/g, " ")}
+              </p>
+              {isShalwarKameez && (
+                <span className="text-[9px] uppercase tracking-widest font-body border border-primary/50 text-primary px-2 py-0.5">
+                  Unstitched Lawn
                 </span>
               )}
             </div>
 
-            <div className="luxury-divider mb-6">
-              <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-body">Details</span>
+            <h1 className="font-serif text-4xl md:text-5xl text-foreground mb-5 leading-tight">
+              {product.name}
+            </h1>
+
+            {/* Price with fake discount */}
+            <div className="flex items-baseline gap-4 mb-6">
+              <span className="font-serif text-3xl text-primary">
+                £{product.price}
+              </span>
+              {originalPrice && (
+                <span
+                  className="font-body text-xl font-medium text-red-500 line-through opacity-80"
+                  title="Original price before discount"
+                >
+                  £{originalPrice}
+                </span>
+              )}
+              {product.deliveryIncluded && (
+                <span className="text-xs font-body text-muted-foreground flex items-center gap-1 ml-1">
+                  <Truck size={11} /> Free UK delivery
+                </span>
+              )}
             </div>
 
-            <p className="text-muted-foreground font-body text-sm leading-relaxed mb-8">{product.description}</p>
-
-            {/* Stitching info */}
-            {product.stitched !== null && product.stitched !== undefined && (
-              <div className="bg-card border border-border px-4 py-3 mb-6 text-sm font-body text-muted-foreground">
-                {product.stitched
-                  ? "This product is sold stitched and delivered to your measurements. Please include your measurements in the order notes."
-                  : "Available stitched (£75) or unstitched. Both options delivered. Please specify in order notes."}
+            {/* Savings callout */}
+            {originalPrice && (
+              <div className="bg-red-950/40 border border-red-800/40 px-4 py-2.5 mb-5 flex items-center gap-3">
+                <span className="text-red-400 text-xs font-body uppercase tracking-widest font-semibold">
+                  You save £{originalPrice - product.price}
+                </span>
+                <span className="text-red-400/60 text-xs font-body">
+                  ({Math.round((1 - product.price / originalPrice) * 100)}% off)
+                </span>
               </div>
             )}
 
-            {/* Sizes */}
-            {(product.sizes as string[]).length > 0 && (
-              <div className="mb-6">
-                <p className="text-xs uppercase tracking-widest font-body text-muted-foreground mb-3">Select Size</p>
-                <div className="flex flex-wrap gap-2">
-                  {(product.sizes as string[]).map((size) => (
-                    <button
-                      key={size}
-                      data-testid={`size-${size}`}
-                      onClick={() => setSelectedSize(size)}
-                      className={`px-4 py-2 text-xs border font-body transition-all ${
-                        selectedSize === size
-                          ? "border-primary bg-primary text-primary-foreground"
-                          : "border-border text-foreground hover:border-primary"
-                      }`}
-                    >
-                      {size}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
+            {/* Gold divider */}
+            <div
+              className="mb-6"
+              style={{
+                height: 1,
+                background: "linear-gradient(90deg, hsl(43,65%,50%), transparent)",
+                width: "60%",
+              }}
+            />
 
-            {/* Colors */}
-            {(product.colors as string[]).length > 0 && (
-              <div className="mb-8">
-                <p className="text-xs uppercase tracking-widest font-body text-muted-foreground mb-2">Available In</p>
-                <p className="text-sm font-body text-foreground">{(product.colors as string[]).join(", ")}</p>
+            {/* Description */}
+            <p className="text-muted-foreground font-body text-sm leading-[1.9] mb-6">
+              {product.description}
+            </p>
+
+            {/* Unstitched info card */}
+            {isShalwarKameez && (
+              <div className="border border-primary/25 bg-primary/5 px-5 py-4 mb-6">
+                <p className="text-primary text-[10px] uppercase tracking-widest font-body font-semibold mb-1">
+                  What's included
+                </p>
+                <ul className="text-sm font-body text-muted-foreground space-y-1">
+                  <li>· Kameez fabric (printed &amp; embroidered)</li>
+                  <li>· Trouser fabric</li>
+                  <li>· Dupatta / Chiffon scarf</li>
+                  <li>· Delivered unstitched — take to any local tailor</li>
+                </ul>
               </div>
             )}
 
             {/* Quantity */}
-            <div className="flex items-center gap-4 mb-6">
+            <div className="flex items-center gap-5 mb-6">
               <p className="text-xs uppercase tracking-widest font-body text-muted-foreground">Qty</p>
               <div className="flex items-center border border-border">
                 <button
                   data-testid="qty-decrease"
                   onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                  className="px-4 py-2 text-foreground hover:text-primary transition-colors font-body"
-                >-</button>
-                <span className="px-6 py-2 border-x border-border font-body text-sm">{quantity}</span>
+                  className="px-4 py-2.5 text-foreground hover:text-primary transition-colors font-body text-lg"
+                >
+                  −
+                </button>
+                <span className="px-6 py-2.5 border-x border-border font-body text-sm w-14 text-center">
+                  {quantity}
+                </span>
                 <button
                   data-testid="qty-increase"
                   onClick={() => setQuantity((q) => q + 1)}
-                  className="px-4 py-2 text-foreground hover:text-primary transition-colors font-body"
-                >+</button>
+                  className="px-4 py-2.5 text-foreground hover:text-primary transition-colors font-body text-lg"
+                >
+                  +
+                </button>
               </div>
             </div>
 
@@ -209,29 +392,46 @@ export function ProductDetail() {
               data-testid="button-add-to-cart"
               onClick={handleAddToCart}
               disabled={addToCart.isPending || !product.inStock}
-              className={`w-full py-4 font-body uppercase tracking-widest text-sm font-semibold transition-all duration-300 flex items-center justify-center gap-3 ${
-                addedToCart
-                  ? "bg-green-600 text-white"
+              className="w-full py-4 font-body uppercase tracking-[0.2em] text-sm font-semibold transition-all duration-300 flex items-center justify-center gap-3 mb-4"
+              style={{
+                background: addedToCart
+                  ? "hsl(142,60%,35%)"
                   : product.inStock
-                  ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                  : "bg-muted text-muted-foreground cursor-not-allowed"
-              }`}
+                  ? "hsl(43,65%,50%)"
+                  : "hsl(220,15%,20%)",
+                color: product.inStock || addedToCart ? "hsl(220,20%,8%)" : "hsl(220,15%,50%)",
+                cursor: product.inStock ? "pointer" : "not-allowed",
+              }}
             >
               {addedToCart ? (
                 <><Check size={18} /> Added to Bag</>
               ) : addToCart.isPending ? (
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                <div className="w-5 h-5 border-2 border-primary-foreground/50 border-t-transparent rounded-full animate-spin" />
               ) : (
                 <><ShoppingBag size={18} /> {product.inStock ? "Add to Bag" : "Out of Stock"}</>
               )}
             </button>
 
+            {/* WhatsApp quick order */}
+            <a
+              href={`https://wa.me/447405358689?text=Hi%2C%20I%27d%20like%20to%20order%20${encodeURIComponent(product.name)}%20(%C2%A3${product.price})%20from%20Luxe%20%26%20Line`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full py-3.5 border font-body uppercase tracking-[0.2em] text-xs font-medium transition-all duration-300 flex items-center justify-center gap-2 mb-8 hover:bg-green-900/30"
+              style={{ borderColor: "hsl(142,50%,35%)", color: "hsl(142,60%,55%)" }}
+            >
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+              </svg>
+              Order via WhatsApp
+            </a>
+
             {/* Trust signals */}
-            <div className="mt-8 grid grid-cols-2 gap-4 text-xs font-body text-muted-foreground">
-              <div className="flex items-center gap-2"><Truck size={14} className="text-primary" /> UK Delivery Included</div>
-              <div className="flex items-center gap-2"><Check size={14} className="text-primary" /> Authentic Designs</div>
-              <div className="flex items-center gap-2"><Check size={14} className="text-primary" /> Quality Guaranteed</div>
-              <div className="flex items-center gap-2"><Check size={14} className="text-primary" /> Secure Checkout</div>
+            <div className="grid grid-cols-2 gap-3 text-xs font-body text-muted-foreground border-t border-border pt-6">
+              <div className="flex items-center gap-2"><Truck size={13} className="text-primary" /> UK Delivery Included</div>
+              <div className="flex items-center gap-2"><Check size={13} className="text-primary" /> Authentic Designs</div>
+              <div className="flex items-center gap-2"><Check size={13} className="text-primary" /> Quality Guaranteed</div>
+              <div className="flex items-center gap-2"><ShoppingBag size={13} className="text-primary" /> Secure Checkout</div>
             </div>
           </div>
         </div>
