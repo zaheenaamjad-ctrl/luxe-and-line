@@ -7,7 +7,7 @@ import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 
 function computeOriginalPrice(price: number): number {
-  const bumped = price / 0.75;
+  const bumped = price / 0.65;
   return Math.ceil(bumped / 5) * 5;
 }
 
@@ -158,6 +158,7 @@ export function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
   const [zoomOpen, setZoomOpen] = useState(false);
+  const [selectedSize, setSelectedSize] = useState<string>("M");
 
   const { data: product, isLoading } = useGetProduct(productId, {
     query: { enabled: !!productId, queryKey: [["product", productId]] }
@@ -261,7 +262,7 @@ export function ProductDetail() {
                     style={{
                       width: 88,
                       height: 108,
-                      borderColor: currentImage === i ? "hsl(43,65%,50%)" : "hsl(220,15%,18%)",
+                      borderColor: currentImage === i ? "hsl(270,80%,65%)" : "hsl(265,18%,16%)",
                     }}
                   >
                     <img src={img} alt="" className="w-full h-full object-cover" />
@@ -301,47 +302,75 @@ export function ProductDetail() {
               {product.name}
             </h1>
 
-            {/* Price with fake discount */}
-            <div className="flex items-baseline gap-4 mb-6">
-              <span className="font-serif text-3xl text-primary">
-                £{product.price}
-              </span>
+            {/* Price — Shopify style big white */}
+            <div className="mb-5">
               {originalPrice && (
-                <span
-                  className="font-body text-xl font-medium text-red-500 line-through opacity-80"
-                  title="Original price before discount"
-                >
-                  £{originalPrice}
-                </span>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="bg-red-600 text-white text-[9px] uppercase tracking-widest px-2 py-0.5 font-body font-bold">SALE</span>
+                  <span className="text-red-400 text-xs font-body">Save £{originalPrice - product.price} ({Math.round((1 - product.price / originalPrice) * 100)}% off)</span>
+                </div>
               )}
-              {product.deliveryIncluded && (
-                <span className="text-xs font-body text-muted-foreground flex items-center gap-1 ml-1">
-                  <Truck size={11} /> Free UK delivery
+              <div className="flex items-baseline gap-4">
+                <span className="font-serif text-5xl text-white font-medium leading-none">
+                  £{product.price}
                 </span>
+                {originalPrice && (
+                  <span className="font-body text-2xl text-red-500 line-through font-medium">
+                    £{originalPrice}
+                  </span>
+                )}
+              </div>
+              {product.deliveryIncluded && (
+                <p className="text-xs font-body text-muted-foreground flex items-center gap-1 mt-1.5">
+                  <Truck size={11} /> Free UK delivery included
+                </p>
               )}
             </div>
 
-            {/* Savings callout */}
-            {originalPrice && (
-              <div className="bg-red-950/40 border border-red-800/40 px-4 py-2.5 mb-5 flex items-center gap-3">
-                <span className="text-red-400 text-xs font-body uppercase tracking-widest font-semibold">
-                  You save £{originalPrice - product.price}
-                </span>
-                <span className="text-red-400/60 text-xs font-body">
-                  ({Math.round((1 - product.price / originalPrice) * 100)}% off)
-                </span>
-              </div>
-            )}
-
-            {/* Gold divider */}
+            {/* Purple divider */}
             <div
-              className="mb-6"
+              className="mb-5"
               style={{
                 height: 1,
-                background: "linear-gradient(90deg, hsl(43,65%,50%), transparent)",
+                background: "linear-gradient(90deg, hsl(270,80%,65%), transparent)",
                 width: "60%",
               }}
             />
+
+            {/* Size selector — S / M / L for shalwar kameez */}
+            {isShalwarKameez && (
+              <div className="mb-6">
+                <div className="flex items-center justify-between mb-3">
+                  <p className="text-xs uppercase tracking-widest font-body text-muted-foreground">Size</p>
+                  <span className="text-primary text-xs font-body font-medium">{selectedSize} selected</span>
+                </div>
+                <div className="flex gap-3">
+                  {["S", "M", "L"].map((size) => (
+                    <button
+                      key={size}
+                      onClick={() => setSelectedSize(size)}
+                      className="font-body font-semibold text-sm transition-all duration-200"
+                      style={{
+                        width: 52,
+                        height: 52,
+                        border: selectedSize === size
+                          ? "2px solid hsl(270,80%,65%)"
+                          : "1px solid hsl(265,18%,22%)",
+                        background: selectedSize === size
+                          ? "hsl(270,80%,65%)"
+                          : "transparent",
+                        color: selectedSize === size ? "#fff" : "hsl(280,20%,75%)",
+                      }}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+                <p className="text-muted-foreground text-[10px] font-body mt-2">
+                  Unstitched fabric — we recommend ordering your usual size. Local stitching available.
+                </p>
+              </div>
+            )}
 
             {/* Description */}
             <p className="text-muted-foreground font-body text-sm leading-[1.9] mb-6">
@@ -397,9 +426,9 @@ export function ProductDetail() {
                 background: addedToCart
                   ? "hsl(142,60%,35%)"
                   : product.inStock
-                  ? "hsl(43,65%,50%)"
-                  : "hsl(220,15%,20%)",
-                color: product.inStock || addedToCart ? "hsl(220,20%,8%)" : "hsl(220,15%,50%)",
+                  ? "hsl(270,80%,65%)"
+                  : "hsl(265,15%,20%)",
+                color: "#fff",
                 cursor: product.inStock ? "pointer" : "not-allowed",
               }}
             >

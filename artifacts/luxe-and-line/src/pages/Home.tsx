@@ -66,6 +66,14 @@ function LuxuryButton({
 // Each scroll increments stage by 1; after stage 5 user exits hero.
 const VIDEOS = [
   {
+    src: "/videos/swan.mp4",
+    label: "New Arrival 2026",
+    title: ["LUXE", "& LINE"],
+    sub: "Summer 2026 · Premium Pakistani Fashion · Free UK Delivery",
+    cta: "Explore Collection",
+    link: "/shop",
+  },
+  {
     src: "/videos/video1.mp4",
     label: "The Collection",
     title: ["ELEGANCE", "REDEFINED"],
@@ -75,19 +83,11 @@ const VIDEOS = [
   },
   {
     src: "/videos/video2.mp4",
-    label: "Heritage",
+    label: "Heritage Pret",
     title: ["CRAFTED", "FOR YOU"],
     sub: "Premium Embroidery Pret · Pakistani Heritage in Every Stitch",
     cta: "Explore Now",
     link: "/shop",
-  },
-  {
-    src: "/videos/video3.mp4",
-    label: "Denim",
-    title: ["PREMIUM", "DENIM"],
-    sub: "Signature Jeans · Cut for UK Streets · Exclusive Fits",
-    cta: "Shop Jeans",
-    link: "/shop?category=jeans",
   },
 ];
 
@@ -405,6 +405,9 @@ function CatalogCard({
   href,
   delay = 0,
   code,
+  showSale = false,
+  originalPrice,
+  suitNumber,
 }: {
   name: string;
   price: number;
@@ -412,49 +415,55 @@ function CatalogCard({
   href: string;
   delay?: number;
   code?: string;
+  showSale?: boolean;
+  originalPrice?: number;
+  suitNumber?: string;
 }) {
-  const addToCart = useAddToCart();
-  const queryClient = useQueryClient();
-  const { toast } = useToast();
-
   return (
     <RevealSection delay={delay}>
       <Link href={href}>
         <div className="group cursor-pointer">
-          <div className="relative overflow-hidden bg-card aspect-[3/4] mb-4">
+          <div className="relative overflow-hidden bg-card aspect-[3/4] mb-3">
             <img
               src={img}
               alt={name}
               loading="lazy"
-              className="w-full h-full object-cover transition-transform duration-700"
-              style={{ transform: "scale(1)" }}
-              onMouseEnter={(e) =>
-                ((e.target as HTMLElement).style.transform = "scale(1.06)")
-              }
-              onMouseLeave={(e) =>
-                ((e.target as HTMLElement).style.transform = "scale(1)")
-              }
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.06]"
             />
+            {/* Code badge */}
             {code && (
-              <div className="absolute top-3 left-3 bg-black/60 text-white text-[9px] uppercase tracking-widest px-2 py-1 font-body">
+              <div className="absolute top-2 left-2 bg-black/70 text-white text-[8px] uppercase tracking-widest px-2 py-0.5 font-body">
                 {code}
               </div>
             )}
+            {/* SALE badge */}
+            {showSale && (
+              <div className="absolute top-2 right-2 bg-red-600 text-white text-[9px] uppercase tracking-widest px-2 py-1 font-body font-bold shadow-lg">
+                SALE
+              </div>
+            )}
+            {/* Suit number */}
+            {suitNumber && (
+              <div className="absolute bottom-2 right-2 bg-primary/90 text-white text-[8px] uppercase tracking-widest px-2 py-0.5 font-body">
+                #{suitNumber}
+              </div>
+            )}
             <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-              <span className="text-white text-[10px] uppercase tracking-[0.25em] font-body border border-white/70 px-6 py-3">
+              <span className="text-white text-[10px] uppercase tracking-[0.25em] font-body border border-white/70 px-5 py-2.5">
                 View Details
               </span>
             </div>
           </div>
-          <p className="font-serif text-base text-foreground group-hover:text-primary transition-colors leading-tight mb-1">
+          <p className="font-serif text-sm text-foreground group-hover:text-primary transition-colors leading-tight mb-1">
             {name}
           </p>
-          <p className="text-sm font-body text-primary font-medium">
-            £{price}{" "}
-            <span className="text-muted-foreground text-xs font-normal">
-              inc. delivery
-            </span>
-          </p>
+          <div className="flex items-baseline gap-2">
+            <p className="text-base font-body text-white font-semibold">£{price}</p>
+            {originalPrice && (
+              <p className="text-xs font-body text-red-500 line-through font-medium">£{originalPrice}</p>
+            )}
+            <span className="text-muted-foreground text-[10px] font-body font-normal">incl. delivery</span>
+          </div>
         </div>
       </Link>
     </RevealSection>
@@ -463,21 +472,43 @@ function CatalogCard({
 
 /* ─── Nureh Gardenia section ─────────────────────────────── */
 const NUREH_ITEMS = [
-  { code: "NSG-215", img: "/product-images/nureh-gardenia/nsg-215.png", name: "NSG-215", price: 65, id: 1 },
-  { code: "NSG-216", img: "/product-images/nureh-gardenia/nsg-216.png", name: "NSG-216", price: 65, id: 9 },
-  { code: "NSG-217", img: "/product-images/nureh-gardenia/nsg-217.png", name: "NSG-217", price: 65, id: 10 },
-  { code: "NSG-218", img: "/product-images/nureh-gardenia/nsg-218.png", name: "NSG-218", price: 65, id: 11 },
-  { code: "NSG-219", img: "/product-images/nureh-gardenia/nsg-219.png", name: "NSG-219", price: 65, id: 12 },
-  { code: "NSG-221", img: "/product-images/nureh-gardenia/nsg-221.png", name: "NSG-221", price: 65, id: 14 },
-  { code: "NSG-222", img: "/product-images/nureh-gardenia/nsg-222.png", name: "NSG-222", price: 65, id: 15 },
-  { code: "NSG-223", img: "/product-images/nureh-gardenia/nsg-223.png", name: "NSG-223", price: 65, id: 22 },
-  { code: "NSG-224", img: "/product-images/nureh-gardenia/nsg-224.png", name: "NSG-224", price: 65, id: 16 },
+  { code: "NSG-215", img: "/product-images/nureh-gardenia/nsg-215.png", name: "Gardenia NSG-215", price: 65, id: 1 },
+  { code: "NSG-216", img: "/product-images/nureh-gardenia/nsg-216.png", name: "Gardenia NSG-216", price: 65, id: 9 },
+  { code: "NSG-217", img: "/product-images/nureh-gardenia/nsg-217.png", name: "Gardenia NSG-217", price: 65, id: 10 },
+  { code: "NSG-218", img: "/product-images/nureh-gardenia/nsg-218.png", name: "Gardenia NSG-218", price: 65, id: 11 },
+  { code: "NSG-219", img: "/product-images/nureh-gardenia/nsg-219.png", name: "Gardenia NSG-219", price: 65, id: 12 },
+  { code: "NSG-220", img: "/product-images/nureh-gardenia/nsg-220.png", name: "Gardenia NSG-220", price: 65, id: 13 },
+  { code: "NSG-221", img: "/product-images/nureh-gardenia/nsg-221.png", name: "Gardenia NSG-221", price: 65, id: 14 },
+  { code: "NSG-222", img: "/product-images/nureh-gardenia/nsg-222.png", name: "Gardenia NSG-222", price: 65, id: 15 },
+  { code: "NSG-223", img: "/product-images/nureh-gardenia/nsg-223.png", name: "Gardenia NSG-223", price: 65, id: 22 },
+  { code: "NSG-224", img: "/product-images/nureh-gardenia/nsg-224.png", name: "Gardenia NSG-224", price: 65, id: 16 },
 ];
 
 function NurehGardeniaSection() {
   return (
     <section className="py-28 px-6 bg-background border-t border-border/30">
       <div className="max-w-7xl mx-auto">
+        {/* Portrait model video */}
+        <RevealSection className="mb-16 flex justify-center">
+          <div className="relative overflow-hidden" style={{ width: 340, aspectRatio: "9/16", maxHeight: "75vh" }}>
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="w-full h-full object-cover"
+            >
+              <source src="/videos/model-gardenia.mp4" type="video/mp4" />
+            </video>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+            <div className="absolute bottom-6 left-6 right-6">
+              <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-body mb-1">Gardenia by Nurèh</p>
+              <p className="font-serif text-2xl text-white leading-tight">Summer 2026</p>
+              <p className="font-body text-xs text-white/70 mt-1">10 Piece Set · Embroidered Lawn</p>
+            </div>
+          </div>
+        </RevealSection>
+
         <CatalogHeading
           eyebrow="Gardenia by Nurèh · Summer 2026 New Arrival"
           title="Gardenia"
@@ -492,6 +523,9 @@ function NurehGardeniaSection() {
               code={item.code}
               name={item.name}
               price={item.price}
+              originalPrice={100}
+              showSale={true}
+              suitNumber={item.code.replace("NSG-", "")}
               img={item.img}
               href={`/product/${item.id}`}
               delay={i * 50}
