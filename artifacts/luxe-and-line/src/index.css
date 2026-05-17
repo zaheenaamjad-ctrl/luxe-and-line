@@ -272,6 +272,21 @@
   50% { opacity: 1; }
 }
 
+/* ── Price glow animation — white bold pulse ──────── */
+@keyframes priceGlow {
+  0%, 100% {
+    text-shadow: 0 0 8px rgba(255,255,255,0.5), 0 0 24px rgba(180,130,255,0.3);
+    filter: brightness(1);
+  }
+  50% {
+    text-shadow: 0 0 18px rgba(255,255,255,0.95), 0 0 40px rgba(180,130,255,0.6), 0 0 70px rgba(147,51,234,0.3);
+    filter: brightness(1.18);
+  }
+}
+.price-glow {
+  animation: priceGlow 2.8s ease-in-out infinite;
+}
+
 /* ── Reveal animation ────────────────────────────── */
 .reveal {
   opacity: 0;

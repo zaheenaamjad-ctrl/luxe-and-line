@@ -457,10 +457,10 @@ function CatalogCard({
           <p className="font-serif text-sm text-foreground group-hover:text-primary transition-colors leading-tight mb-1">
             {name}
           </p>
-          <div className="flex items-baseline gap-2">
-            <p className="text-base font-body text-white font-semibold">£{price}</p>
+          <div className="flex items-baseline gap-2 mt-1">
+            <p className="text-base font-body text-white font-bold price-glow">£{price}</p>
             {originalPrice && (
-              <p className="text-xs font-body text-red-500 line-through font-medium">£{originalPrice}</p>
+              <p className="text-sm font-body text-red-500 line-through font-medium">£{originalPrice}</p>
             )}
             <span className="text-muted-foreground text-[10px] font-body font-normal">incl. delivery</span>
           </div>
@@ -608,76 +608,70 @@ function ZeenatSection() {
 }
 
 /* ─── Charizma Sunshine section ───────────────────────────── */
+const CHARIZMA_ITEMS = [
+  { code: "CSS-01", img: "/product-images/charizma/css-01.png", name: "Sun Shine CSS-01", price: 85, id: 2 },
+  { code: "CSS-02", img: "/product-images/charizma/css-02.png", name: "Sun Shine CSS-02", price: 85, id: 23 },
+  { code: "CSS-03", img: "/product-images/charizma/css-03.png", name: "Sun Shine CSS-03", price: 85, id: 24 },
+  { code: "CSS-04", img: "/product-images/charizma/css-04.png", name: "Sun Shine CSS-04", price: 85, id: 25 },
+  { code: "CSS-05", img: "/product-images/charizma/css-05.png", name: "Sun Shine CSS-05", price: 85, id: 26 },
+  { code: "CSS-06", img: "/product-images/charizma/css-06.png", name: "Sun Shine CSS-06", price: 85, id: 27 },
+  { code: "CSS-07", img: "/product-images/charizma/css-07.png", name: "Sun Shine CSS-07", price: 85, id: 28 },
+  { code: "CSS-08", img: "/product-images/charizma/css-08.png", name: "Sun Shine CSS-08", price: 85, id: 29 },
+  { code: "CSS-09", img: "/product-images/charizma/css-09.png", name: "Sun Shine CSS-09", price: 85, id: 30 },
+];
+
 function CharizmaSection() {
   return (
     <section className="py-28 px-6 bg-background border-t border-border/30">
       <div className="max-w-7xl mx-auto">
+        {/* Portrait model video */}
+        <RevealSection className="mb-16 flex justify-center">
+          <div className="relative overflow-hidden" style={{ width: 340, aspectRatio: "9/16", maxHeight: "75vh" }}>
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="w-full h-full object-cover"
+            >
+              <source src="/videos/model-charizma.mp4" type="video/mp4" />
+            </video>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+            <div className="absolute bottom-6 left-6 right-6">
+              <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-body mb-1">Charizma</p>
+              <p className="font-serif text-2xl text-white leading-tight">Sun Shine Vol. 01</p>
+              <p className="font-body text-xs text-white/70 mt-1">Stitched Embroidered Lawn · 3-Piece</p>
+            </div>
+          </div>
+        </RevealSection>
+
         <CatalogHeading
           eyebrow="Charizma · Summer 2026 New Arrival"
           title="Sun Shine"
           italic="Vol. 01"
-          desc="Charizma Sun Shine Stitched Embroidered Lawn Suit Collection with Embroidered Chiffon Dupatta. 3-piece suit collection. 10 pieces per set. Stitched and ready to wear."
+          desc="Charizma Sun Shine Stitched Embroidered Lawn Suit Collection with Embroidered Chiffon Dupatta Vol.01. 3-piece stitched suit — ready to wear. UK delivery included."
         />
 
-        {/* Booking open banner */}
-        <RevealSection className="mb-12">
-          <div
-            className="border border-primary/30 text-center py-6 px-8"
-            style={{ background: "linear-gradient(135deg, rgba(147,51,234,0.08) 0%, rgba(147,51,234,0.03) 100%)" }}
-          >
-            <p className="text-primary text-xs uppercase tracking-[0.4em] font-body font-semibold mb-1">
-              Booking Open Now
-            </p>
-            <p className="font-serif text-2xl text-foreground mb-2">
-              3-Piece Stitched Suit · £85 <span className="text-base text-red-400 line-through ml-2">£115</span>
-            </p>
-            <p className="font-body text-sm text-muted-foreground">
-              Embroidered lawn with embroidered chiffon dupatta · 10 pieces per set
-            </p>
-          </div>
-        </RevealSection>
-
-        {/* Charizma product cards — link to product page */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-          {[
-            { name: "Sunshine Vol.01 — Design A", bg: "linear-gradient(135deg, hsl(265,30%,12%), hsl(270,25%,9%))" },
-            { name: "Sunshine Vol.01 — Design B", bg: "linear-gradient(135deg, hsl(270,25%,9%), hsl(280,30%,12%))" },
-            { name: "Sunshine Vol.01 — Design C", bg: "linear-gradient(135deg, hsl(280,30%,12%), hsl(265,30%,12%))" },
-          ].map((item, i) => (
-            <RevealSection key={item.name} delay={i * 80}>
-              <Link href="/product/2">
-                <div className="group cursor-pointer">
-                  <div
-                    className="relative overflow-hidden aspect-[3/4] mb-4 flex flex-col items-center justify-center border border-primary/20"
-                    style={{ background: item.bg }}
-                  >
-                    <div className="text-center px-6">
-                      <p className="text-primary text-[9px] uppercase tracking-widest font-body mb-3">Charizma</p>
-                      <p className="font-serif text-2xl text-foreground mb-2">Sun Shine</p>
-                      <p className="text-muted-foreground font-body text-xs tracking-widest">Vol. 01 · 2026</p>
-                    </div>
-                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-primary/40" />
-                    <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-all duration-500 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                      <span className="text-white text-[9px] uppercase tracking-widest font-body border border-white/50 px-4 py-2">
-                        View Details
-                      </span>
-                    </div>
-                  </div>
-                  <p className="font-serif text-base text-foreground group-hover:text-primary transition-colors mb-1">{item.name}</p>
-                  <div className="flex items-baseline gap-2">
-                    <p className="text-sm font-body text-primary font-medium">£85</p>
-                    <p className="text-xs font-body text-red-400 line-through">£115</p>
-                    <p className="text-xs font-body text-muted-foreground">inc. delivery</p>
-                  </div>
-                </div>
-              </Link>
-            </RevealSection>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 mb-14">
+          {CHARIZMA_ITEMS.map((item, i) => (
+            <CatalogCard
+              key={item.code}
+              code={item.code}
+              name={item.name}
+              price={item.price}
+              originalPrice={115}
+              showSale={true}
+              suitNumber={item.code.replace("CSS-", "")}
+              img={item.img}
+              href={`/product/${item.id}`}
+              delay={i * 50}
+            />
           ))}
         </div>
 
         <RevealSection className="text-center">
-          <LuxuryButton href="/product/2" dark testId="btn-charizma-shop">
-            Shop Charizma Sunshine
+          <LuxuryButton href="/shop?category=shalwar-kameez" dark testId="btn-charizma-shop">
+            Shop Charizma Sun Shine
           </LuxuryButton>
         </RevealSection>
       </div>

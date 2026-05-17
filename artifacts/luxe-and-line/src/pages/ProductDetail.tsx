@@ -23,8 +23,11 @@ function ZoomModal({
   const [idx, setIdx] = useState(startIdx);
   const [scale, setScale] = useState(1);
   const [pos, setPos] = useState({ x: 0, y: 0 });
+  const [auto360, setAuto360] = useState(false);
   const dragging = useRef(false);
   const dragStart = useRef({ x: 0, y: 0, px: 0, py: 0 });
+  const touchStart = useRef({ x: 0, y: 0 });
+  const auto360Timer = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     setScale(1);
@@ -34,52 +37,100 @@ function ZoomModal({
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
-      if (e.key === "ArrowLeft") setIdx((i) => Math.max(0, i - 1));
-      if (e.key === "ArrowRight") setIdx((i) => Math.min(images.length - 1, i + 1));
+      if (e.key === "ArrowLeft") setIdx((i) => (i - 1 + images.length) % images.length);
+      if (e.key === "ArrowRight") setIdx((i) => (i + 1) % images.length);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [images.length, onClose]);
 
+  /* 360° auto-cycle */
+  useEffect(() => {
+    if (auto360 && images.length > 1) {
+      auto360Timer.current = setInterval(() => {
+        setIdx((i) => (i + 1) % images.length);
+      }, 900);
+    } else {
+      if (auto360Timer.current) clearInterval(auto360Timer.current);
+    }
+    return () => { if (auto360Timer.current) clearInterval(auto360Timer.current); };
+  }, [auto360, images.length]);
+
   const handleWheel = (e: React.WheelEvent) => {
     e.preventDefault();
-    setScale((s) => Math.max(1, Math.min(4, s - e.deltaY * 0.002)));
+    setScale((s) => Math.max(1, Math.min(5, s - e.deltaY * 0.002)));
   };
 
   const handleMouseDown = (e: React.MouseEvent) => {
-    if (scale <= 1) return;
     dragging.current = true;
     dragStart.current = { x: e.clientX, y: e.clientY, px: pos.x, py: pos.y };
   };
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!dragging.current) return;
-    setPos({
-      x: dragStart.current.px + (e.clientX - dragStart.current.x),
-      y: dragStart.current.py + (e.clientY - dragStart.current.y),
-    });
+    if (scale > 1) {
+      setPos({
+        x: dragStart.current.px + (e.clientX - dragStart.current.x),
+        y: dragStart.current.py + (e.clientY - dragStart.current.y),
+      });
+    }
   };
-  const handleMouseUp = () => { dragging.current = false; };
+  const handleMouseUp = (e: React.MouseEvent) => {
+    if (scale <= 1) {
+      const dx = e.clientX - dragStart.current.x;
+      if (Math.abs(dx) > 40) {
+        if (dx < 0) setIdx((i) => (i + 1) % images.length);
+        else setIdx((i) => (i - 1 + images.length) % images.length);
+      }
+    }
+    dragging.current = false;
+  };
+
+  /* Touch swipe */
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  };
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const dx = touchStart.current.x - e.changedTouches[0].clientX;
+    if (Math.abs(dx) > 50) {
+      if (dx > 0) setIdx((i) => (i + 1) % images.length);
+      else setIdx((i) => (i - 1 + images.length) % images.length);
+    }
+  };
 
   return (
     <div
-      className="fixed inset-0 z-[200] bg-black/95 flex flex-col"
+      className="fixed inset-0 z-[200] bg-black/96 flex flex-col"
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       {/* Top bar */}
-      <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
-        <p className="text-white/50 font-body text-xs uppercase tracking-widest">
-          {idx + 1} / {images.length}
-        </p>
-        <div className="flex items-center gap-4">
+      <div className="flex items-center justify-between px-5 py-3 border-b border-white/10">
+        <div className="flex items-center gap-3">
+          <p className="text-white/50 font-body text-xs uppercase tracking-widest">
+            {idx + 1} / {images.length}
+          </p>
+          {images.length > 1 && (
+            <button
+              onClick={() => setAuto360((v) => !v)}
+              className={`text-[9px] uppercase tracking-widest px-2.5 py-1 font-body font-semibold border transition-all ${
+                auto360
+                  ? "bg-primary border-primary text-white"
+                  : "border-white/30 text-white/50 hover:border-primary hover:text-primary"
+              }`}
+            >
+              360°
+            </button>
+          )}
+        </div>
+        <div className="flex items-center gap-3">
           <button
             onClick={() => { setScale(1); setPos({ x: 0, y: 0 }); }}
-            className="text-white/50 hover:text-primary transition-colors"
+            className="text-white/40 hover:text-primary transition-colors"
             title="Reset zoom"
           >
-            <RotateCcw size={16} />
+            <RotateCcw size={15} />
           </button>
-          <span className="text-white/30 font-body text-xs">{Math.round(scale * 100)}%</span>
-          <button onClick={onClose} className="text-white/50 hover:text-white transition-colors ml-2">
+          <span className="text-white/25 font-body text-[10px] tabular-nums">{Math.round(scale * 100)}%</span>
+          <button onClick={onClose} className="text-white/50 hover:text-white transition-colors">
             <X size={20} />
           </button>
         </div>
@@ -92,35 +143,47 @@ function ZoomModal({
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
-        style={{ cursor: scale > 1 ? "grab" : "zoom-in" }}
+        onMouseLeave={() => { dragging.current = false; }}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        style={{ cursor: scale > 1 ? "grabbing" : "zoom-in" }}
       >
         <img
+          key={idx}
           src={images[idx]}
           alt=""
           draggable={false}
-          className="max-h-full max-w-full object-contain transition-transform duration-100"
+          className="max-h-full max-w-full object-contain"
           style={{
             transform: `scale(${scale}) translate(${pos.x / scale}px, ${pos.y / scale}px)`,
+            transition: scale === 1 && pos.x === 0 && pos.y === 0 ? "opacity 0.25s ease" : "transform 0.08s ease",
           }}
-          onClick={() => setScale((s) => (s >= 2.5 ? 1 : s + 0.75))}
+          onClick={() => {
+            if (!dragging.current) setScale((s) => (s >= 3 ? 1 : s + 1));
+          }}
         />
+        {/* 360 spinning label */}
+        {auto360 && (
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-primary text-[10px] uppercase tracking-widest font-body bg-black/60 px-3 py-1 border border-primary/40">
+            360° Auto · Click to stop
+          </div>
+        )}
       </div>
 
-      {/* Scroll to zoom hint */}
-      <p className="text-center text-white/20 text-[10px] font-body tracking-widest py-2 uppercase">
-        Scroll to zoom · Click image to step zoom · Drag to pan
+      {/* Controls hint */}
+      <p className="text-center text-white/20 text-[9px] font-body tracking-widest py-1.5 uppercase">
+        Scroll to zoom · Click to step · Drag to pan · Swipe to browse · 360° auto-cycle
       </p>
 
       {/* Thumbnail strip */}
       {images.length > 1 && (
-        <div className="flex justify-center gap-3 pb-5 px-6 overflow-x-auto scrollbar-none">
+        <div className="flex justify-center gap-2 pb-4 px-6 overflow-x-auto scrollbar-none">
           {images.map((img, i) => (
             <button
               key={i}
               onClick={() => setIdx(i)}
-              className="shrink-0 w-16 h-16 overflow-hidden border-2 transition-all"
-              style={{ borderColor: idx === i ? "hsl(43,65%,50%)" : "rgba(255,255,255,0.15)" }}
+              className="shrink-0 w-14 h-14 overflow-hidden border-2 transition-all"
+              style={{ borderColor: idx === i ? "hsl(270,80%,65%)" : "rgba(255,255,255,0.12)" }}
             >
               <img src={img} alt="" className="w-full h-full object-cover" />
             </button>
@@ -128,20 +191,18 @@ function ZoomModal({
         </div>
       )}
 
-      {/* Prev / Next */}
+      {/* Prev / Next arrows */}
       {images.length > 1 && (
         <>
           <button
-            onClick={() => setIdx((i) => Math.max(0, i - 1))}
-            className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-primary text-white p-3 transition-all"
-            style={{ display: idx === 0 ? "none" : "block" }}
+            onClick={() => setIdx((i) => (i - 1 + images.length) % images.length)}
+            className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-primary text-white p-3 transition-all"
           >
             <ChevronLeft size={20} />
           </button>
           <button
-            onClick={() => setIdx((i) => Math.min(images.length - 1, i + 1))}
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-primary text-white p-3 transition-all"
-            style={{ display: idx === images.length - 1 ? "none" : "block" }}
+            onClick={() => setIdx((i) => (i + 1) % images.length)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-primary text-white p-3 transition-all"
           >
             <ChevronRight size={20} />
           </button>
@@ -311,7 +372,7 @@ export function ProductDetail() {
                 </div>
               )}
               <div className="flex items-baseline gap-4">
-                <span className="font-serif text-5xl text-white font-medium leading-none">
+                <span className="font-serif text-5xl text-white font-medium leading-none price-glow">
                   £{product.price}
                 </span>
                 {originalPrice && (
