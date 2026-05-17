@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams } from "wouter";
 import { useGetProduct, useAddToCart, getGetCartQueryKey } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
-import { ShoppingBag, Check, Truck, ZoomIn, X, ChevronLeft, ChevronRight, RotateCcw } from "lucide-react";
+import { ShoppingBag, Check, Truck, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 
@@ -11,206 +11,6 @@ function computeOriginalPrice(price: number): number {
   return Math.ceil(bumped / 5) * 5;
 }
 
-function ZoomModal({
-  images,
-  startIdx,
-  onClose,
-}: {
-  images: string[];
-  startIdx: number;
-  onClose: () => void;
-}) {
-  const [idx, setIdx] = useState(startIdx);
-  const [scale, setScale] = useState(1);
-  const [pos, setPos] = useState({ x: 0, y: 0 });
-  const [auto360, setAuto360] = useState(false);
-  const dragging = useRef(false);
-  const dragStart = useRef({ x: 0, y: 0, px: 0, py: 0 });
-  const touchStart = useRef({ x: 0, y: 0 });
-  const auto360Timer = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  useEffect(() => {
-    setScale(1);
-    setPos({ x: 0, y: 0 });
-  }, [idx]);
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-      if (e.key === "ArrowLeft") setIdx((i) => (i - 1 + images.length) % images.length);
-      if (e.key === "ArrowRight") setIdx((i) => (i + 1) % images.length);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [images.length, onClose]);
-
-  /* 360° auto-cycle */
-  useEffect(() => {
-    if (auto360 && images.length > 1) {
-      auto360Timer.current = setInterval(() => {
-        setIdx((i) => (i + 1) % images.length);
-      }, 900);
-    } else {
-      if (auto360Timer.current) clearInterval(auto360Timer.current);
-    }
-    return () => { if (auto360Timer.current) clearInterval(auto360Timer.current); };
-  }, [auto360, images.length]);
-
-  const handleWheel = (e: React.WheelEvent) => {
-    e.preventDefault();
-    setScale((s) => Math.max(1, Math.min(5, s - e.deltaY * 0.002)));
-  };
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    dragging.current = true;
-    dragStart.current = { x: e.clientX, y: e.clientY, px: pos.x, py: pos.y };
-  };
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!dragging.current) return;
-    if (scale > 1) {
-      setPos({
-        x: dragStart.current.px + (e.clientX - dragStart.current.x),
-        y: dragStart.current.py + (e.clientY - dragStart.current.y),
-      });
-    }
-  };
-  const handleMouseUp = (e: React.MouseEvent) => {
-    if (scale <= 1) {
-      const dx = e.clientX - dragStart.current.x;
-      if (Math.abs(dx) > 40) {
-        if (dx < 0) setIdx((i) => (i + 1) % images.length);
-        else setIdx((i) => (i - 1 + images.length) % images.length);
-      }
-    }
-    dragging.current = false;
-  };
-
-  /* Touch swipe */
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-  };
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    const dx = touchStart.current.x - e.changedTouches[0].clientX;
-    if (Math.abs(dx) > 50) {
-      if (dx > 0) setIdx((i) => (i + 1) % images.length);
-      else setIdx((i) => (i - 1 + images.length) % images.length);
-    }
-  };
-
-  return (
-    <div
-      className="fixed inset-0 z-[200] bg-black/96 flex flex-col"
-      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
-    >
-      {/* Top bar */}
-      <div className="flex items-center justify-between px-5 py-3 border-b border-white/10">
-        <div className="flex items-center gap-3">
-          <p className="text-white/50 font-body text-xs uppercase tracking-widest">
-            {idx + 1} / {images.length}
-          </p>
-          {images.length > 1 && (
-            <button
-              onClick={() => setAuto360((v) => !v)}
-              className={`text-[9px] uppercase tracking-widest px-2.5 py-1 font-body font-semibold border transition-all ${
-                auto360
-                  ? "bg-primary border-primary text-white"
-                  : "border-white/30 text-white/50 hover:border-primary hover:text-primary"
-              }`}
-            >
-              360°
-            </button>
-          )}
-        </div>
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => { setScale(1); setPos({ x: 0, y: 0 }); }}
-            className="text-white/40 hover:text-primary transition-colors"
-            title="Reset zoom"
-          >
-            <RotateCcw size={15} />
-          </button>
-          <span className="text-white/25 font-body text-[10px] tabular-nums">{Math.round(scale * 100)}%</span>
-          <button onClick={onClose} className="text-white/50 hover:text-white transition-colors">
-            <X size={20} />
-          </button>
-        </div>
-      </div>
-
-      {/* Image area */}
-      <div
-        className="flex-1 relative overflow-hidden flex items-center justify-center select-none"
-        onWheel={handleWheel}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={() => { dragging.current = false; }}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-        style={{ cursor: scale > 1 ? "grabbing" : "zoom-in" }}
-      >
-        <img
-          key={idx}
-          src={images[idx]}
-          alt=""
-          draggable={false}
-          className="max-h-full max-w-full object-contain"
-          style={{
-            transform: `scale(${scale}) translate(${pos.x / scale}px, ${pos.y / scale}px)`,
-            transition: scale === 1 && pos.x === 0 && pos.y === 0 ? "opacity 0.25s ease" : "transform 0.08s ease",
-          }}
-          onClick={() => {
-            if (!dragging.current) setScale((s) => (s >= 3 ? 1 : s + 1));
-          }}
-        />
-        {/* 360 spinning label */}
-        {auto360 && (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-primary text-[10px] uppercase tracking-widest font-body bg-black/60 px-3 py-1 border border-primary/40">
-            360° Auto · Click to stop
-          </div>
-        )}
-      </div>
-
-      {/* Controls hint */}
-      <p className="text-center text-white/20 text-[9px] font-body tracking-widest py-1.5 uppercase">
-        Scroll to zoom · Click to step · Drag to pan · Swipe to browse · 360° auto-cycle
-      </p>
-
-      {/* Thumbnail strip */}
-      {images.length > 1 && (
-        <div className="flex justify-center gap-2 pb-4 px-6 overflow-x-auto scrollbar-none">
-          {images.map((img, i) => (
-            <button
-              key={i}
-              onClick={() => setIdx(i)}
-              className="shrink-0 w-14 h-14 overflow-hidden border-2 transition-all"
-              style={{ borderColor: idx === i ? "hsl(270,80%,65%)" : "rgba(255,255,255,0.12)" }}
-            >
-              <img src={img} alt="" className="w-full h-full object-cover" />
-            </button>
-          ))}
-        </div>
-      )}
-
-      {/* Prev / Next arrows */}
-      {images.length > 1 && (
-        <>
-          <button
-            onClick={() => setIdx((i) => (i - 1 + images.length) % images.length)}
-            className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-primary text-white p-3 transition-all"
-          >
-            <ChevronLeft size={20} />
-          </button>
-          <button
-            onClick={() => setIdx((i) => (i + 1) % images.length)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-primary text-white p-3 transition-all"
-          >
-            <ChevronRight size={20} />
-          </button>
-        </>
-      )}
-    </div>
-  );
-}
 
 export function ProductDetail() {
   const { id } = useParams<{ id: string }>();
@@ -218,9 +18,9 @@ export function ProductDetail() {
   const [currentImage, setCurrentImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
-  const [zoomOpen, setZoomOpen] = useState(false);
   const [selectedSize, setSelectedSize] = useState<string>("M");
 
+  /* ── Data fetching (must come before zoom hooks that use images) ─ */
   const { data: product, isLoading } = useGetProduct(productId, {
     query: { enabled: !!productId, queryKey: [["product", productId]] }
   });
@@ -231,6 +31,72 @@ export function ProductDetail() {
   const images = (product?.images ?? []) as string[];
   const isShalwarKameez = product?.category === "shalwar-kameez";
   const originalPrice = product ? computeOriginalPrice(product.price) : null;
+
+  /* ── Inline zoom/pan/360 state ───────────────────────────── */
+  const [imgScale, setImgScale] = useState(1);
+  const [imgPos, setImgPos] = useState({ x: 0, y: 0 });
+  const [auto360, setAuto360] = useState(false);
+  const imgDragging = useRef(false);
+  const imgDragStart = useRef({ x: 0, y: 0, px: 0, py: 0 });
+  const imgTouchStart = useRef({ x: 0, y: 0 });
+  const auto360Timer = useRef<ReturnType<typeof setInterval> | null>(null);
+  const imgContainerRef = useRef<HTMLDivElement>(null);
+
+  /* 360° auto-cycle */
+  useEffect(() => {
+    if (auto360) {
+      auto360Timer.current = setInterval(() => {
+        setCurrentImage((i) => (i + 1) % Math.max(1, images.length));
+      }, 900);
+    } else {
+      if (auto360Timer.current) clearInterval(auto360Timer.current);
+    }
+    return () => { if (auto360Timer.current) clearInterval(auto360Timer.current); };
+  }, [auto360, images.length]);
+
+  /* Reset zoom when image changes */
+  useEffect(() => {
+    setImgScale(1);
+    setImgPos({ x: 0, y: 0 });
+  }, [currentImage]);
+
+  /* Non-passive wheel listener for zoom */
+  useEffect(() => {
+    const el = imgContainerRef.current;
+    if (!el) return;
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      setImgScale((s) => Math.max(1, Math.min(5, s - e.deltaY * 0.003)));
+    };
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel);
+  }, []);
+
+  const handleImgMouseDown = useCallback((e: React.MouseEvent) => {
+    imgDragging.current = true;
+    imgDragStart.current = { x: e.clientX, y: e.clientY, px: imgPos.x, py: imgPos.y };
+  }, [imgPos]);
+
+  const handleImgMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!imgDragging.current) return;
+    if (imgScale > 1) {
+      setImgPos({
+        x: imgDragStart.current.px + (e.clientX - imgDragStart.current.x),
+        y: imgDragStart.current.py + (e.clientY - imgDragStart.current.y),
+      });
+    }
+  }, [imgScale]);
+
+  const handleImgMouseUp = useCallback((e: React.MouseEvent) => {
+    if (imgScale <= 1) {
+      const dx = e.clientX - imgDragStart.current.x;
+      if (Math.abs(dx) > 40) {
+        if (dx < 0) setCurrentImage((i) => (i + 1) % images.length);
+        else setCurrentImage((i) => (i - 1 + images.length) % images.length);
+      }
+    }
+    imgDragging.current = false;
+  }, [imgScale, images.length]);
 
   const handleAddToCart = () => {
     if (!product) return;
@@ -268,9 +134,6 @@ export function ProductDetail() {
 
   return (
     <div className="min-h-screen bg-background">
-      {zoomOpen && (
-        <ZoomModal images={images} startIdx={currentImage} onClose={() => setZoomOpen(false)} />
-      )}
 
       {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-6 pt-8 pb-4">
@@ -286,32 +149,110 @@ export function ProductDetail() {
       <div className="max-w-7xl mx-auto px-6 pb-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
 
-          {/* ── Image Gallery ─────────────────────────────────────── */}
+          {/* ── Image Gallery — inline zoom/pan/360 ───────────────── */}
           <div className="space-y-4">
-            {/* Main image */}
+            {/* Main image — scroll to zoom, drag to pan, swipe to browse */}
             <div
-              className="relative bg-card overflow-hidden group cursor-zoom-in"
-              style={{ aspectRatio: "3/4" }}
-              onClick={() => setZoomOpen(true)}
+              ref={imgContainerRef}
+              className="relative bg-card overflow-hidden select-none"
+              style={{
+                aspectRatio: "3/4",
+                cursor: imgScale > 1 ? "grab" : "crosshair",
+                touchAction: "none",
+              }}
+              onMouseDown={handleImgMouseDown}
+              onMouseMove={handleImgMouseMove}
+              onMouseUp={handleImgMouseUp}
+              onMouseLeave={() => { imgDragging.current = false; }}
+              onTouchStart={(e) => {
+                imgTouchStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+              }}
+              onTouchEnd={(e) => {
+                const dx = imgTouchStart.current.x - e.changedTouches[0].clientX;
+                if (Math.abs(dx) > 50) {
+                  if (dx > 0) setCurrentImage((i) => (i + 1) % images.length);
+                  else setCurrentImage((i) => (i - 1 + images.length) % images.length);
+                }
+              }}
             >
               <img
                 src={images[currentImage]}
                 alt={product.name}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                draggable={false}
+                className="w-full h-full object-cover"
+                style={{
+                  transform: `scale(${imgScale}) translate(${imgPos.x / imgScale}px, ${imgPos.y / imgScale}px)`,
+                  transition: imgDragging.current ? "none" : "transform 0.12s ease",
+                }}
+                onClick={() => {
+                  if (Math.abs((imgDragStart.current.x || 0) - 0) < 5)
+                    setImgScale((s) => (s >= 4 ? 1 : parseFloat((s + 1).toFixed(1))));
+                }}
               />
-              {/* Zoom hint overlay */}
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
-                <div className="bg-black/60 text-white px-4 py-2 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-xs font-body uppercase tracking-widest">
-                  <ZoomIn size={14} /> Click to zoom
-                </div>
-              </div>
+
               {/* Sale badge */}
-              <div className="absolute top-3 right-3 bg-red-600 text-white text-[9px] uppercase tracking-widest px-3 py-1 font-body font-semibold">
+              <div className="absolute top-3 right-3 bg-red-600 text-white text-[9px] uppercase tracking-widest px-3 py-1 font-body font-semibold z-10">
                 Sale
               </div>
+
+              {/* Zoom level indicator */}
+              {imgScale > 1 && (
+                <div className="absolute top-3 left-3 bg-black/70 text-white text-[9px] px-2.5 py-1 font-body tracking-widest z-10">
+                  {Math.round(imgScale * 100)}%
+                </div>
+              )}
+
+              {/* Bottom control bar */}
+              <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between px-3 py-2.5 bg-gradient-to-t from-black/70 to-transparent z-10">
+                <div className="flex gap-1.5">
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setImgScale((s) => Math.min(5, s + 1)); }}
+                    className="bg-black/70 hover:bg-primary text-white text-[9px] w-7 h-7 flex items-center justify-center font-body font-bold transition-all"
+                  >+</button>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setImgScale(1); setImgPos({ x: 0, y: 0 }); }}
+                    className="bg-black/70 hover:bg-primary text-white text-[9px] px-2 h-7 font-body uppercase tracking-widest transition-all"
+                  >Reset</button>
+                </div>
+                {images.length > 1 && (
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setAuto360((v) => !v); }}
+                    className={`text-[9px] px-2.5 h-7 font-body uppercase tracking-widest border transition-all ${
+                      auto360
+                        ? "bg-primary border-primary text-white"
+                        : "bg-black/70 border-white/30 text-white hover:bg-primary hover:border-primary"
+                    }`}
+                  >
+                    {auto360 ? "360° ·Stop" : "360°"}
+                  </button>
+                )}
+              </div>
+
+              {/* Prev / Next arrows */}
+              {images.length > 1 && (
+                <>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setCurrentImage((i) => (i - 1 + images.length) % images.length); }}
+                    className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-primary text-white p-2 transition-all z-10"
+                  >
+                    <ChevronLeft size={16} />
+                  </button>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setCurrentImage((i) => (i + 1) % images.length) ; }}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-primary text-white p-2 transition-all z-10"
+                  >
+                    <ChevronRight size={16} />
+                  </button>
+                </>
+              )}
             </div>
 
-            {/* Thumbnail strip — view all angles */}
+            {/* Controls hint */}
+            <p className="text-[9px] uppercase tracking-widest font-body text-muted-foreground/60 text-center">
+              Scroll to zoom · Drag to pan · Swipe to browse
+            </p>
+
+            {/* Thumbnail strip */}
             {images.length > 1 && (
               <div className="flex gap-3">
                 {images.map((img, i) => (
@@ -332,15 +273,6 @@ export function ProductDetail() {
                     )}
                   </button>
                 ))}
-                {/* Click-to-zoom hint under thumbnails */}
-                <button
-                  onClick={() => setZoomOpen(true)}
-                  className="w-[88px] h-[108px] border-2 border-dashed flex flex-col items-center justify-center gap-1 text-muted-foreground hover:text-primary hover:border-primary transition-all"
-                  style={{ borderColor: "hsl(220,15%,18%)" }}
-                >
-                  <ZoomIn size={18} />
-                  <span className="text-[9px] uppercase tracking-widest font-body">360°</span>
-                </button>
               </div>
             )}
           </div>

@@ -313,10 +313,6 @@ function VideoHero({ onExit }: { onExit: () => void }) {
         </span>
       </div>
 
-      {/* Video counter */}
-      <div className="absolute top-6 right-20 z-20 font-body text-xs text-white/25 tracking-widest">
-        {String(videoIdx + 1).padStart(2, "0")} / {String(VIDEOS.length).padStart(2, "0")}
-      </div>
     </div>
   );
 }
@@ -545,11 +541,16 @@ function NurehGardeniaSection() {
 
 /* ─── Zeenat Solid Pret section ──────────────────────────── */
 const ZEENET_ITEMS = [
-  { img: "/product-images/embroidery-pret/zamira.jpg", name: "Vol-1 Design 1", id: 17 },
-  { img: "/product-images/embroidery-pret/nayel.jpg", name: "Vol-1 Design 2", id: 18 },
-  { img: "/product-images/embroidery-pret/alaya.jpg", name: "Vol-1 Design 3", id: 19 },
-  { img: "/product-images/embroidery-pret/zaraya.jpg", name: "Vol-1 Design 4", id: 20 },
-  { img: "/product-images/embroidery-pret/elia.jpg", name: "Vol-1 Design 5", id: 21 },
+  { code: "ZPSP-01", img: "/product-images/zeenat/zpsp-01.png", name: "Solid Pret ZPSP-01", price: 45, id: 17 },
+  { code: "ZPSP-02", img: "/product-images/zeenat/zpsp-02.png", name: "Solid Pret ZPSP-02", price: 45, id: 18 },
+  { code: "ZPSP-03", img: "/product-images/zeenat/zpsp-03.png", name: "Solid Pret ZPSP-03", price: 45, id: 19 },
+  { code: "ZPSP-04", img: "/product-images/zeenat/zpsp-04.png", name: "Solid Pret ZPSP-04", price: 45, id: 20 },
+  { code: "ZPSP-05", img: "/product-images/zeenat/zpsp-05.png", name: "Solid Pret ZPSP-05", price: 45, id: 21 },
+  { code: "ZPSP-06", img: "/product-images/zeenat/zpsp-06.png", name: "Solid Pret ZPSP-06", price: 45, id: 31 },
+  { code: "ZPSP-07", img: "/product-images/zeenat/zpsp-07.png", name: "Solid Pret ZPSP-07", price: 45, id: 32 },
+  { code: "ZPSP-08", img: "/product-images/zeenat/zpsp-08.png", name: "Solid Pret ZPSP-08", price: 45, id: 33 },
+  { code: "ZPSP-09", img: "/product-images/zeenat/zpsp-09.png", name: "Solid Pret ZPSP-09", price: 45, id: 34 },
+  { code: "ZPSP-10", img: "/product-images/zeenat/zpsp-10.png", name: "Solid Pret ZPSP-10", price: 45, id: 35 },
 ];
 
 function ZeenatSection() {
@@ -559,41 +560,42 @@ function ZeenatSection() {
       style={{ background: "linear-gradient(180deg, hsl(265,28%,7%) 0%, hsl(265,25%,9%) 100%)" }}
     >
       <div className="max-w-7xl mx-auto">
+        {/* Portrait model video */}
+        <RevealSection className="mb-16 flex justify-center">
+          <div className="relative overflow-hidden" style={{ width: 340, aspectRatio: "9/16", maxHeight: "75vh" }}>
+            <video autoPlay muted loop playsInline className="w-full h-full object-cover">
+              <source src="/videos/model-zeenat.mp4" type="video/mp4" />
+            </video>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+            <div className="absolute bottom-6 left-6 right-6">
+              <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-body mb-1">Zeenat</p>
+              <p className="font-serif text-2xl text-white leading-tight">Solid Pret Vol-1</p>
+              <p className="font-body text-xs text-white/70 mt-1">Embroidered Lawn · Fancy Chiffon Dupatta</p>
+            </div>
+          </div>
+        </RevealSection>
+
         <CatalogHeading
           eyebrow="Zeenat · Summer 2026 New Arrival"
-          title="Zeenat Solid Pret"
+          title="Solid Pret"
           italic="Vol-1"
-          desc="ZEENAT SOLID PRET STITCHED COTTON LAWN VOL-1 — Embroidered lawn with printed embroidered fancy chiffon dupatta. 9 designs · Sizes S, M, L · 27 pcs in a set · £45 per suit · Booking open now!"
+          desc="ZEENAT SOLID PRET STITCHED COTTON LAWN VOL-1 — Embroidered lawn with printed embroidered fancy chiffon dupatta. 10 designs · Sizes S, M, L · Ready to wear · UK delivery included."
         />
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 mb-14">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 mb-14">
           {ZEENET_ITEMS.map((item, i) => (
-            <RevealSection key={item.name} delay={i * 60}>
-              <Link href={`/product/${item.id}`}>
-                <div className="group cursor-pointer">
-                  <div className="relative overflow-hidden bg-card aspect-[3/4] mb-3">
-                    <img
-                      src={item.img}
-                      alt={item.name}
-                      loading="lazy"
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <span className="text-white text-[9px] uppercase tracking-[0.2em] font-body border border-white/60 px-4 py-2">
-                        View
-                      </span>
-                    </div>
-                  </div>
-                  <p className="font-serif text-base text-foreground group-hover:text-primary transition-colors mb-1">
-                    Zeenat {item.name}
-                  </p>
-                  <div className="flex items-baseline gap-2">
-                    <p className="text-sm font-body text-primary font-medium">£45</p>
-                    <p className="text-xs font-body text-red-400 line-through">£60</p>
-                  </div>
-                </div>
-              </Link>
-            </RevealSection>
+            <CatalogCard
+              key={item.code}
+              code={item.code}
+              name={item.name}
+              price={item.price}
+              originalPrice={60}
+              showSale={true}
+              suitNumber={item.code.replace("ZPSP-", "")}
+              img={item.img}
+              href={`/product/${item.id}`}
+              delay={i * 50}
+            />
           ))}
         </div>
 
