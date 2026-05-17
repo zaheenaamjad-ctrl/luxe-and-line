@@ -18,7 +18,8 @@ export function ProductDetail() {
   const [currentImage, setCurrentImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
-  const [selectedSize, setSelectedSize] = useState<string>("M");
+  const [selectedSize, setSelectedSize] = useState<string>("");
+  const [customJeansSize, setCustomJeansSize] = useState<string>("");
 
   /* ── Data fetching (must come before zoom hooks that use images) ─ */
   const { data: product, isLoading } = useGetProduct(productId, {
@@ -30,6 +31,7 @@ export function ProductDetail() {
 
   const images = (product?.images ?? []) as string[];
   const isShalwarKameez = product?.category === "shalwar-kameez";
+  const isJeans = product?.category === "jeans";
   const originalPrice = product ? computeOriginalPrice(product.price) : null;
 
   /* ── Inline zoom/pan/360 state ───────────────────────────── */
@@ -200,11 +202,6 @@ export function ProductDetail() {
                 }}
               />
 
-              {/* Sale badge */}
-              <div className="absolute top-3 right-3 bg-red-600 text-white text-[9px] uppercase tracking-widest px-3 py-1 font-body font-semibold z-10">
-                Sale
-              </div>
-
               {/* Zoom level indicator */}
               {imgScale > 1 && (
                 <div className="absolute top-3 left-3 bg-black/70 text-white text-[9px] px-2.5 py-1 font-body tracking-widest z-10">
@@ -303,23 +300,12 @@ export function ProductDetail() {
               {product.name}
             </h1>
 
-            {/* Price — Shopify style big white */}
+            {/* Price */}
             <div className="mb-5">
-              {originalPrice && (
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="bg-red-600 text-white text-[9px] uppercase tracking-widest px-2 py-0.5 font-body font-bold">SALE</span>
-                  <span className="text-red-400 text-xs font-body">Save £{originalPrice - product.price} ({Math.round((1 - product.price / originalPrice) * 100)}% off)</span>
-                </div>
-              )}
               <div className="flex items-baseline gap-4">
                 <span className="font-serif text-5xl text-white font-medium leading-none price-glow">
                   £{product.price}
                 </span>
-                {originalPrice && (
-                  <span className="font-body text-2xl text-red-500 line-through font-medium">
-                    £{originalPrice}
-                  </span>
-                )}
               </div>
               {product.deliveryIncluded && (
                 <p className="text-xs font-body text-muted-foreground flex items-center gap-1 mt-1.5">
@@ -338,15 +324,15 @@ export function ProductDetail() {
               }}
             />
 
-            {/* Size selector — S / M / L for shalwar kameez */}
+            {/* Size selector — S / M / L / XL / XXL for shalwar kameez */}
             {isShalwarKameez && (
               <div className="mb-6">
                 <div className="flex items-center justify-between mb-3">
                   <p className="text-xs uppercase tracking-widest font-body text-muted-foreground">Size</p>
-                  <span className="text-primary text-xs font-body font-medium">{selectedSize} selected</span>
+                  {selectedSize && <span className="text-primary text-xs font-body font-medium">{selectedSize} selected</span>}
                 </div>
-                <div className="flex gap-3">
-                  {["S", "M", "L"].map((size) => (
+                <div className="flex flex-wrap gap-2">
+                  {["XS", "S", "M", "L", "XL", "XXL"].map((size) => (
                     <button
                       key={size}
                       onClick={() => setSelectedSize(size)}
@@ -369,6 +355,47 @@ export function ProductDetail() {
                 </div>
                 <p className="text-muted-foreground text-[10px] font-body mt-2">
                   Unstitched fabric — we recommend ordering your usual size. Local stitching available.
+                </p>
+              </div>
+            )}
+
+            {/* Size selector for jeans — waist × length */}
+            {isJeans && (
+              <div className="mb-6">
+                <div className="flex items-center justify-between mb-3">
+                  <p className="text-xs uppercase tracking-widest font-body text-muted-foreground">Waist × Length <span className="text-muted-foreground/60">(inches)</span></p>
+                  {selectedSize && <span className="text-primary text-xs font-body font-medium">{selectedSize}</span>}
+                </div>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {["27×30", "28×31", "29×31", "30×30", "32×29", "32×30", "34×30", "34×31"].map((size) => (
+                    <button
+                      key={size}
+                      onClick={() => { setSelectedSize(size); setCustomJeansSize(""); }}
+                      className="font-body text-xs font-medium transition-all duration-200 px-3 py-2.5"
+                      style={{
+                        border: selectedSize === size && !customJeansSize
+                          ? "2px solid hsl(270,80%,65%)"
+                          : "1px solid hsl(265,18%,22%)",
+                        background: selectedSize === size && !customJeansSize
+                          ? "hsl(270,80%,65%)"
+                          : "transparent",
+                        color: selectedSize === size && !customJeansSize ? "#fff" : "hsl(280,20%,75%)",
+                      }}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+                <p className="text-[10px] uppercase tracking-widest font-body text-muted-foreground mb-2">Or enter a custom size</p>
+                <input
+                  type="text"
+                  value={customJeansSize}
+                  onChange={(e) => { setCustomJeansSize(e.target.value); setSelectedSize(e.target.value); }}
+                  placeholder="e.g. 31×32 or describe your measurements"
+                  className="w-full bg-background border border-border/50 focus:border-primary px-3 py-2.5 text-sm font-body text-foreground placeholder:text-muted-foreground/40 focus:outline-none transition-colors"
+                />
+                <p className="text-muted-foreground text-[10px] font-body mt-2">
+                  Waist × Length in inches. Not sure? WhatsApp us on +44 7449 507661 and we'll help.
                 </p>
               </div>
             )}

@@ -78,12 +78,6 @@ function ProductCard({ product, delay = 0 }: {
               />
             )}
 
-            {/* SALE badge */}
-            {product.featured && (
-              <div className="absolute top-3 left-3 z-10 bg-red-600 text-white text-[9px] uppercase tracking-widest px-3 py-1.5 font-body font-semibold shadow-lg">
-                Sale
-              </div>
-            )}
 
             {/* Hover overlay */}
             <div
@@ -104,7 +98,7 @@ function ProductCard({ product, delay = 0 }: {
               {product.name}
             </h3>
             <div className="flex items-baseline gap-2">
-              <p className="font-serif text-lg font-semibold" style={{ color: GOLD }}>
+              <p className="font-serif text-xl font-bold text-white">
                 £{product.price}
               </p>
               {product.deliveryIncluded && (

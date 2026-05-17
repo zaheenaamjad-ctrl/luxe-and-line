@@ -13,7 +13,7 @@ export function Footer() {
               { icon: Truck, label: "UK Delivery Included", sub: "All prices include delivery" },
               { icon: Shield, label: "Authentic Products", sub: "Direct from Pakistan" },
               { icon: Clock, label: "4–5 Day Delivery", sub: "After payment confirmation" },
-              { icon: Mail, label: "hello@luxeandline.co.uk", sub: "We reply within 24hrs" },
+              { icon: Mail, label: "luxeline26@gmail.com", sub: "We reply within 24hrs" },
             ].map(({ icon: Icon, label, sub }) => (
               <div key={label} className="flex flex-col items-center gap-1.5 py-2">
                 <Icon size={16} className="text-primary mb-1" />
@@ -45,11 +45,11 @@ export function Footer() {
               </div>
               <div className="flex items-center gap-2">
                 <Phone size={12} className="text-primary shrink-0" />
-                <a href="tel:+447405358689" className="hover:text-primary transition-colors">+44 7405 358689</a>
+                <a href="tel:+447449507661" className="hover:text-primary transition-colors">+44 7449 507661</a>
               </div>
               <div className="flex items-center gap-2">
                 <Mail size={12} className="text-primary shrink-0" />
-                <a href="mailto:hello@luxeandline.co.uk" className="hover:text-primary transition-colors">hello@luxeandline.co.uk</a>
+                <a href="mailto:luxeline26@gmail.com" className="hover:text-primary transition-colors">luxeline26@gmail.com</a>
               </div>
             </div>
           </div>

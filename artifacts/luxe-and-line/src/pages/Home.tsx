@@ -683,12 +683,12 @@ function CharizmaSection() {
 
 /* ─── Jeans section ──────────────────────────────────────── */
 const JEANS_ITEMS = [
-  { code: "J-01", img: "/product-images/jeans/j-women-lightblue.png", name: "Women's Wide Leg — Light Blue", price: 38, id: 4 },
-  { code: "J-02", img: "/product-images/jeans/j-men-lightblue.png",   name: "Men's Straight Cut — Light Blue", price: 38, id: 5 },
-  { code: "J-03", img: "/product-images/jeans/j-women-dark.png",      name: "Women's Wide Leg — Charcoal",    price: 38, id: 4 },
-  { code: "J-04", img: "/product-images/jeans/j-men-dark.png",        name: "Men's Straight Cut — Charcoal",  price: 38, id: 5 },
-  { code: "J-05", img: "/product-images/jeans/j-women-blue.png",      name: "Women's Wide Leg — Mid Blue",    price: 38, id: 4 },
-  { code: "J-06", img: "/product-images/jeans/j-men-blue.png",        name: "Men's Straight Cut — Mid Blue",  price: 38, id: 5 },
+  { code: "J-01", img: "/product-images/jeans/j-women-lightblue.png", name: "Women's Wide Leg — Light Blue",   desc: "Wide-leg silhouette in washed light blue denim. High-waisted comfort fit with a clean finish.", price: 38, id: 4 },
+  { code: "J-02", img: "/product-images/jeans/j-men-lightblue.png",   name: "Men's Straight Cut — Light Blue", desc: "Classic straight-leg cut in light blue wash. Relaxed waist, tapered ankle. Everyday essential.", price: 38, id: 5 },
+  { code: "J-03", img: "/product-images/jeans/j-women-dark.png",      name: "Women's Wide Leg — Charcoal",     desc: "Wide-leg cut in deep charcoal wash. Versatile styling for formal and casual occasions.", price: 38, id: 4 },
+  { code: "J-04", img: "/product-images/jeans/j-men-dark.png",        name: "Men's Straight Cut — Charcoal",   desc: "Straight-leg charcoal denim. Sharp, minimal, and hardwearing for daily wear.", price: 38, id: 5 },
+  { code: "J-05", img: "/product-images/jeans/j-women-blue.png",      name: "Women's Wide Leg — Mid Blue",     desc: "Wide-leg silhouette in mid-blue wash. Clean lines for a polished, effortless look.", price: 38, id: 4 },
+  { code: "J-06", img: "/product-images/jeans/j-men-blue.png",        name: "Men's Straight Cut — Mid Blue",   desc: "Mid-blue straight-leg cut. Timeless colour and classic proportions. Sizes available on order.", price: 38, id: 5 },
 ];
 
 function JeansSection() {
@@ -702,7 +702,7 @@ function JeansSection() {
           eyebrow="Premium Denim · Men & Women"
           title="Premium Jeans"
           italic="Collection"
-          desc="Slim fit and wide-leg silhouettes for men and women. Light blue, mid blue and charcoal washes. Crafted for the modern wardrobe. Sizes 28–36. UK delivery included."
+          desc="Wide-leg and straight-cut silhouettes for men and women. Available in light blue, mid blue and charcoal washes. Custom waist × length sizing available — just let us know your measurements. UK delivery included."
         />
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-14">
           {JEANS_ITEMS.map((item, i) => (
@@ -719,7 +719,8 @@ function JeansSection() {
                       <p className="text-white text-[10px] font-body uppercase tracking-widest truncate">{item.code}</p>
                     </div>
                   </div>
-                  <p className="font-body text-xs text-foreground/80 group-hover:text-primary transition-colors truncate">{item.name}</p>
+                  <p className="font-body text-xs text-foreground/80 group-hover:text-primary transition-colors leading-snug mb-0.5">{item.name}</p>
+                  <p className="font-body text-[10px] text-muted-foreground leading-snug mb-1 line-clamp-2">{item.desc}</p>
                   <p className="text-xs font-body text-primary font-medium mt-0.5 price-glow">£{item.price}</p>
                 </div>
               </Link>
@@ -838,15 +839,15 @@ function BrandBanner() {
             Our Promise
           </p>
           <h2 className="font-serif text-4xl md:text-6xl text-foreground mb-6 leading-tight">
-            Lahore&apos;s Finest,
+            Pakistan&apos;s Finest,
             <br />
-            <em className="text-primary">Delivered to Liverpool</em>
+            <em className="text-primary">Delivered Across the UK</em>
           </h2>
           <p className="font-body text-sm text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-10">
             Every piece we curate is hand-selected from Pakistan&apos;s most celebrated fashion
             houses. All prices include free UK delivery. WhatsApp us on{" "}
-            <a href="tel:+447405358689" className="text-primary hover:underline">
-              +44 7405 358689
+            <a href="tel:+447449507661" className="text-primary hover:underline">
+              +44 7449 507661
             </a>{" "}
             for custom orders.
           </p>
@@ -890,12 +891,12 @@ function ContactStrip() {
           Questions? We&apos;re here for you.
         </h2>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-5 text-sm font-body text-muted-foreground mb-8">
-          <a href="tel:+447405358689" className="hover:text-primary transition-colors">
-            +44 7405 358689
+          <a href="tel:+447449507661" className="hover:text-primary transition-colors">
+            +44 7449 507661
           </a>
           <span className="hidden sm:block text-border">·</span>
-          <a href="mailto:hello@luxeandline.co.uk" className="hover:text-primary transition-colors">
-            hello@luxeandline.co.uk
+          <a href="mailto:luxeline26@gmail.com" className="hover:text-primary transition-colors">
+            luxeline26@gmail.com
           </a>
           <span className="hidden sm:block text-border">·</span>
           <span>39 Stanley Street, Liverpool L7 0JN</span>

@@ -81,8 +81,8 @@ export function Contact() {
 
             <div className="space-y-6">
               {[
-                { icon: Phone, label: "WhatsApp / Phone", value: "+44 7405 358689", href: "tel:+447405358689" },
-                { icon: Mail, label: "Email", value: "hello@luxeandline.co.uk", href: "mailto:hello@luxeandline.co.uk" },
+                { icon: Phone, label: "WhatsApp / Phone", value: "+44 7449 507661", href: "tel:+447449507661" },
+                { icon: Mail, label: "Email", value: "luxeline26@gmail.com", href: "mailto:luxeline26@gmail.com" },
                 { icon: MapPin, label: "Address", value: "39 Stanley Street, L7 0JN\nFairfield, Liverpool\nMerseyside, UK" },
                 { icon: Clock, label: "Hours", value: "Mon – Sat: 9am – 8pm\nSunday: 12pm – 6pm" },
               ].map(({ icon: Icon, label, value, href }) => (

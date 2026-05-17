@@ -200,10 +200,10 @@ export function About() {
                 <MapPin size={12} className="text-primary shrink-0" /> 39 Stanley Street, L7 0JN, Liverpool, UK
               </div>
               <div className="flex items-center justify-center gap-2 text-muted-foreground">
-                <Phone size={12} className="text-primary shrink-0" /> +44 7405 358689
+                <Phone size={12} className="text-primary shrink-0" /> +44 7449 507661
               </div>
               <div className="flex items-center justify-center gap-2 text-muted-foreground">
-                <Mail size={12} className="text-primary shrink-0" /> hello@luxeandline.co.uk
+                <Mail size={12} className="text-primary shrink-0" /> luxeline26@gmail.com
               </div>
             </div>
           </div>

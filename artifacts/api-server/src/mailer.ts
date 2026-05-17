@@ -105,8 +105,8 @@ export async function sendOrderConfirmationEmail(data: OrderEmailData): Promise<
             <p style="color:#9080b0;font-size:12px;line-height:1.7;margin:0 0 8px;">
               For any queries, please contact us:
             </p>
-            <p style="color:#c8b8e8;font-size:13px;margin:0 0 4px;">📞 +44 7405 358689</p>
-            <p style="color:#c8b8e8;font-size:13px;margin:0 0 4px;">✉️ hello@luxeandline.co.uk</p>
+            <p style="color:#c8b8e8;font-size:13px;margin:0 0 4px;">📞 +44 7449 507661</p>
+            <p style="color:#c8b8e8;font-size:13px;margin:0 0 4px;">✉️ luxeline26@gmail.com</p>
             <p style="color:#c8b8e8;font-size:13px;">📍 39 Stanley Street, L7 0JN, Liverpool, UK</p>
           </td>
         </tr>
