@@ -104,7 +104,7 @@ export function ProductDetail() {
   const handleAddToCart = () => {
     if (!product) return;
     addToCart.mutate(
-      { data: { productId: product.id, quantity } },
+      { data: { productId: product.id, quantity, size: selectedSize || null } },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: getGetCartQueryKey() });

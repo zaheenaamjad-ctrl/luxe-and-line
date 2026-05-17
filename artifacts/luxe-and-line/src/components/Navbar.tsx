@@ -39,101 +39,125 @@ export function Navbar() {
   const toggleMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
   return (
-    <nav className="fixed w-full z-50 top-0 bg-background/80 backdrop-blur-md border-b border-border/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
-          {/* Logo */}
-          <div className="flex items-center">
-            <Link href="/" className="flex items-center">
-              <img src="/logo-transparent.png" alt="Luxe & Line" className="h-12 w-12 object-contain" />
-            </Link>
-          </div>
+    <nav className="fixed w-full z-50 top-0" style={{ background: "hsl(265,30%,5%)" }}>
+      {/* Announcement bar */}
+      <div
+        className="border-b text-center py-1.5 px-4"
+        style={{ background: "hsl(265,28%,8%)", borderColor: "hsl(270,50%,40%,0.2)" }}
+      >
+        <p className="text-[10px] font-body text-muted-foreground tracking-widest uppercase flex items-center justify-center gap-3 flex-wrap">
+          <span>🇬🇧 Free UK Delivery on All Orders</span>
+          <span className="text-border/40">·</span>
+          <Link href="/terms" className="hover:text-primary transition-colors text-muted-foreground/70">
+            Terms & Conditions
+          </Link>
+          <span className="text-border/40">·</span>
+          <Link href="/policy" className="hover:text-primary transition-colors text-muted-foreground/70">
+            Privacy Policy
+          </Link>
+          <span className="text-border/40">·</span>
+          <Link href="/reviews" className="hover:text-primary transition-colors text-muted-foreground/70">
+            Reviews
+          </Link>
+        </p>
+      </div>
 
-          {/* Desktop nav links */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`text-sm uppercase tracking-wider transition-colors hover:text-primary ${location === link.href ? "text-primary" : "text-foreground"}`}
-              >
-                {link.label}
+      {/* Main navbar */}
+      <div className="border-b border-border/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo */}
+            <div className="flex items-center">
+              <Link href="/" className="flex items-center">
+                <img src="/logo-transparent.png" alt="Luxe & Line" className="h-10 w-10 object-contain" />
               </Link>
-            ))}
-          </div>
+            </div>
 
-          {/* Right icons */}
-          <div className="flex items-center space-x-4">
-            {/* Auth buttons */}
-            {user ? (
-              <div className="relative hidden md:block">
-                <button
-                  onClick={() => setShowUserMenu((v) => !v)}
-                  className="flex items-center gap-2 text-xs font-body uppercase tracking-wider text-foreground hover:text-primary transition-colors"
+            {/* Desktop nav links */}
+            <div className="hidden md:flex items-center space-x-8">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`text-sm uppercase tracking-wider transition-colors hover:text-primary ${location === link.href ? "text-primary" : "text-foreground"}`}
                 >
-                  <User size={16} />
-                  <span className="max-w-[80px] truncate">{user.name.split(" ")[0]}</span>
-                </button>
-                {showUserMenu && (
-                  <div className="absolute right-0 top-8 w-44 bg-card border border-border shadow-xl z-50 py-2">
-                    <div className="px-4 py-2 border-b border-border/50">
-                      <p className="text-xs font-body text-foreground truncate">{user.email}</p>
-                    </div>
-                    <button
-                      onClick={() => { logout(); setShowUserMenu(false); }}
-                      className="w-full text-left px-4 py-2 text-xs font-body text-muted-foreground hover:text-primary transition-colors"
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+
+            {/* Right icons */}
+            <div className="flex items-center space-x-4">
+              {/* Auth buttons */}
+              {user ? (
+                <div className="relative hidden md:block">
+                  <button
+                    onClick={() => setShowUserMenu(!showUserMenu)}
+                    className="flex items-center gap-2 text-xs font-body uppercase tracking-wider text-foreground hover:text-primary transition-colors"
+                  >
+                    <User size={15} />
+                    <span>{user.name.split(" ")[0]}</span>
+                  </button>
+                  {showUserMenu && (
+                    <div
+                      className="absolute right-0 top-8 bg-card border border-border py-2 w-36 z-50"
+                      onMouseLeave={() => setShowUserMenu(false)}
                     >
-                      Sign Out
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="hidden md:flex items-center gap-3">
-                <Link
-                  href="/login"
-                  className="flex items-center gap-1.5 text-xs font-body uppercase tracking-wider text-muted-foreground hover:text-primary transition-colors"
-                >
-                  <LogIn size={13} />
-                  Login
-                </Link>
-                <span className="text-border/60 text-xs">|</span>
-                <Link
-                  href="/register"
-                  className="flex items-center gap-1.5 text-xs font-body uppercase tracking-wider px-3 py-1.5 border border-primary/50 text-primary hover:bg-primary/10 transition-colors"
-                >
-                  <UserPlus size={13} />
-                  Register
-                </Link>
-              </div>
-            )}
+                      <button
+                        onClick={() => { logout(); setShowUserMenu(false); }}
+                        className="w-full text-left px-4 py-2 text-xs font-body text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors uppercase tracking-wider"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="hidden md:flex items-center gap-3">
+                  <Link
+                    href="/login"
+                    className="flex items-center gap-1.5 text-xs font-body uppercase tracking-wider text-foreground hover:text-primary transition-colors"
+                  >
+                    <LogIn size={14} />
+                    Login
+                  </Link>
+                  <Link
+                    href="/register"
+                    className="flex items-center gap-1.5 text-xs font-body uppercase tracking-wider text-primary border border-primary/60 px-3 py-1.5 hover:bg-primary/10 transition-colors"
+                  >
+                    <UserPlus size={14} />
+                    Register
+                  </Link>
+                </div>
+              )}
 
-            {/* Admin icon */}
-            <Link href="/admin" className="text-muted-foreground/50 hover:text-primary transition-colors hidden md:block">
-              <User size={16} />
-            </Link>
+              {/* Admin icon */}
+              <Link href="/admin" className="text-muted-foreground/50 hover:text-primary transition-colors hidden md:block">
+                <User size={16} />
+              </Link>
 
-            {/* Cart */}
-            <Link href="/cart" className="text-foreground hover:text-primary transition-colors relative">
-              <ShoppingBag size={20} />
-              {cart?.itemCount ? (
-                <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
-                  {cart.itemCount}
-                </span>
-              ) : null}
-            </Link>
+              {/* Cart */}
+              <Link href="/cart" className="text-foreground hover:text-primary transition-colors relative">
+                <ShoppingBag size={20} />
+                {cart?.itemCount ? (
+                  <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
+                    {cart.itemCount}
+                  </span>
+                ) : null}
+              </Link>
 
-            <button className="md:hidden text-foreground hover:text-primary" onClick={toggleMenu}>
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+              <button className="md:hidden text-foreground hover:text-primary" onClick={toggleMenu}>
+                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-background border-b border-border">
-          <div className="px-4 pt-2 pb-4 space-y-1">
+        <div className="md:hidden border-b border-border" style={{ background: "hsl(265,30%,6%)" }}>
+          <div className="px-4 pt-2 pb-4 space-y-0.5">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -144,7 +168,33 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <div className="border-t border-border/30 mt-2 pt-2 flex gap-3 px-3">
+
+            {/* Legal links in mobile menu */}
+            <div className="border-t border-border/20 mt-2 pt-2 space-y-0.5">
+              <Link
+                href="/terms"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={`block px-3 py-2 text-xs font-body uppercase tracking-wider ${location === "/terms" ? "text-primary" : "text-muted-foreground hover:text-primary"} transition-colors`}
+              >
+                Terms & Conditions
+              </Link>
+              <Link
+                href="/policy"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={`block px-3 py-2 text-xs font-body uppercase tracking-wider ${location === "/policy" ? "text-primary" : "text-muted-foreground hover:text-primary"} transition-colors`}
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                href="/reviews"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={`block px-3 py-2 text-xs font-body uppercase tracking-wider ${location === "/reviews" ? "text-primary" : "text-muted-foreground hover:text-primary"} transition-colors`}
+              >
+                Reviews & FAQ
+              </Link>
+            </div>
+
+            <div className="border-t border-border/20 mt-2 pt-2 flex gap-3 px-3">
               {user ? (
                 <button
                   onClick={() => { logout(); setIsMobileMenuOpen(false); }}

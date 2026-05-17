@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Layout } from "@/components/Layout";
+import { Chatbot } from "@/components/Chatbot";
 
 import NotFound from "@/pages/not-found";
 import { Home } from "@/pages/Home";
@@ -18,6 +19,7 @@ import { Terms } from "@/pages/Terms";
 import { Admin } from "@/pages/Admin";
 import { Login } from "@/pages/Login";
 import { Register } from "@/pages/Register";
+import { Reviews } from "@/pages/Reviews";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -39,6 +41,7 @@ function Router() {
         <Route path="/contact" component={Contact} />
         <Route path="/policy" component={Policy} />
         <Route path="/terms" component={Terms} />
+        <Route path="/reviews" component={Reviews} />
         <Route path="/admin" component={Admin} />
         <Route path="/admin/dashboard" component={Admin} />
         <Route path="/login" component={Login} />
@@ -55,6 +58,7 @@ function App() {
       <TooltipProvider>
         <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
           <Router />
+          <Chatbot />
         </WouterRouter>
         <Toaster />
       </TooltipProvider>

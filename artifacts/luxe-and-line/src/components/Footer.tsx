@@ -81,6 +81,7 @@ export function Footer() {
               {[
                 { href: "/about", label: "About Us" },
                 { href: "/contact", label: "Contact" },
+                { href: "/reviews", label: "Reviews & FAQ" },
                 { href: "/shop", label: "Our Collection" },
               ].map((item) => (
                 <li key={item.href}>
