@@ -39,6 +39,61 @@ function GridAnimation() {
   return <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-0" />;
 }
 
+const sections = [
+  {
+    title: "1. Acceptance of Terms",
+    body: "By accessing the Luxe & Line website and/or placing an order, you agree to be bound by these Terms & Conditions in full. If you do not agree to these terms, please do not use our website or services. We reserve the right to update these terms at any time, with changes taking effect upon posting."
+  },
+  {
+    title: "2. About Us",
+    body: "Luxe & Line is a UK-based South Asian fashion and lifestyle boutique operating from Liverpool, Merseyside, United Kingdom. We curate and sell authentic Pakistani fashion garments, accessories, and artisan food products. Contact: hello@luxeandline.co.uk | +44 7405 358689 | 39 Stanley Street, L7 0JN, Liverpool, UK."
+  },
+  {
+    title: "3. Products & Pricing",
+    body: "All prices displayed on our website are in British Pounds Sterling (GBP) and include UK delivery unless explicitly stated otherwise. Product colours may vary slightly from on-screen representations due to monitor calibration differences. Product images are for illustrative purposes and the actual item may vary slightly. We reserve the right to correct pricing errors at any time, and will always notify you before processing payment."
+  },
+  {
+    title: "4. Order Placement & Confirmation",
+    body: "An order is confirmed only upon: (a) receipt of full payment for bank transfer orders; or (b) written acceptance by Luxe & Line for cash on delivery orders. You will receive an order confirmation via email. We reserve the right to cancel any order in cases of pricing errors, stock unavailability, suspected fraud, or incomplete delivery information. If we cancel your order, you will receive a full refund within 5–7 business days."
+  },
+  {
+    title: "5. Payment",
+    body: "We accept two payment methods: (a) Bank Transfer — bank details will be provided via email or WhatsApp upon order placement. Payment must be received within 48 hours; otherwise the order may be cancelled. (b) Cash on Delivery — available across the UK; subject to acceptance by Luxe & Line at our discretion. We do not store or process any card details."
+  },
+  {
+    title: "6. Delivery",
+    body: "We deliver within the United Kingdom only. Standard delivery takes 4–5 business days from the date of payment confirmation. During peak periods (e.g. Eid season), delivery may take up to 7 business days. Luxe & Line is not liable for delays caused by Royal Mail, courier services, or any circumstances beyond our control. Tracking information will be provided where available."
+  },
+  {
+    title: "7. Returns & Refunds",
+    body: "We want you to be completely satisfied with your purchase. Returns are accepted under the following conditions: (a) Items must be returned within 7 days of delivery; (b) Items must be in their original, unused, unwashed condition with all tags intact; (c) For hygiene reasons, stitched-to-order garments cannot be returned unless they are faulty or damaged on arrival. To initiate a return, contact us at hello@luxeandline.co.uk within 48 hours of receiving your order. Refunds will be processed within 5–7 business days."
+  },
+  {
+    title: "8. Food Products",
+    body: "Our Pistachio Kunafa Bites and any other food products are sold with full ingredient and allergen information provided on packaging. Luxe & Line is not responsible for adverse reactions to food products. Please review all allergen information carefully before purchasing. Food products are non-refundable once dispatched unless they arrive damaged or in an unsatisfactory condition."
+  },
+  {
+    title: "9. Customer Responsibilities",
+    body: "You are responsible for: (a) providing accurate delivery information at checkout; (b) ensuring someone is available to receive the delivery; (c) reviewing product descriptions and allergen information before purchase; (d) ensuring measurements provided for custom or stitched garments are accurate. Luxe & Line cannot be held responsible for errors arising from inaccurate information provided by the customer."
+  },
+  {
+    title: "10. Intellectual Property",
+    body: "All content on the Luxe & Line website — including but not limited to images, text, logos, designs, and product descriptions — is the intellectual property of Luxe & Line or its respective brand partners. Reproduction, distribution, or commercial use of any content without prior written consent from Luxe & Line is strictly prohibited."
+  },
+  {
+    title: "11. Limitation of Liability",
+    body: "Luxe & Line's liability is limited to the value of the goods purchased. We are not liable for any indirect, incidental, or consequential losses arising from the use of our products or services. We do not guarantee uninterrupted access to our website and accept no responsibility for website downtime or technical errors."
+  },
+  {
+    title: "12. Governing Law",
+    body: "These Terms & Conditions are governed by and construed in accordance with the laws of England and Wales. Any disputes arising from these terms or your use of our services shall be subject to the exclusive jurisdiction of the courts of England and Wales."
+  },
+  {
+    title: "13. Contact",
+    body: "For any queries regarding these terms, please contact us: Email: hello@luxeandline.co.uk | Phone: +44 7405 358689 | Address: 39 Stanley Street, L7 0JN, Liverpool, Merseyside, UK."
+  },
+];
+
 export function Terms() {
   return (
     <div className="relative min-h-screen bg-background">
@@ -52,48 +107,10 @@ export function Terms() {
         </div>
 
         <div className="bg-card/80 backdrop-blur-sm border border-border p-8 space-y-8 font-body text-sm text-muted-foreground leading-relaxed">
-          {[
-            {
-              title: "1. Acceptance of Terms",
-              body: "By using the Luxe & Line website and placing an order, you agree to these Terms & Conditions in full. If you do not agree, please refrain from using our services."
-            },
-            {
-              title: "2. Products & Pricing",
-              body: "All prices are shown in British Pounds (GBP) and include UK delivery unless otherwise stated. Product colours may vary slightly from screen representations. For stitched garments, measurements provided by the customer are the customer's responsibility."
-            },
-            {
-              title: "3. Order Confirmation",
-              body: "An order is confirmed only upon receipt of payment (for bank transfer orders) or acceptance by Luxe & Line (for cash on delivery orders). We reserve the right to cancel any order in cases of pricing errors, product unavailability, or suspected fraud."
-            },
-            {
-              title: "4. Payment",
-              body: "We accept bank transfer and cash on delivery (UK only). For bank transfers, payment must be received within 48 hours of placing your order, otherwise the order may be cancelled. We will provide bank details via email or WhatsApp upon order placement."
-            },
-            {
-              title: "5. Delivery",
-              body: "We deliver within the UK only. Delivery typically takes 3-7 business days from the date of payment confirmation. Luxe & Line is not liable for delays caused by postal services or customs. Tracking information will be provided where available."
-            },
-            {
-              title: "6. Returns & Refunds",
-              body: "For hygiene and custom-stitch reasons, we do not accept returns on stitched garments unless they arrive damaged or defective. Unstitched fabric returns are accepted within 7 days of delivery if unopened and in original condition. Contact us at hello@luxeandline.co.uk within 48 hours of delivery to initiate a return."
-            },
-            {
-              title: "7. Food Products",
-              body: "Our Pistachio Kunafa Bites and any food products are sold as-is with full ingredient and allergen information provided on packaging. Luxe & Line is not responsible for adverse reactions. Please check allergen information before purchase."
-            },
-            {
-              title: "8. Intellectual Property",
-              body: "All content on this website, including images, text, and designs, is the property of Luxe & Line or its respective brand partners. Reproduction without written consent is prohibited."
-            },
-            {
-              title: "9. Governing Law",
-              body: "These terms are governed by the laws of England and Wales. Any disputes shall be subject to the exclusive jurisdiction of the courts of England and Wales."
-            },
-            {
-              title: "10. Contact",
-              body: "For any queries regarding these terms: hello@luxeandline.co.uk | +44 7405 358689 | 39 Stanley Street, L7 0JN, Liverpool, UK."
-            },
-          ].map(({ title, body }) => (
+          <p className="text-foreground/70 text-sm leading-relaxed border-l-2 border-primary pl-4">
+            Please read these Terms & Conditions carefully before using our website or placing an order. These terms apply to all customers who purchase or browse Luxe & Line products and services.
+          </p>
+          {sections.map(({ title, body }) => (
             <div key={title}>
               <h2 className="font-serif text-lg text-foreground mb-3">{title}</h2>
               <p>{body}</p>

@@ -153,21 +153,47 @@ export function About() {
           </div>
         </div>
 
+        {/* Product Gallery */}
+        <div className="mb-24">
+          <div className="text-center mb-12">
+            <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-body mb-3">Our Collections</p>
+            <h2 className="font-serif text-4xl text-foreground">What we bring to your door</h2>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { src: "/product-images/jeans/jeans-women-lightblue.jpg", label: "Premium Jeans" },
+              { src: "/product-images/kunafa/kunafa-front.jpg", label: "Pistachio Kunafa Bites" },
+              { src: "/product-images/wallets/wallet-tan.jpg", label: "Leather Wallets" },
+              { src: "/product-images/jeans/jeans-men-charcoal.jpg", label: "Men's Collection" },
+            ].map((item) => (
+              <div key={item.label} className="relative overflow-hidden group" style={{ aspectRatio: "3/4" }}>
+                <img
+                  src={item.src}
+                  alt={item.label}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                <p className="absolute bottom-4 left-4 font-serif text-white text-sm">{item.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Founder */}
         <div className="mb-20">
           <div className="text-center mb-12">
-            <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-body mb-3">Leadership</p>
+            <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-body mb-3">Founded in Liverpool</p>
             <h2 className="font-serif text-4xl text-foreground">The person behind the brand</h2>
           </div>
           <div className="max-w-lg mx-auto text-center bg-card border border-border/50 p-10">
             <div className="w-20 h-20 bg-primary/15 border border-primary/30 rounded-full flex items-center justify-center mx-auto mb-5">
-              <span className="font-serif text-3xl text-primary">A</span>
+              <span className="font-serif text-3xl text-primary">L&amp;L</span>
             </div>
-            <h3 className="font-serif text-2xl text-foreground mb-1">Atif Shah</h3>
-            <p className="text-[10px] uppercase tracking-widest font-body text-primary mb-4">Founder & Curator</p>
+            <h3 className="font-serif text-2xl text-foreground mb-1">Founder & Curator</h3>
+            <p className="text-[10px] uppercase tracking-widest font-body text-primary mb-4">Liverpool · United Kingdom</p>
             <div className="luxury-divider w-16 mx-auto mb-5" />
             <p className="text-sm font-body text-muted-foreground leading-relaxed mb-5">
-              Based in Liverpool, Atif curates every piece with a passion for Pakistani craftsmanship and a deep understanding of what the British market truly desires. Every collection is personally selected to reflect heritage, quality and contemporary style.
+              Based in Liverpool, our founder curates every piece with a passion for Pakistani craftsmanship and a deep understanding of what the British market truly desires. Every collection is personally selected to reflect heritage, quality and contemporary style.
             </p>
             <div className="space-y-2 text-xs font-body">
               <div className="flex items-center justify-center gap-2 text-muted-foreground">

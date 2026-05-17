@@ -3,7 +3,7 @@ import { useAdminLogin, useGetAdminDashboard, useListOrders, useUpdateOrderStatu
 import { useQueryClient } from "@tanstack/react-query";
 import { LogOut, Package, TrendingUp, ShoppingBag, Clock, CheckCircle, Truck, XCircle, Send, PackageCheck } from "lucide-react";
 
-const ADMIN_EMAIL = "syedimad348@gmail.com";
+const ADMIN_EMAILS = ["syedimad348@gmail.com", "15568@cityuniversity.edu.pk"];
 
 function StatusBadge({ status }: { status: string }) {
   const colors: Record<string, string> = {
@@ -29,7 +29,7 @@ function AdminLogin({ onLogin }: { onLogin: (token: string) => void }) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email !== ADMIN_EMAIL) {
+    if (!ADMIN_EMAILS.includes(email)) {
       setError("Access denied. This portal is restricted.");
       return;
     }

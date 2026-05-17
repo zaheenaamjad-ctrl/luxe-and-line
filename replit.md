@@ -35,7 +35,8 @@ A luxury UK e-commerce website for a Pakistani fashion brand based in Liverpool.
 ## Architecture decisions
 
 - Session-based in-memory cart (Map keyed by cookie) — no user auth required for shopping
-- Admin login uses email-only validation (syedimad348@gmail.com), token stored in localStorage
+- Admin login uses email-only validation (syedimad348@gmail.com OR 15568@cityuniversity.edu.pk), token stored in localStorage
+- Customer accounts: users table in DB (name, email, passwordHash, token). Register/Login at /register /login. Token stored in localStorage as "customer_token" and "customer_user".
 - All product prices include UK delivery (deliveryIncluded column in DB)
 - Videos are cropped (bottom 80px removed) to remove watermarks; served from public/
 - Payment methods: bank transfer and cash on delivery — no payment gateway needed
@@ -51,7 +52,13 @@ A luxury UK e-commerce website for a Pakistani fashion brand based in Liverpool.
 - **About**: Particle diamond animation background, brand story, team info
 - **Contact**: Hexagon geometric animation background, contact details + form
 - **Policy/Terms**: Floating dots / pulse grid animation backgrounds
-- **Admin Portal**: Email login (syedimad348@gmail.com), dashboard stats, order management table
+- **Admin Portal**: Email login (syedimad348@gmail.com or 15568@cityuniversity.edu.pk), dashboard stats, order management table with status buttons
+- **Login / Register**: Customer account pages at /login and /register. Password hashed with scrypt. Token persisted in localStorage.
+- **Terms & Conditions**: 13-section detailed legal document at /terms
+- **Privacy Policy**: 12-section UK GDPR compliant document at /policy
+- **Shop**: Red SALE badge (replaces Featured), gold prices, category filter
+- **Product Detail**: Related products section at bottom (same category, up to 4 items)
+- **About**: Product gallery (jeans/kunafa/wallets), no personal names shown
 
 ## User preferences
 

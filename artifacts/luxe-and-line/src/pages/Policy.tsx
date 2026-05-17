@@ -36,6 +36,57 @@ function FloatingShapes() {
   return <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-0"/>;
 }
 
+const sections = [
+  {
+    title: "1. Who We Are",
+    body: "Luxe & Line is a UK-based South Asian fashion boutique operating from Liverpool, Merseyside. We are committed to protecting your personal information and being transparent about how we use it. For any privacy-related queries, contact us at hello@luxeandline.co.uk or +44 7405 358689."
+  },
+  {
+    title: "2. Information We Collect",
+    body: "When you place an order with Luxe & Line, we collect personal information including your full name, email address, phone number, and delivery address. We may also collect information about your browsing behaviour on our website using essential cookies in order to maintain your shopping session and improve your experience."
+  },
+  {
+    title: "3. How We Use Your Information",
+    body: "Your information is used solely to: (a) process and fulfil your orders; (b) communicate with you about your order status and delivery; (c) respond to any queries or complaints you raise; and (d) improve our website and services. We do not sell, rent, or share your personal information with third parties for marketing purposes."
+  },
+  {
+    title: "4. Legal Basis for Processing",
+    body: "We process your data under the following legal bases: (a) Contract — processing is necessary to fulfil your order; (b) Legitimate Interests — to manage fraud prevention and service improvement; (c) Legal Obligation — to comply with UK financial and tax regulations. You may withdraw consent at any time for any processing based solely on consent."
+  },
+  {
+    title: "5. Data Storage & Security",
+    body: "All personal data is stored securely on UK-based or EU-compliant servers and is encrypted where applicable. Access to your data is restricted to authorised personnel only. We retain your data for a period of 2 years from your last order to comply with UK legal requirements. After this period, data is securely deleted unless otherwise required by law."
+  },
+  {
+    title: "6. Cookies",
+    body: "Our website uses only essential cookies to maintain your shopping cart and browsing session. We do not use tracking, advertising, or analytics cookies. You can disable cookies in your browser settings; however, this may affect the functionality of your shopping cart. No third-party cookies are installed on your device by us."
+  },
+  {
+    title: "7. Sharing Your Data",
+    body: "We may share your data with trusted third-party service providers solely for the purpose of fulfilling your order — for example, postal and courier services for delivery, and email service providers for order confirmations. These partners are contractually bound to handle your data securely and in compliance with UK GDPR. We never sell your data."
+  },
+  {
+    title: "8. Your Rights Under UK GDPR",
+    body: "Under UK GDPR, you have the following rights: (a) Right of Access — to request a copy of the data we hold on you; (b) Right to Rectification — to correct inaccurate data; (c) Right to Erasure — to request deletion of your data ('right to be forgotten'); (d) Right to Restrict Processing — to limit how we use your data; (e) Right to Data Portability — to receive your data in a structured, machine-readable format; (f) Right to Object — to object to processing based on legitimate interests. To exercise any of these rights, email us at hello@luxeandline.co.uk."
+  },
+  {
+    title: "9. Data Retention",
+    body: "Order records are retained for a minimum of 2 years for legal and accounting compliance. Customer account data is retained for as long as your account remains active. If you close your account or request erasure, we will delete your personal data within 30 days unless we are required by law to retain it."
+  },
+  {
+    title: "10. Children's Privacy",
+    body: "Our services are not directed at children under the age of 16. We do not knowingly collect personal data from children. If you believe we have inadvertently collected such data, please contact us immediately at hello@luxeandline.co.uk and we will delete it promptly."
+  },
+  {
+    title: "11. Changes to This Policy",
+    body: "We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated effective date. We encourage you to review this policy periodically. Continued use of our website after changes are posted constitutes your acceptance of the updated policy."
+  },
+  {
+    title: "12. Contact & Complaints",
+    body: "For any privacy-related queries: Email: hello@luxeandline.co.uk | Phone: +44 7405 358689 | Address: 39 Stanley Street, L7 0JN, Liverpool, UK. If you are not satisfied with our response, you have the right to lodge a complaint with the Information Commissioner's Office (ICO) at ico.org.uk."
+  },
+];
+
 export function Policy() {
   return (
     <div className="relative min-h-screen bg-background">
@@ -45,40 +96,14 @@ export function Policy() {
           <p className="text-xs uppercase tracking-[0.3em] text-primary font-body mb-4">Legal</p>
           <h1 className="font-serif text-4xl md:text-5xl text-foreground mb-4">Privacy Policy</h1>
           <div className="luxury-divider w-32 mx-auto" />
-          <p className="text-xs font-body text-muted-foreground mt-4">Last updated: May 2026</p>
+          <p className="text-xs font-body text-muted-foreground mt-4">Last updated: May 2026 · Compliant with UK GDPR</p>
         </div>
 
         <div className="bg-card/80 backdrop-blur-sm border border-border p-8 space-y-8 font-body text-sm text-muted-foreground leading-relaxed">
-          {[
-            {
-              title: "1. Information We Collect",
-              body: "When you place an order with Luxe & Line, we collect personal information including your name, email address, phone number, and delivery address. We may also collect information about your browsing behaviour on our website to improve your shopping experience."
-            },
-            {
-              title: "2. How We Use Your Information",
-              body: "Your information is used solely to process and fulfil your orders, communicate with you about your order status, and improve our services. We do not sell, rent, or share your personal information with third parties for marketing purposes."
-            },
-            {
-              title: "3. Data Storage & Security",
-              body: "All personal data is stored securely and encrypted where applicable. We retain your data for a period of 2 years from your last order to comply with UK legal requirements. You may request deletion of your data at any time by contacting us."
-            },
-            {
-              title: "4. Cookies",
-              body: "Our website uses essential cookies to maintain your shopping cart and session. We do not use tracking or advertising cookies. You can disable cookies in your browser settings, though this may affect the functionality of our cart."
-            },
-            {
-              title: "5. Your Rights (UK GDPR)",
-              body: "Under UK GDPR, you have the right to access, rectify, or erase your personal data. You also have the right to restrict or object to processing, and the right to data portability. To exercise any of these rights, contact us at hello@luxeandline.co.uk."
-            },
-            {
-              title: "6. Third-Party Services",
-              body: "We may use trusted third-party services for payment processing and email delivery. These services are bound by their own privacy policies and are only provided with the minimum information necessary to perform their functions."
-            },
-            {
-              title: "7. Contact",
-              body: "For any privacy-related queries, contact: Atif Shah, hello@luxeandline.co.uk, 39 Stanley Street, L7 0JN, Liverpool, UK."
-            },
-          ].map(({ title, body }) => (
+          <p className="text-foreground/70 text-sm leading-relaxed border-l-2 border-primary pl-4">
+            Luxe & Line ("we", "our", "us") is committed to protecting the privacy and security of your personal information. This policy explains what data we collect, why we collect it, and how we handle it in compliance with the UK General Data Protection Regulation (UK GDPR) and the Data Protection Act 2018.
+          </p>
+          {sections.map(({ title, body }) => (
             <div key={title}>
               <h2 className="font-serif text-lg text-foreground mb-3">{title}</h2>
               <p>{body}</p>

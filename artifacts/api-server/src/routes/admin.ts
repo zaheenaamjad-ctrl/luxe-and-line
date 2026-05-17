@@ -5,7 +5,7 @@ import { AdminLoginBody } from "@workspace/api-zod";
 
 const router = Router();
 
-const ADMIN_EMAIL = "syedimad348@gmail.com";
+const ADMIN_EMAILS = ["syedimad348@gmail.com", "15568@cityuniversity.edu.pk"];
 const ADMIN_TOKEN = "luxe_admin_secret_token_2024";
 
 // POST /admin/login
@@ -13,7 +13,7 @@ router.post("/admin/login", (req, res) => {
   const parsed = AdminLoginBody.safeParse(req.body);
   if (!parsed.success) return res.status(400).json({ error: "Invalid data" });
 
-  if (parsed.data.email !== ADMIN_EMAIL) {
+  if (!ADMIN_EMAILS.includes(parsed.data.email)) {
     return res.status(401).json({ success: false, token: "" });
   }
 

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams } from "wouter";
-import { useGetProduct, useAddToCart, getGetCartQueryKey } from "@workspace/api-client-react";
+import { useGetProduct, useAddToCart, getGetCartQueryKey, useListProducts } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { ShoppingBag, Check, Truck, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "wouter";
@@ -464,6 +464,59 @@ export function ProductDetail() {
               <div className="flex items-center gap-2"><ShoppingBag size={13} className="text-primary" /> Secure Checkout</div>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Related Products */}
+      {product && <RelatedProducts category={product.category} currentId={product.id} />}
+    </div>
+  );
+}
+
+function RelatedProducts({ category, currentId }: { category: string; currentId: number }) {
+  const { data: products } = useListProducts(
+    category ? { category } : {},
+    { query: { queryKey: [["related", category]] } }
+  );
+  const GOLD = "hsl(43,65%,50%)";
+
+  const related = (products ?? []).filter((p) => p.id !== currentId).slice(0, 4);
+  if (!related.length) return null;
+
+  return (
+    <div className="border-t border-border/30 bg-card/20">
+      <div className="max-w-7xl mx-auto px-6 py-16">
+        <div className="text-center mb-10">
+          <p className="text-[10px] uppercase tracking-[0.4em] font-body mb-3" style={{ color: GOLD }}>
+            You May Also Like
+          </p>
+          <h2 className="font-serif text-3xl text-foreground">
+            More from <em style={{ color: GOLD }}>{category.replace(/-/g, " ")}</em>
+          </h2>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          {related.map((p) => {
+            const imgs = (p.images as string[]) ?? [];
+            return (
+              <Link key={p.id} href={`/product/${p.id}`}>
+                <div className="group cursor-pointer">
+                  <div className="relative overflow-hidden mb-3" style={{ aspectRatio: "3/4" }}>
+                    <img
+                      src={imgs[0]}
+                      alt={p.name}
+                      loading="lazy"
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-400" />
+                  </div>
+                  <h3 className="font-serif text-sm text-foreground group-hover:text-primary transition-colors leading-tight mb-1">
+                    {p.name}
+                  </h3>
+                  <p className="font-serif text-base font-semibold" style={{ color: GOLD }}>£{p.price}</p>
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </div>
     </div>

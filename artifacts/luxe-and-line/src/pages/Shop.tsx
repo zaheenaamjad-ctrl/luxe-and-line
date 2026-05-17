@@ -11,6 +11,8 @@ const CATEGORIES = [
   { value: "food", label: "Gourmet" },
 ];
 
+const GOLD = "hsl(43,65%,50%)";
+
 function RevealSection({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const [vis, setVis] = useState(false);
   const ref = (el: HTMLDivElement | null) => {
@@ -59,7 +61,6 @@ function ProductCard({ product, delay = 0 }: {
           onMouseLeave={() => setHovered(false)}
         >
           <div className="relative overflow-hidden bg-card mb-4" style={{ aspectRatio: "3/4" }}>
-            {/* Main image */}
             <img
               src={images[0]}
               alt={product.name}
@@ -67,7 +68,6 @@ function ProductCard({ product, delay = 0 }: {
               className="absolute inset-0 w-full h-full object-cover transition-all duration-700"
               style={{ transform: hovered ? "scale(1.06)" : "scale(1)", opacity: hovered && images[1] ? 0 : 1 }}
             />
-            {/* Hover alternate image */}
             {images[1] && (
               <img
                 src={images[1]}
@@ -78,10 +78,10 @@ function ProductCard({ product, delay = 0 }: {
               />
             )}
 
-            {/* Featured badge */}
+            {/* SALE badge */}
             {product.featured && (
-              <div className="absolute top-3 left-3 z-10 bg-primary text-primary-foreground text-[9px] uppercase tracking-widest px-3 py-1 font-body">
-                Featured
+              <div className="absolute top-3 left-3 z-10 bg-red-600 text-white text-[9px] uppercase tracking-widest px-3 py-1.5 font-body font-semibold shadow-lg">
+                Sale
               </div>
             )}
 
@@ -90,7 +90,7 @@ function ProductCard({ product, delay = 0 }: {
               className="absolute inset-0 bg-black/50 flex items-end pb-6 px-4 transition-opacity duration-400"
               style={{ opacity: hovered ? 1 : 0 }}
             >
-              <span className="text-white text-[10px] uppercase tracking-[0.25em] font-body border-b border-primary pb-1 flex items-center gap-2">
+              <span className="text-white text-[10px] uppercase tracking-[0.25em] font-body border-b pb-1 flex items-center gap-2" style={{ borderColor: GOLD }}>
                 View Details <ArrowRight size={10} />
               </span>
             </div>
@@ -103,14 +103,16 @@ function ProductCard({ product, delay = 0 }: {
             <h3 className="font-serif text-base text-foreground group-hover:text-primary transition-colors duration-300 leading-tight mb-1">
               {product.name}
             </h3>
-            <p className="text-sm font-body text-primary font-medium">
-              £{product.price}
+            <div className="flex items-baseline gap-2">
+              <p className="font-serif text-lg font-semibold" style={{ color: GOLD }}>
+                £{product.price}
+              </p>
               {product.deliveryIncluded && (
-                <span className="text-muted-foreground text-xs font-normal ml-2">
-                  inc. delivery
+                <span className="text-muted-foreground text-[10px] font-body uppercase tracking-wide">
+                  incl. delivery
                 </span>
               )}
-            </p>
+            </div>
           </div>
         </div>
       </Link>
@@ -131,38 +133,27 @@ export function Shop() {
     <div className="min-h-screen bg-background">
       {/* Page hero */}
       <div className="relative overflow-hidden border-b border-border/30" style={{ height: "44vh", minHeight: 280 }}>
-        {/* Grid pattern bg */}
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: "linear-gradient(hsl(220,20%,14%) 1px, transparent 1px), linear-gradient(90deg, hsl(220,20%,14%) 1px, transparent 1px)",
+            backgroundImage: "linear-gradient(hsl(265,28%,10%) 1px, transparent 1px), linear-gradient(90deg, hsl(265,28%,10%) 1px, transparent 1px)",
             backgroundSize: "60px 60px",
-            backgroundColor: "hsl(220,20%,9%)",
+            backgroundColor: "hsl(265,30%,6%)",
           }}
         />
-        {/* Radial fade */}
         <div
           className="absolute inset-0"
-          style={{ background: "radial-gradient(ellipse at 50% 120%, rgba(201,168,76,0.07) 0%, transparent 65%)" }}
+          style={{ background: "radial-gradient(ellipse at 50% 120%, rgba(167,139,250,0.08) 0%, transparent 65%)" }}
         />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
-          <p className="text-[10px] uppercase tracking-[0.45em] text-primary font-body mb-5">
+          <p className="text-[10px] uppercase tracking-[0.45em] font-body mb-5" style={{ color: GOLD }}>
             Our Collection
           </p>
-          <h1
-            className="font-serif mb-5 leading-none"
-            style={{ fontSize: "clamp(3rem, 8vw, 7rem)" }}
-          >
+          <h1 className="font-serif mb-5 leading-none" style={{ fontSize: "clamp(3rem, 8vw, 7rem)" }}>
             <span className="text-white">The </span>
-            <em className="text-primary">Edit</em>
+            <em style={{ color: GOLD }}>Edit</em>
           </h1>
-          <div
-            style={{
-              width: 80,
-              height: 1,
-              background: "linear-gradient(90deg, transparent, hsl(43,65%,50%), transparent)",
-            }}
-          />
+          <div style={{ width: 80, height: 1, background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
         </div>
       </div>
 
@@ -177,9 +168,9 @@ export function Shop() {
               onClick={() => setActiveCategory(cat.value)}
               className="px-6 py-2.5 text-[10px] uppercase tracking-[0.25em] font-body border transition-all duration-300 whitespace-nowrap"
               style={{
-                borderColor: activeCategory === cat.value ? "hsl(43,65%,50%)" : "hsl(220,15%,20%)",
-                background: activeCategory === cat.value ? "hsl(43,65%,50%)" : "transparent",
-                color: activeCategory === cat.value ? "hsl(220,20%,8%)" : "hsl(45,15%,55%)",
+                borderColor: activeCategory === cat.value ? GOLD : "hsl(265,20%,22%)",
+                background: activeCategory === cat.value ? GOLD : "transparent",
+                color: activeCategory === cat.value ? "hsl(265,30%,8%)" : "hsl(265,10%,60%)",
               }}
             >
               {cat.label}
@@ -187,14 +178,12 @@ export function Shop() {
           ))}
         </div>
 
-        {/* Product count */}
         {!isLoading && products && (
           <p className="text-xs font-body text-muted-foreground mb-8 tracking-widest uppercase">
-            {products.length} {activeCategory ? activeCategory.replace(/-/g, " ") : "products"}
+            {products.length} {activeCategory ? activeCategory.replace(/-/g, " ") : "items in collection"}
           </p>
         )}
 
-        {/* Skeleton */}
         {isLoading && (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {Array.from({ length: 8 }).map((_, i) => (
@@ -208,7 +197,6 @@ export function Shop() {
           </div>
         )}
 
-        {/* Products grid */}
         {!isLoading && (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12">
             {(products ?? []).map((product, i) => (

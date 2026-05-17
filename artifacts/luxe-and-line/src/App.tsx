@@ -16,6 +16,8 @@ import { Contact } from "@/pages/Contact";
 import { Policy } from "@/pages/Policy";
 import { Terms } from "@/pages/Terms";
 import { Admin } from "@/pages/Admin";
+import { Login } from "@/pages/Login";
+import { Register } from "@/pages/Register";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -39,6 +41,8 @@ function Router() {
         <Route path="/terms" component={Terms} />
         <Route path="/admin" component={Admin} />
         <Route path="/admin/dashboard" component={Admin} />
+        <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} />
         <Route component={NotFound} />
       </Switch>
     </Layout>
