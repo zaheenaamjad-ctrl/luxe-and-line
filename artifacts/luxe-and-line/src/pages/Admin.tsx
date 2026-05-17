@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAdminLogin, useGetAdminDashboard, useListOrders, useUpdateOrderStatus, getListOrdersQueryKey } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
-import { LogOut, Package, TrendingUp, ShoppingBag, Clock, CheckCircle, Truck, XCircle } from "lucide-react";
+import { LogOut, Package, TrendingUp, ShoppingBag, Clock, CheckCircle, Truck, XCircle, Send, PackageCheck } from "lucide-react";
 
 const ADMIN_EMAIL = "syedimad348@gmail.com";
 
@@ -207,21 +207,34 @@ function AdminDashboard({ token, onLogout }: { token: string; onLogout: () => vo
                             Update
                           </button>
                         </div>
-                        <div className="flex gap-1">
+                        <div className="flex flex-wrap gap-1">
                           <button
                             data-testid={`button-verify-payment-${order.id}`}
                             onClick={() => handlePaymentUpdate(order.id, "verified")}
-                            className="flex items-center gap-1 text-[10px] font-body text-green-400 hover:text-green-300 transition-colors"
+                            className="flex items-center gap-1 text-[10px] font-body text-green-400 hover:text-green-300 transition-colors border border-green-400/30 hover:border-green-300/50 px-2 py-1"
                           >
-                            <CheckCircle size={10} /> Verify
+                            <CheckCircle size={9} /> Payment OK
                           </button>
-                          <span className="text-muted-foreground">|</span>
                           <button
                             data-testid={`button-fail-payment-${order.id}`}
                             onClick={() => handlePaymentUpdate(order.id, "failed")}
-                            className="flex items-center gap-1 text-[10px] font-body text-red-400 hover:text-red-300 transition-colors"
+                            className="flex items-center gap-1 text-[10px] font-body text-red-400 hover:text-red-300 transition-colors border border-red-400/30 hover:border-red-300/50 px-2 py-1"
                           >
-                            <XCircle size={10} /> Fail
+                            <XCircle size={9} /> Failed
+                          </button>
+                          <button
+                            data-testid={`button-dispatch-${order.id}`}
+                            onClick={() => updateStatus.mutate({ id: order.id, data: { status: "shipped", paymentStatus: null } }, { onSuccess: () => queryClient.invalidateQueries({ queryKey: getListOrdersQueryKey() }) })}
+                            className="flex items-center gap-1 text-[10px] font-body text-blue-400 hover:text-blue-300 transition-colors border border-blue-400/30 hover:border-blue-300/50 px-2 py-1"
+                          >
+                            <Send size={9} /> Dispatched
+                          </button>
+                          <button
+                            data-testid={`button-received-${order.id}`}
+                            onClick={() => updateStatus.mutate({ id: order.id, data: { status: "delivered", paymentStatus: null } }, { onSuccess: () => queryClient.invalidateQueries({ queryKey: getListOrdersQueryKey() }) })}
+                            className="flex items-center gap-1 text-[10px] font-body text-purple-400 hover:text-purple-300 transition-colors border border-purple-400/30 hover:border-purple-300/50 px-2 py-1"
+                          >
+                            <PackageCheck size={9} /> Received
                           </button>
                         </div>
                       </div>

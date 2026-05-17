@@ -524,6 +524,12 @@ components:
           type: string
         address:
           type: string
+        city:
+          type: string
+        postCode:
+          type: string
+        addressLine2:
+          type: ["string", "null"]
         items:
           type: array
           items:
@@ -559,6 +565,12 @@ components:
           type: string
         address:
           type: string
+        city:
+          type: string
+        postCode:
+          type: string
+        addressLine2:
+          type: ["string", "null"]
         items:
           type: array
           items:

@@ -13,6 +13,10 @@ export interface Order {
   customerEmail: string;
   customerPhone: string;
   address: string;
+  city?: string;
+  postCode?: string;
+  /** @nullable */
+  addressLine2?: string | null;
   items: CartItem[];
   total: number;
   /** pending | processing | shipped | delivered | cancelled */

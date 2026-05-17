@@ -31,12 +31,13 @@ export function OrderConfirmation() {
         <div className="bg-card border border-border p-6 text-left mb-8">
           <h2 className="font-serif text-lg mb-4">What happens next?</h2>
           <div className="space-y-3 text-sm font-body text-muted-foreground">
-            <p>1. We will confirm your order within 24 hours via WhatsApp or email.</p>
+            <p className="text-green-400 font-medium">✓ A confirmation email has been sent to {order?.customerEmail}</p>
+            <p>1. Your order is confirmed. We will review it within a few hours.</p>
             {order?.paymentMethod === "bank-transfer" && (
-              <p>2. We will send you our bank details for payment. Please transfer within 48 hours.</p>
+              <p>2. We will send our bank details via email. Please transfer within 48 hours to secure your order.</p>
             )}
-            <p className={order?.paymentMethod === "bank-transfer" ? "3." : "2."}> Your order will be dispatched once payment is confirmed. Delivery: 3-7 business days.</p>
-            <p>For any queries, contact us directly:</p>
+            <p>{order?.paymentMethod === "bank-transfer" ? "3." : "2."} Your order will be dispatched once payment is confirmed. <strong className="text-foreground">Estimated delivery: 4–5 business days.</strong></p>
+            <p className="text-xs">For any queries, contact us directly:</p>
           </div>
 
           <div className="mt-4 space-y-2 text-sm font-body">

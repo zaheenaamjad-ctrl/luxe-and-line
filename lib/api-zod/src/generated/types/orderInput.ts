@@ -12,6 +12,10 @@ export interface OrderInput {
   customerEmail: string;
   customerPhone: string;
   address: string;
+  city?: string;
+  postCode?: string;
+  /** @nullable */
+  addressLine2?: string | null;
   items: CartItem[];
   total: number;
   paymentMethod: string;

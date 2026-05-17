@@ -13,6 +13,9 @@ export const ordersTable = pgTable("orders", {
   status: text("status").notNull().default("pending"), // pending | processing | shipped | delivered | cancelled
   paymentStatus: text("payment_status").notNull().default("pending"), // pending | verified | failed
   paymentMethod: text("payment_method").notNull().default("bank-transfer"),
+  city: text("city"),
+  postCode: text("post_code"),
+  addressLine2: text("address_line2"),
   notes: text("notes"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow().$onUpdate(() => new Date()),

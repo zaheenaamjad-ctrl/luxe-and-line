@@ -8,6 +8,7 @@ import {
   UpdateOrderStatusParams,
   UpdateOrderStatusBody,
 } from "@workspace/api-zod";
+import { sendOrderConfirmationEmail } from "../mailer.js";
 
 const router = Router();
 
@@ -21,7 +22,6 @@ router.get("/orders", async (req, res) => {
       orders = orders.filter((o) => o.status === query.data.status);
     }
 
-    // Sort newest first
     orders.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
     res.json(orders);
@@ -47,6 +47,9 @@ router.post("/orders", async (req, res) => {
         customerEmail: data.customerEmail,
         customerPhone: data.customerPhone,
         address: data.address,
+        city: data.city ?? null,
+        postCode: data.postCode ?? null,
+        addressLine2: data.addressLine2 ?? null,
         items: data.items,
         total: data.total,
         paymentMethod: data.paymentMethod,
@@ -55,6 +58,19 @@ router.post("/orders", async (req, res) => {
         paymentStatus: "pending",
       })
       .returning();
+
+    // Send confirmation email (non-blocking — errors are swallowed in mailer)
+    sendOrderConfirmationEmail({
+      orderId: order.id,
+      customerName: order.customerName,
+      customerEmail: order.customerEmail,
+      address: order.address,
+      city: order.city,
+      postCode: order.postCode,
+      paymentMethod: order.paymentMethod,
+      items: order.items as Array<{ name: string; quantity: number; price: number }>,
+      total: order.total,
+    }).catch(() => {});
 
     res.status(201).json(order);
   } catch (err) {

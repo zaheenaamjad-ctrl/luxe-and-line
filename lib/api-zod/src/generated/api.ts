@@ -261,6 +261,9 @@ export const ListOrdersResponseItem = zod.object({
   customerEmail: zod.string(),
   customerPhone: zod.string(),
   address: zod.string(),
+  city: zod.string().optional(),
+  postCode: zod.string().optional(),
+  addressLine2: zod.string().nullish(),
   items: zod.array(
     zod.object({
       productId: zod.number(),
@@ -291,6 +294,9 @@ export const CreateOrderBody = zod.object({
   customerEmail: zod.string(),
   customerPhone: zod.string(),
   address: zod.string(),
+  city: zod.string().optional(),
+  postCode: zod.string().optional(),
+  addressLine2: zod.string().nullish(),
   items: zod.array(
     zod.object({
       productId: zod.number(),
@@ -319,6 +325,9 @@ export const GetOrderResponse = zod.object({
   customerEmail: zod.string(),
   customerPhone: zod.string(),
   address: zod.string(),
+  city: zod.string().optional(),
+  postCode: zod.string().optional(),
+  addressLine2: zod.string().nullish(),
   items: zod.array(
     zod.object({
       productId: zod.number(),
@@ -358,6 +367,9 @@ export const UpdateOrderStatusResponse = zod.object({
   customerEmail: zod.string(),
   customerPhone: zod.string(),
   address: zod.string(),
+  city: zod.string().optional(),
+  postCode: zod.string().optional(),
+  addressLine2: zod.string().nullish(),
   items: zod.array(
     zod.object({
       productId: zod.number(),
@@ -406,6 +418,9 @@ export const GetAdminDashboardResponse = zod.object({
       customerEmail: zod.string(),
       customerPhone: zod.string(),
       address: zod.string(),
+      city: zod.string().optional(),
+      postCode: zod.string().optional(),
+      addressLine2: zod.string().nullish(),
       items: zod.array(
         zod.object({
           productId: zod.number(),

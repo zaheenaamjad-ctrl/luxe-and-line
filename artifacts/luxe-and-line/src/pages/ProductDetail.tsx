@@ -39,6 +39,7 @@ export function ProductDetail() {
   const imgDragging = useRef(false);
   const imgDragStart = useRef({ x: 0, y: 0, px: 0, py: 0 });
   const imgTouchStart = useRef({ x: 0, y: 0 });
+  const lastImgClick = useRef(0);
   const auto360Timer = useRef<ReturnType<typeof setInterval> | null>(null);
   const imgContainerRef = useRef<HTMLDivElement>(null);
 
@@ -185,8 +186,17 @@ export function ProductDetail() {
                   transition: imgDragging.current ? "none" : "transform 0.12s ease",
                 }}
                 onClick={() => {
-                  if (Math.abs((imgDragStart.current.x || 0) - 0) < 5)
-                    setImgScale((s) => (s >= 4 ? 1 : parseFloat((s + 1).toFixed(1))));
+                  if (imgDragging.current) return;
+                  const now = Date.now();
+                  const elapsed = now - lastImgClick.current;
+                  lastImgClick.current = now;
+                  if (elapsed < 300) {
+                    lastImgClick.current = 0;
+                    setImgScale(1);
+                    setImgPos({ x: 0, y: 0 });
+                  } else {
+                    setImgScale((s) => (s >= 4 ? 1 : s + 1));
+                  }
                 }}
               />
 
@@ -205,14 +215,12 @@ export function ProductDetail() {
               {/* Bottom control bar */}
               <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between px-3 py-2.5 bg-gradient-to-t from-black/70 to-transparent z-10">
                 <div className="flex gap-1.5">
-                  <button
-                    onClick={(e) => { e.stopPropagation(); setImgScale((s) => Math.min(5, s + 1)); }}
-                    className="bg-black/70 hover:bg-primary text-white text-[9px] w-7 h-7 flex items-center justify-center font-body font-bold transition-all"
-                  >+</button>
-                  <button
-                    onClick={(e) => { e.stopPropagation(); setImgScale(1); setImgPos({ x: 0, y: 0 }); }}
-                    className="bg-black/70 hover:bg-primary text-white text-[9px] px-2 h-7 font-body uppercase tracking-widest transition-all"
-                  >Reset</button>
+                  {imgScale > 1 && (
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setImgScale(1); setImgPos({ x: 0, y: 0 }); }}
+                      className="bg-black/70 hover:bg-primary text-white text-[9px] px-2 h-7 font-body uppercase tracking-widest transition-all"
+                    >Reset</button>
+                  )}
                 </div>
                 {images.length > 1 && (
                   <button
@@ -249,7 +257,7 @@ export function ProductDetail() {
 
             {/* Controls hint */}
             <p className="text-[9px] uppercase tracking-widest font-body text-muted-foreground/60 text-center">
-              Scroll to zoom · Drag to pan · Swipe to browse
+              Click to zoom · Double-click to reset · Drag to pan · Swipe to browse
             </p>
 
             {/* Thumbnail strip */}

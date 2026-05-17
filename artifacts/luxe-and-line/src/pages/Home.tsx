@@ -681,71 +681,148 @@ function CharizmaSection() {
   );
 }
 
-/* ─── Accessories & Gourmet strip ────────────────────────── */
-function AccessoriesStrip() {
+/* ─── Jeans section ──────────────────────────────────────── */
+const JEANS_ITEMS = [
+  { code: "J-01", img: "/product-images/jeans/j-women-lightblue.png", name: "Women's Wide Leg — Light Blue", price: 38, id: 4 },
+  { code: "J-02", img: "/product-images/jeans/j-men-lightblue.png",   name: "Men's Straight Cut — Light Blue", price: 38, id: 5 },
+  { code: "J-03", img: "/product-images/jeans/j-women-dark.png",      name: "Women's Wide Leg — Charcoal",    price: 38, id: 4 },
+  { code: "J-04", img: "/product-images/jeans/j-men-dark.png",        name: "Men's Straight Cut — Charcoal",  price: 38, id: 5 },
+  { code: "J-05", img: "/product-images/jeans/j-women-blue.png",      name: "Women's Wide Leg — Mid Blue",    price: 38, id: 4 },
+  { code: "J-06", img: "/product-images/jeans/j-men-blue.png",        name: "Men's Straight Cut — Mid Blue",  price: 38, id: 5 },
+];
+
+function JeansSection() {
   return (
     <section
-      className="py-24 px-6 border-t border-border/30"
-      style={{ background: "hsl(265,28%,5%)" }}
+      className="py-28 px-6 border-t border-border/30"
+      style={{ background: "linear-gradient(180deg, hsl(265,25%,6%) 0%, hsl(265,28%,8%) 100%)" }}
     >
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[
-            {
-              label: "Premium Jeans",
-              desc: "Slim fit & straight cut denim for men and women. Crafted for the modern silhouette. Delivered to your door.",
-              link: "/shop?category=jeans",
-              cta: "Shop Jeans",
-              imgs: ["/product-images/nureh-gardenia/nsg-215.png"],
-              price: "From £38",
-            },
-            {
-              label: "Atrix Leather Wallets",
-              desc: "Genuine leather accordion card wallets — zip-around, 8+ slots. Available in brown & beige. Premium everyday carry. £12 each.",
-              link: "/shop?category=wallets",
-              cta: "Shop Wallets",
-              imgs: ["/product-images/wallets/wallet-brown-1.png", "/product-images/wallets/wallet-beige.png"],
-              price: "£12",
-            },
-            {
-              label: "B.C.C. Pistachio Kunafa",
-              desc: "Classic Middle Eastern pistachio kunafa in premium chocolate form. Rich creamy pistachio filling with a satisfying crunch. Perfect gift. £25.",
-              link: "/shop?category=food",
-              cta: "Order Now",
-              imgs: ["/product-images/kunafa-piece.png", "/product-images/kunafa-pack.png"],
-              price: "£25",
-            },
-          ].map((item, i) => (
-            <RevealSection key={item.label} delay={i * 100}>
-              <div
-                className="border border-border/40 p-6 h-full flex flex-col hover:border-primary/40 transition-colors duration-500"
-                style={{ background: "hsl(265,25%,8%)" }}
-              >
-                {item.imgs && (
-                  <div className="h-44 overflow-hidden mb-5 flex gap-2">
-                    {item.imgs.map((img, ii) => (
-                      <div key={ii} className="flex-1 overflow-hidden">
-                        <img src={img} alt={item.label} className="w-full h-full object-cover" />
-                      </div>
-                    ))}
+        <CatalogHeading
+          eyebrow="Premium Denim · Men & Women"
+          title="Premium Jeans"
+          italic="Collection"
+          desc="Slim fit and wide-leg silhouettes for men and women. Light blue, mid blue and charcoal washes. Crafted for the modern wardrobe. Sizes 28–36. UK delivery included."
+        />
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-14">
+          {JEANS_ITEMS.map((item, i) => (
+            <RevealSection key={item.code} delay={i * 40}>
+              <Link href={`/product/${item.id}`}>
+                <div className="group cursor-pointer">
+                  <div className="relative overflow-hidden bg-card aspect-[2/3] mb-3">
+                    <img src={item.img} alt={item.name} loading="lazy"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 object-top" />
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <span className="text-white text-[9px] uppercase tracking-[0.2em] font-body border border-white/60 px-3 py-1.5">View</span>
+                    </div>
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent px-3 py-2">
+                      <p className="text-white text-[10px] font-body uppercase tracking-widest truncate">{item.code}</p>
+                    </div>
                   </div>
-                )}
-                <div className="flex items-baseline gap-3 mb-2">
-                  <h3 className="font-serif text-xl text-foreground">{item.label}</h3>
-                  <span className="text-primary font-body text-sm font-medium">{item.price}</span>
+                  <p className="font-body text-xs text-foreground/80 group-hover:text-primary transition-colors truncate">{item.name}</p>
+                  <p className="text-xs font-body text-primary font-medium mt-0.5 price-glow">£{item.price}</p>
                 </div>
-                <p className="font-body text-sm text-muted-foreground leading-relaxed mb-6 flex-1">
-                  {item.desc}
-                </p>
-                <Link href={item.link}>
-                  <button className="text-xs uppercase tracking-[0.25em] font-body text-primary hover:text-foreground transition-colors flex items-center gap-2 border-b border-primary pb-1 w-fit">
-                    {item.cta} <ArrowRight size={11} />
-                  </button>
-                </Link>
-              </div>
+              </Link>
             </RevealSection>
           ))}
         </div>
+        <RevealSection className="text-center">
+          <LuxuryButton href="/shop?category=jeans" dark testId="btn-jeans-shop">Shop Jeans</LuxuryButton>
+        </RevealSection>
+      </div>
+    </section>
+  );
+}
+
+/* ─── Wallets section ─────────────────────────────────────── */
+const WALLET_ITEMS = [
+  { img: "/product-images/wallets/w-accordion-brown.png", name: "Atrix Leather Accordion Wallet", desc: "Zip-around accordion design, 8+ card slots. Compact carry for everyday essentials.", price: 12, id: 6 },
+  { img: "/product-images/wallets/w-embossed-brown.png",  name: "Embossed Button Wallet",         desc: "Embossed geometric detail with snap button closure. Slim profile, multiple card slots.", price: 12, id: 7 },
+  { img: "/product-images/wallets/w-snap-beige.png",      name: "Snap Button Wallet — Beige",     desc: "Clean minimalist design in premium beige leather. Snap closure, card organiser inside.", price: 12, id: 7 },
+];
+
+function WalletsSection() {
+  return (
+    <section
+      className="py-28 px-6 border-t border-border/30"
+      style={{ background: "linear-gradient(180deg, hsl(265,28%,8%) 0%, hsl(265,25%,6%) 100%)" }}
+    >
+      <div className="max-w-7xl mx-auto">
+        <CatalogHeading
+          eyebrow="Atrix Leather · Handcrafted"
+          title="Leather Wallets"
+          italic="by Atrix"
+          desc="Genuine leather accordion card wallets. Zip-around and snap-button styles. Available in brown and beige. Each wallet holds 8+ cards. Premium everyday carry — £12 each."
+        />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-14">
+          {WALLET_ITEMS.map((item, i) => (
+            <RevealSection key={item.name} delay={i * 80}>
+              <Link href={`/product/${item.id}`}>
+                <div className="group cursor-pointer">
+                  <div className="relative overflow-hidden bg-card aspect-square mb-4">
+                    <img src={item.img} alt={item.name} loading="lazy"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <span className="text-white text-[9px] uppercase tracking-[0.2em] font-body border border-white/60 px-4 py-2">View</span>
+                    </div>
+                  </div>
+                  <h3 className="font-serif text-lg text-foreground group-hover:text-primary transition-colors mb-1">{item.name}</h3>
+                  <p className="text-xs font-body text-muted-foreground leading-relaxed mb-2">{item.desc}</p>
+                  <p className="font-serif text-xl text-primary price-glow">£{item.price}</p>
+                </div>
+              </Link>
+            </RevealSection>
+          ))}
+        </div>
+        <RevealSection className="text-center">
+          <LuxuryButton href="/shop?category=wallets" dark testId="btn-wallets-shop">Shop Wallets</LuxuryButton>
+        </RevealSection>
+      </div>
+    </section>
+  );
+}
+
+/* ─── Pistachio Kunafa Bites section ─────────────────────── */
+const KUNAFA_IMGS = [
+  "/product-images/kunafa/k-jar-branded.png",
+  "/product-images/kunafa/k-jar-open.png",
+  "/product-images/kunafa/k-loose-pieces.png",
+  "/product-images/kunafa/k-single-wrap.png",
+];
+
+function KunafaSection() {
+  return (
+    <section
+      className="py-28 px-6 border-t border-border/30"
+      style={{ background: "linear-gradient(180deg, hsl(265,25%,6%) 0%, hsl(265,28%,7%) 100%)" }}
+    >
+      <div className="max-w-5xl mx-auto">
+        <CatalogHeading
+          eyebrow="B.C.C. · Premium Confectionery"
+          title="Pistachio Kunafa Bites"
+          italic="by B.C.C."
+          desc="Classic Middle Eastern pistachio kunafa in premium chocolate form. Rich creamy pistachio filling with a satisfying crunch. Individually wrapped — perfect as a gift or treat. UK delivery included."
+        />
+        <RevealSection>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 max-w-3xl mx-auto">
+            {KUNAFA_IMGS.map((img, i) => (
+              <Link href="/product/8" key={i}>
+                <div className="aspect-square overflow-hidden bg-card group cursor-pointer">
+                  <img src={img} alt="Pistachio Kunafa Bites" loading="lazy"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                </div>
+              </Link>
+            ))}
+          </div>
+          <div className="text-center">
+            <p className="font-body text-xs uppercase tracking-widest text-muted-foreground mb-3">
+              B.C.C. Pistachio Kunafa Bites · Premium Gift Box
+            </p>
+            <p className="font-serif text-5xl text-primary price-glow mb-1">£22</p>
+            <p className="text-xs font-body text-muted-foreground mb-8">per box · UK delivery included</p>
+            <LuxuryButton href="/product/8" dark testId="btn-kunafa-order">Order Kunafa Bites</LuxuryButton>
+          </div>
+        </RevealSection>
       </div>
     </section>
   );
@@ -850,7 +927,9 @@ export function Home() {
         <NurehGardeniaSection />
         <ZeenatSection />
         <CharizmaSection />
-        <AccessoriesStrip />
+        <JeansSection />
+        <WalletsSection />
+        <KunafaSection />
         <BrandBanner />
         <ContactStrip />
       </div>

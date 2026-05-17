@@ -1,61 +1,37 @@
 import { useEffect, useRef } from "react";
+import { Link } from "wouter";
+import { MapPin, Phone, Mail, Shield, Truck, Star, Clock } from "lucide-react";
 
 function ParticleBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
+    const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
     resize();
     window.addEventListener("resize", resize);
-
-    interface Particle {
-      x: number; y: number; vx: number; vy: number;
-      size: number; opacity: number; hue: number; rotation: number; rotSpeed: number;
-    }
-    const particles: Particle[] = Array.from({ length: 60 }, () => ({
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: (Math.random() - 0.5) * 0.4,
-      size: Math.random() * 8 + 2,
-      opacity: Math.random() * 0.3 + 0.05,
-      hue: Math.random() * 30 + 35,
-      rotation: Math.random() * Math.PI * 2,
-      rotSpeed: (Math.random() - 0.5) * 0.02,
+    interface Particle { x: number; y: number; vx: number; vy: number; size: number; opacity: number; rotation: number; rotSpeed: number; }
+    const particles: Particle[] = Array.from({ length: 50 }, () => ({
+      x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight,
+      vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
+      size: Math.random() * 6 + 2, opacity: Math.random() * 0.2 + 0.03,
+      rotation: Math.random() * Math.PI * 2, rotSpeed: (Math.random() - 0.5) * 0.015,
     }));
-
     let animId: number;
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       for (const p of particles) {
-        p.x += p.vx;
-        p.y += p.vy;
-        p.rotation += p.rotSpeed;
+        p.x += p.vx; p.y += p.vy; p.rotation += p.rotSpeed;
         if (p.x < -20) p.x = canvas.width + 20;
         if (p.x > canvas.width + 20) p.x = -20;
         if (p.y < -20) p.y = canvas.height + 20;
         if (p.y > canvas.height + 20) p.y = -20;
-
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.rotation);
-        ctx.globalAlpha = p.opacity;
-        ctx.strokeStyle = `hsl(${p.hue}, 65%, 55%)`;
-        ctx.lineWidth = 1;
-        // Draw diamond
+        ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rotation);
+        ctx.globalAlpha = p.opacity; ctx.strokeStyle = "hsl(270,70%,60%)"; ctx.lineWidth = 0.8;
         const s = p.size;
-        ctx.beginPath();
-        ctx.moveTo(0, -s); ctx.lineTo(s, 0); ctx.lineTo(0, s); ctx.lineTo(-s, 0);
-        ctx.closePath();
-        ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(0, -s); ctx.lineTo(s, 0); ctx.lineTo(0, s); ctx.lineTo(-s, 0); ctx.closePath(); ctx.stroke();
         ctx.restore();
       }
       animId = requestAnimationFrame(draw);
@@ -63,66 +39,166 @@ function ParticleBackground() {
     draw();
     return () => { cancelAnimationFrame(animId); window.removeEventListener("resize", resize); };
   }, []);
-
-  return <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-0 opacity-40" />;
+  return <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-0 opacity-30" />;
 }
 
 export function About() {
   return (
     <div className="relative min-h-screen bg-background">
       <ParticleBackground />
-      <div className="relative z-10 max-w-4xl mx-auto px-6 py-20">
-        <div className="text-center mb-16">
-          <p className="text-xs uppercase tracking-[0.3em] text-primary font-body mb-4">Our Story</p>
-          <h1 className="font-serif text-5xl md:text-6xl gold-shimmer mb-6">About Luxe & Line</h1>
-          <div className="luxury-divider w-40 mx-auto" />
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+      {/* Hero */}
+      <div className="relative z-10 border-b border-border/30" style={{ background: "linear-gradient(180deg, hsl(265,30%,5%) 0%, hsl(265,28%,7%) 100%)" }}>
+        <div className="max-w-4xl mx-auto px-6 py-28 text-center">
+          <p className="text-[10px] uppercase tracking-[0.5em] text-primary font-body mb-5">Est. Liverpool · United Kingdom</p>
+          <h1 className="font-serif text-5xl md:text-7xl text-foreground mb-6 leading-tight">
+            Curated for the<br />
+            <span className="gold-shimmer">British Pakistani</span> Home
+          </h1>
+          <div className="luxury-divider w-32 mx-auto mb-8" />
+          <p className="font-body text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
+            Luxe & Line brings the finest Pakistani fashion, accessories and artisan goods directly to doorsteps across the United Kingdom — without compromise on quality, authenticity or service.
+          </p>
+        </div>
+      </div>
+
+      {/* Brand Story */}
+      <div className="relative z-10 max-w-6xl mx-auto px-6 py-24">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-24">
           <div>
-            <h2 className="font-serif text-2xl text-foreground mb-6">Our Heritage</h2>
+            <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-body mb-4">Our Heritage</p>
+            <h2 className="font-serif text-3xl text-foreground mb-6 leading-snug">Born from a belief in accessible luxury</h2>
             <p className="text-muted-foreground font-body text-sm leading-relaxed mb-4">
-              Luxe & Line was born from a simple belief: that the exquisite craftsmanship of South Asian fashion should be accessible to every British Pakistani family, without the need to travel thousands of miles to find it.
+              Luxe & Line was founded in Liverpool with one clear purpose: to make the exquisite craftsmanship of South Asian fashion accessible to every British Pakistani family — without the need to travel thousands of miles to find it.
+            </p>
+            <p className="text-muted-foreground font-body text-sm leading-relaxed mb-4">
+              We bridge the gap between the vibrant fashion houses of Lahore, Karachi and Faisalabad and the doorsteps of the UK — bringing authentic luxury, one beautifully wrapped parcel at a time.
             </p>
             <p className="text-muted-foreground font-body text-sm leading-relaxed">
-              Founded in Liverpool, we bridge the gap between the vibrant fashion houses of Lahore and the doorsteps of the UK — bringing authentic luxury, one beautifully wrapped parcel at a time.
+              Every collection is hand-selected for its craftsmanship, fabric quality and design. We never compromise on what arrives at your door.
             </p>
           </div>
           <div>
-            <h2 className="font-serif text-2xl text-foreground mb-6">Our Promise</h2>
+            <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-body mb-4">Our Commitment</p>
+            <h2 className="font-serif text-3xl text-foreground mb-6 leading-snug">A promise built on integrity</h2>
             <p className="text-muted-foreground font-body text-sm leading-relaxed mb-4">
-              Every piece we curate is hand-selected for its quality, authenticity, and craftsmanship. We work directly with some of Pakistan's most respected fashion houses — Nureh, Charizma, Zeenet — to ensure you receive only the finest.
+              We work directly with Pakistan's most respected fashion houses — Nureh, Charizma, Zeenet — ensuring you receive only the finest embroidered lawns, printed chiffons and luxury pret.
+            </p>
+            <p className="text-muted-foreground font-body text-sm leading-relaxed mb-4">
+              All prices include UK delivery. No hidden charges. No surprises. Just the garments you love, delivered safely and swiftly.
             </p>
             <p className="text-muted-foreground font-body text-sm leading-relaxed">
-              All prices include UK delivery. All suits are available stitched to your measurements. We believe luxury should be effortless.
+              We also curate premium accessories — handcrafted leather wallets, quality denim — and artisan confectionery to bring a little more joy to every order.
             </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+        {/* Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border/30 border border-border/30 mb-24">
           {[
-            { num: "500+", label: "Happy Customers" },
-            { num: "3", label: "Premium Brands" },
-            { num: "100%", label: "UK Delivery" },
-            { num: "5★", label: "Average Rating" },
+            { num: "500+", label: "Orders Fulfilled" },
+            { num: "4", label: "Premium Brands" },
+            { num: "100%", label: "UK Delivery Included" },
+            { num: "4–5", label: "Day Delivery" },
           ].map((stat) => (
-            <div key={stat.label} className="bg-card border border-border p-6 text-center">
-              <p className="font-serif text-3xl text-primary mb-2">{stat.num}</p>
-              <p className="text-xs uppercase tracking-widest font-body text-muted-foreground">{stat.label}</p>
+            <div key={stat.label} className="bg-card px-8 py-10 text-center">
+              <p className="font-serif text-4xl text-primary mb-2 price-glow">{stat.num}</p>
+              <p className="text-[10px] uppercase tracking-widest font-body text-muted-foreground">{stat.label}</p>
             </div>
           ))}
         </div>
 
-        <div className="bg-card border border-primary/30 p-8 text-center">
-          <h2 className="font-serif text-2xl text-foreground mb-4">Meet the Team</h2>
-          <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
-            <span className="font-serif text-2xl text-primary">A</span>
+        {/* Values */}
+        <div className="mb-24">
+          <div className="text-center mb-12">
+            <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-body mb-3">Why Choose Us</p>
+            <h2 className="font-serif text-4xl text-foreground">The Luxe & Line standard</h2>
           </div>
-          <h3 className="font-serif text-xl text-foreground mb-1">Atif Shah</h3>
-          <p className="text-xs uppercase tracking-widest font-body text-primary mb-3">Founder & Curator</p>
-          <p className="text-sm font-body text-muted-foreground max-w-md mx-auto">
-            Based in Liverpool's Fairfield neighbourhood, Atif curates every piece with passion for Pakistani fashion and a deep understanding of what the British market truly desires.
-          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { icon: Shield, title: "Authenticity Guaranteed", desc: "Every item is sourced directly from Pakistan's leading fashion houses. No replicas, no compromises." },
+              { icon: Truck, title: "UK Delivery Included", desc: "All prices include nationwide UK delivery. What you see is what you pay — always." },
+              { icon: Star, title: "Curated Selection", desc: "We select only the finest seasonal collections, laser-focused on quality and contemporary style." },
+              { icon: Clock, title: "Prompt & Personal", desc: "Orders dispatched swiftly. Every customer is treated as a valued guest, not a transaction." },
+            ].map(({ icon: Icon, title, desc }) => (
+              <div key={title} className="bg-card border border-border/50 p-6 hover:border-primary/40 transition-colors duration-500">
+                <div className="w-10 h-10 border border-primary/40 flex items-center justify-center mb-4">
+                  <Icon size={18} className="text-primary" />
+                </div>
+                <h3 className="font-serif text-lg text-foreground mb-2">{title}</h3>
+                <p className="text-xs font-body text-muted-foreground leading-relaxed">{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Brands We Carry */}
+        <div className="mb-24 border border-border/30 p-10" style={{ background: "hsl(265,28%,6%)" }}>
+          <div className="text-center mb-10">
+            <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-body mb-3">Our Brands</p>
+            <h2 className="font-serif text-3xl text-foreground">Curated from Pakistan's finest houses</h2>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            {[
+              { name: "Nureh Gardenia", desc: "Premium embroidered lawn — Eid & formal collections" },
+              { name: "Charizma Sun Shine", desc: "Contemporary printed lawn for every season" },
+              { name: "Zeenat Solid Pret", desc: "Ready-to-wear embroidered lawn with chiffon dupatta" },
+              { name: "B.C.C. Confectionery", desc: "Artisan Pistachio Kunafa Bites — premium gifting" },
+            ].map((b) => (
+              <div key={b.name} className="py-4 border-b border-border/30 md:border-b-0 md:border-r last:border-r-0 last:border-b-0 px-4">
+                <p className="font-serif text-lg text-foreground mb-1">{b.name}</p>
+                <p className="text-[10px] font-body text-muted-foreground leading-relaxed">{b.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Founder */}
+        <div className="mb-20">
+          <div className="text-center mb-12">
+            <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-body mb-3">Leadership</p>
+            <h2 className="font-serif text-4xl text-foreground">The person behind the brand</h2>
+          </div>
+          <div className="max-w-lg mx-auto text-center bg-card border border-border/50 p-10">
+            <div className="w-20 h-20 bg-primary/15 border border-primary/30 rounded-full flex items-center justify-center mx-auto mb-5">
+              <span className="font-serif text-3xl text-primary">A</span>
+            </div>
+            <h3 className="font-serif text-2xl text-foreground mb-1">Atif Shah</h3>
+            <p className="text-[10px] uppercase tracking-widest font-body text-primary mb-4">Founder & Curator</p>
+            <div className="luxury-divider w-16 mx-auto mb-5" />
+            <p className="text-sm font-body text-muted-foreground leading-relaxed mb-5">
+              Based in Liverpool, Atif curates every piece with a passion for Pakistani craftsmanship and a deep understanding of what the British market truly desires. Every collection is personally selected to reflect heritage, quality and contemporary style.
+            </p>
+            <div className="space-y-2 text-xs font-body">
+              <div className="flex items-center justify-center gap-2 text-muted-foreground">
+                <MapPin size={12} className="text-primary shrink-0" /> 39 Stanley Street, L7 0JN, Liverpool, UK
+              </div>
+              <div className="flex items-center justify-center gap-2 text-muted-foreground">
+                <Phone size={12} className="text-primary shrink-0" /> +44 7405 358689
+              </div>
+              <div className="flex items-center justify-center gap-2 text-muted-foreground">
+                <Mail size={12} className="text-primary shrink-0" /> hello@luxeandline.co.uk
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* CTA */}
+        <div className="text-center border-t border-border/30 pt-16">
+          <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-body mb-4">Ready to Shop?</p>
+          <h2 className="font-serif text-4xl text-foreground mb-6">Explore the collection</h2>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/shop">
+              <button className="bg-primary text-primary-foreground px-10 py-4 font-body uppercase tracking-widest text-xs hover:bg-primary/90 transition-colors">
+                Shop Now
+              </button>
+            </Link>
+            <Link href="/contact">
+              <button className="border border-border text-foreground px-10 py-4 font-body uppercase tracking-widest text-xs hover:border-primary hover:text-primary transition-colors">
+                Get in Touch
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>
