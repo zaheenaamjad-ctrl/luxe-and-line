@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { MessageCircle, X, Send } from "lucide-react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 
 type Reply = {
   text: string;
@@ -116,7 +116,8 @@ const RESPONSES: { keywords: string[]; reply: Reply }[] = [
 ];
 
 const DEFAULT_REPLY: Reply = {
-  text: "Sorry, our owner didn't allow me to talk about that. Please ask questions related to our store and I'll give you the answer respectfully. Thank you sweetheart! ❤️",
+  text: "Sorry, our owner didn't allow me to talk about that. Please ask questions related to our store and I'll give you the answer respectfully. Thank you sweetheart! ❤️ You can also reach us directly on WhatsApp for anything!",
+  links: [{ label: "Chat on WhatsApp →", href: "https://wa.me/447449507661" }],
 };
 
 const WELCOME =
@@ -135,6 +136,18 @@ export function Chatbot() {
     { from: "bot", text: WELCOME },
   ]);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const [location] = useLocation();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const check = () => setScrolled(window.scrollY > 80);
+    check();
+    window.addEventListener("scroll", check, { passive: true });
+    return () => window.removeEventListener("scroll", check);
+  }, []);
+
+  const isHome = location === "/";
+  const showButton = !isHome || scrolled;
 
   useEffect(() => {
     if (open) {
@@ -168,12 +181,15 @@ export function Chatbot() {
       <button
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? "Close chat" : "Open chat"}
-        className="fixed bottom-6 right-6 z-50 flex items-center gap-2 text-white text-[11px] font-body font-semibold uppercase tracking-wider transition-all duration-300 hover:scale-105 active:scale-95"
+        className="fixed bottom-6 right-6 z-50 flex items-center gap-2 text-white text-[11px] font-body font-semibold uppercase tracking-wider transition-all duration-500 hover:scale-105 active:scale-95"
         style={{
           background: "linear-gradient(135deg, hsl(270,80%,65%), hsl(270,60%,48%))",
           borderRadius: 50,
           padding: "11px 18px",
           boxShadow: "0 6px 28px rgba(120,60,200,0.45)",
+          opacity: showButton ? 1 : 0,
+          pointerEvents: showButton ? "auto" : "none",
+          transform: showButton ? "translateY(0) scale(1)" : "translateY(16px) scale(0.9)",
         }}
       >
         {open ? <X size={15} /> : <MessageCircle size={15} />}

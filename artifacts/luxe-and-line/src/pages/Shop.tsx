@@ -61,6 +61,10 @@ function ProductCard({ product, delay = 0 }: {
           onMouseLeave={() => setHovered(false)}
         >
           <div className="relative overflow-hidden bg-card mb-4" style={{ aspectRatio: "3/4" }}>
+            {/* SALE badge */}
+            <div className="absolute top-3 left-3 z-10 bg-red-600 text-white text-[9px] font-body font-bold uppercase tracking-widest px-2.5 py-1 leading-none">
+              SALE
+            </div>
             <img
               src={images[0]}
               alt={product.name}
