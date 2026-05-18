@@ -161,10 +161,10 @@ export function About() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { src: "/product-images/jeans/jeans-women-lightblue.jpg", label: "Premium Jeans" },
-              { src: "/product-images/kunafa/kunafa-front.jpg", label: "Pistachio Kunafa Bites" },
-              { src: "/product-images/wallets/wallet-tan.jpg", label: "Leather Wallets" },
-              { src: "/product-images/jeans/jeans-men-charcoal.jpg", label: "Men's Collection" },
+              { src: "/product-images/jeans/j-women-lightblue.png", label: "Premium Jeans" },
+              { src: "/product-images/kunafa/k-jar-branded.png", label: "Pistachio Kunafa Bites" },
+              { src: "/product-images/wallets/wallet-tan.png", label: "Leather Wallets" },
+              { src: "/product-images/jeans/j-men-dark.png", label: "Men's Collection" },
             ].map((item) => (
               <div key={item.label} className="relative overflow-hidden group" style={{ aspectRatio: "3/4" }}>
                 <img

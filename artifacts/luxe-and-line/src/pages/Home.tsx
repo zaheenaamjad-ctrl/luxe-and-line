@@ -1055,12 +1055,19 @@ function HomepageReviews() {
 
 /* ─── Home root ─────────────────────────────────────────── */
 export function Home() {
-  const [videoDone, setVideoDone] = useState(false);
+  const [videoDone, setVideoDone] = useState(() => {
+    try { return sessionStorage.getItem("luxe_hero_done") === "1"; } catch { return false; }
+  });
   useRevealOnScroll();
+
+  const handleVideoExit = useCallback(() => {
+    try { sessionStorage.setItem("luxe_hero_done", "1"); } catch {}
+    setVideoDone(true);
+  }, []);
 
   return (
     <div className="w-full">
-      {!videoDone && <VideoHero onExit={() => setVideoDone(true)} />}
+      {!videoDone && <VideoHero onExit={handleVideoExit} />}
       {/* Main content — only visible after video hero is dismissed */}
       <div
         style={{

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Star, ChevronDown, ChevronUp, MessageCircle } from "lucide-react";
 import { Link } from "wouter";
 
@@ -132,8 +132,34 @@ function FAQItem({ q, a }: { q: string; a: string }) {
   );
 }
 
+interface DbReview {
+  id: number;
+  customerName: string;
+  rating: number;
+  title: string | null;
+  body: string;
+  createdAt: string;
+  productId: number | null;
+}
+
+function useDbReviews() {
+  const [reviews, setReviews] = useState<DbReview[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/reviews")
+      .then((r) => r.json())
+      .then((data: DbReview[]) => { if (Array.isArray(data)) setReviews(data); })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  return { reviews, loading };
+}
+
 export function Reviews() {
   const avg = (REVIEWS.reduce((s, r) => s + r.rating, 0) / REVIEWS.length).toFixed(1);
+  const { reviews: dbReviews, loading: dbLoading } = useDbReviews();
 
   return (
     <div className="min-h-screen bg-background">
@@ -155,7 +181,7 @@ export function Reviews() {
             ))}
           </div>
           <span className="font-serif text-4xl text-white">{avg}</span>
-          <span className="text-sm font-body text-muted-foreground">/ 5 &nbsp;·&nbsp; {REVIEWS.length} reviews</span>
+          <span className="text-sm font-body text-muted-foreground">/ 5 &nbsp;·&nbsp; {REVIEWS.length + dbReviews.length} reviews</span>
         </div>
         <Link
           href="/shop"
@@ -165,42 +191,89 @@ export function Reviews() {
         </Link>
       </section>
 
+      {/* Community reviews from DB — shown if any exist */}
+      {(dbLoading || dbReviews.length > 0) && (
+        <section className="py-16 px-6 border-b border-border/30" style={{ background: "hsl(265,28%,6%)" }}>
+          <div className="max-w-6xl mx-auto">
+            <p className="text-[10px] uppercase tracking-[0.45em] text-primary font-body mb-3 text-center">Community Reviews</p>
+            <h2 className="font-serif text-3xl text-foreground mb-10 text-center">From Our Customers</h2>
+            {dbLoading ? (
+              <div className="flex justify-center py-8">
+                <div className="w-6 h-6 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+                {dbReviews.map((r) => (
+                  <div
+                    key={r.id}
+                    className="flex flex-col p-6"
+                    style={{ background: "hsl(265,25%,8%)", border: "1px solid hsl(265,20%,16%)", borderRadius: 4 }}
+                  >
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-10 h-10 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center shrink-0">
+                        <span className="font-serif text-sm text-primary">{r.customerName.charAt(0).toUpperCase()}</span>
+                      </div>
+                      <div>
+                        <p className="font-body text-sm font-semibold text-foreground">{r.customerName}</p>
+                        <p className="font-body text-[10px] text-muted-foreground">Verified Customer</p>
+                      </div>
+                    </div>
+                    <StarRating rating={r.rating} />
+                    {r.title && (
+                      <p className="font-serif text-base text-foreground mt-3 mb-1">{r.title}</p>
+                    )}
+                    <p className="font-body text-sm text-muted-foreground leading-relaxed mt-2 flex-1">"{r.body}"</p>
+                    <p className="mt-4 text-[9px] font-body text-muted-foreground/40 uppercase tracking-widest">
+                      {new Date(r.createdAt).toLocaleDateString("en-GB", { month: "long", year: "numeric" })}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* Curated featured reviews */}
       <section className="py-20 px-6">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
-          {REVIEWS.map((r) => (
-            <div
-              key={r.id}
-              className="flex flex-col p-6"
-              style={{
-                background: "hsl(265,25%,8%)",
-                border: "1px solid hsl(265,20%,16%)",
-                borderRadius: 4,
-              }}
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <img
-                  src={r.avatar}
-                  alt={r.name}
-                  className="w-11 h-11 rounded-full object-cover shrink-0"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(r.name)}&background=6b21a8&color=fff&size=80`;
-                  }}
-                />
-                <div>
-                  <p className="font-body text-sm font-semibold text-foreground">{r.name}</p>
-                  <p className="font-body text-[10px] text-muted-foreground">{r.location}</p>
+        <div className="max-w-6xl mx-auto">
+          <p className="text-[10px] uppercase tracking-[0.45em] text-primary font-body mb-3 text-center">Featured Reviews</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+            {REVIEWS.map((r) => (
+              <div
+                key={r.id}
+                className="flex flex-col p-6"
+                style={{
+                  background: "hsl(265,25%,8%)",
+                  border: "1px solid hsl(265,20%,16%)",
+                  borderRadius: 4,
+                }}
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <img
+                    src={r.avatar}
+                    alt={r.name}
+                    className="w-11 h-11 rounded-full object-cover shrink-0"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(r.name)}&background=6b21a8&color=fff&size=80`;
+                    }}
+                  />
+                  <div>
+                    <p className="font-body text-sm font-semibold text-foreground">{r.name}</p>
+                    <p className="font-body text-[10px] text-muted-foreground">{r.location}</p>
+                  </div>
+                </div>
+                <StarRating rating={r.rating} />
+                <p className="font-body text-sm text-muted-foreground leading-relaxed mt-3 flex-1">
+                  "{r.review}"
+                </p>
+                <div className="mt-4 pt-4 border-t border-border/25 flex items-center justify-between">
+                  <p className="text-[9px] font-body text-primary uppercase tracking-widest leading-snug">{r.product}</p>
+                  <p className="text-[9px] font-body text-muted-foreground/50 shrink-0 ml-2">{r.date}</p>
                 </div>
               </div>
-              <StarRating rating={r.rating} />
-              <p className="font-body text-sm text-muted-foreground leading-relaxed mt-3 flex-1">
-                "{r.review}"
-              </p>
-              <div className="mt-4 pt-4 border-t border-border/25 flex items-center justify-between">
-                <p className="text-[9px] font-body text-primary uppercase tracking-widest leading-snug">{r.product}</p>
-                <p className="text-[9px] font-body text-muted-foreground/50 shrink-0 ml-2">{r.date}</p>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 

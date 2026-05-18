@@ -1,0 +1,88 @@
+The production website is much better now, but several IMPORTANT production issues still remain on the live domain:
+https://www.luxeandline.uk
+
+You must debug and verify these ONLY on the LIVE production Vercel deployment — not only locally inside Replit.
+
+CRITICAL EMAIL ISSUES:
+
+1. Welcome/thank-you emails after registration are still not reliably arriving to customers.
+2. Order/customer emails are going to Spam instead of Primary inbox.
+3. Improve full email deliverability and email reputation.
+
+Required fixes:
+
+* Configure proper email headers:
+
+  * SPF
+  * DKIM
+  * DMARC
+* Improve Resend email configuration.
+* Improve sender reputation.
+* Improve HTML email structure and formatting.
+* Add proper branded email templates.
+* Ensure emails are delivered to PRIMARY inbox whenever possible.
+* Verify welcome emails send immediately after signup.
+* Verify order confirmation/invoice emails send correctly.
+* Verify admin notification emails work correctly.
+
+WELCOME EMAIL CONTENT:
+Improve the welcome email with:
+
+* Thank you for joining Luxe and Line
+* Welcome message
+* Luxury/fashion branding
+* Shop now button
+* Contact/support info
+* Social media links
+* Professional design
+
+ABOUT PAGE ISSUE:
+
+* Some images on the About page are broken/not displaying.
+* Find every missing/broken image and fix paths/assets in production.
+
+HOME PAGE / VIDEO UX ISSUE:
+When a user is already browsing the website (example: Shop page) and returns to Home:
+
+* Do NOT restart the intro video automatically.
+* Keep the page positioned naturally from the content section.
+* ONLY show/replay the intro video after full browser refresh or first visit.
+
+ADMIN DASHBOARD ISSUE:
+The admin dashboard still does NOT properly recognize all admin emails.
+
+These emails MUST always have admin access:
+
+* [syedimad348@gmail.com](mailto:syedimad348@gmail.com)
+* [zaheenaamjad@gmail.com](mailto:zaheenaamjad@gmail.com)
+* [luxeline26@gmail.com](mailto:luxeline26@gmail.com)
+
+Fix and verify:
+
+* admin login
+* admin session
+* admin permissions
+* dashboard access
+* production middleware/auth checks
+
+REVIEWS ISSUE:
+Customers currently cannot properly add reviews manually.
+
+Required:
+
+* Allow authenticated users to submit reviews
+* Allow star ratings
+* Save reviews correctly in production DB
+* Display reviews publicly on product pages/homepage
+* Ensure reviews persist after refresh
+
+IMPORTANT:
+Do NOT assume fixes work from local testing.
+Verify EVERYTHING directly on:
+https://www.luxeandline.uk
+
+After all fixes:
+
+1. Push changes to GitHub
+2. Ensure Vercel redeploy succeeds
+3. Verify production functionality again
