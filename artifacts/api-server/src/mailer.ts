@@ -137,7 +137,7 @@ export async function sendWelcomeEmail(name: string, email: string): Promise<voi
             <p style="color:#9080b0;font-size:12px;margin:0 0 8px;">Questions? We're always here:</p>
             <p style="color:#c8b8e8;font-size:13px;margin:0 0 4px;">📞 +44 7449 507661</p>
             <p style="color:#c8b8e8;font-size:13px;margin:0 0 4px;">✉️ luxeline26@gmail.com</p>
-            <p style="color:#c8b8e8;font-size:13px;">🌐 www.luxeandline.co.uk</p>
+            <p style="color:#c8b8e8;font-size:13px;">🌐 www.luxeandline.uk</p>
           </td>
         </tr>
         <tr>

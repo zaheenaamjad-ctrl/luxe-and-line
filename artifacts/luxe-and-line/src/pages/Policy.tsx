@@ -39,7 +39,7 @@ function FloatingShapes() {
 const sections = [
   {
     title: "1. Who We Are",
-    body: "Luxe & Line is a UK-based South Asian fashion boutique operating from Liverpool, Merseyside. We are committed to protecting your personal information and being transparent about how we use it. For any privacy-related queries, contact us at hello@luxeandline.co.uk or +44 7405 358689."
+    body: "Luxe & Line is a UK-based South Asian fashion boutique operating from Liverpool, Merseyside. We are committed to protecting your personal information and being transparent about how we use it. For any privacy-related queries, contact us at hello@luxeandline.uk or +44 7405 358689."
   },
   {
     title: "2. Information We Collect",
@@ -67,7 +67,7 @@ const sections = [
   },
   {
     title: "8. Your Rights Under UK GDPR",
-    body: "Under UK GDPR, you have the following rights: (a) Right of Access — to request a copy of the data we hold on you; (b) Right to Rectification — to correct inaccurate data; (c) Right to Erasure — to request deletion of your data ('right to be forgotten'); (d) Right to Restrict Processing — to limit how we use your data; (e) Right to Data Portability — to receive your data in a structured, machine-readable format; (f) Right to Object — to object to processing based on legitimate interests. To exercise any of these rights, email us at hello@luxeandline.co.uk."
+    body: "Under UK GDPR, you have the following rights: (a) Right of Access — to request a copy of the data we hold on you; (b) Right to Rectification — to correct inaccurate data; (c) Right to Erasure — to request deletion of your data ('right to be forgotten'); (d) Right to Restrict Processing — to limit how we use your data; (e) Right to Data Portability — to receive your data in a structured, machine-readable format; (f) Right to Object — to object to processing based on legitimate interests. To exercise any of these rights, email us at hello@luxeandline.uk."
   },
   {
     title: "9. Data Retention",
@@ -75,7 +75,7 @@ const sections = [
   },
   {
     title: "10. Children's Privacy",
-    body: "Our services are not directed at children under the age of 16. We do not knowingly collect personal data from children. If you believe we have inadvertently collected such data, please contact us immediately at hello@luxeandline.co.uk and we will delete it promptly."
+    body: "Our services are not directed at children under the age of 16. We do not knowingly collect personal data from children. If you believe we have inadvertently collected such data, please contact us immediately at hello@luxeandline.uk and we will delete it promptly."
   },
   {
     title: "11. Changes to This Policy",
@@ -83,7 +83,7 @@ const sections = [
   },
   {
     title: "12. Contact & Complaints",
-    body: "For any privacy-related queries: Email: hello@luxeandline.co.uk | Phone: +44 7405 358689 | Address: 39 Stanley Street, L7 0JN, Liverpool, UK. If you are not satisfied with our response, you have the right to lodge a complaint with the Information Commissioner's Office (ICO) at ico.org.uk."
+    body: "For any privacy-related queries: Email: hello@luxeandline.uk | Phone: +44 7405 358689 | Address: 39 Stanley Street, L7 0JN, Liverpool, UK. If you are not satisfied with our response, you have the right to lodge a complaint with the Information Commissioner's Office (ICO) at ico.org.uk."
   },
 ];
 

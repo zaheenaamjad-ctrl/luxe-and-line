@@ -5,7 +5,7 @@ const router = Router();
 
 const SITE_URL =
   (process.env.SITE_URL ?? "").replace(/\/$/, "") ||
-  "https://www.luxeandline.co.uk";
+  "https://www.luxeandline.uk";
 
 const today = () => new Date().toISOString().split("T")[0];
 

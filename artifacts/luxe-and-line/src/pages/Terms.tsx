@@ -46,7 +46,7 @@ const sections = [
   },
   {
     title: "2. About Us",
-    body: "Luxe & Line is a UK-based South Asian fashion and lifestyle boutique operating from Liverpool, Merseyside, United Kingdom. We curate and sell authentic Pakistani fashion garments, accessories, and artisan food products. Contact: hello@luxeandline.co.uk | +44 7405 358689 | 39 Stanley Street, L7 0JN, Liverpool, UK."
+    body: "Luxe & Line is a UK-based South Asian fashion and lifestyle boutique operating from Liverpool, Merseyside, United Kingdom. We curate and sell authentic Pakistani fashion garments, accessories, and artisan food products. Contact: hello@luxeandline.uk | +44 7405 358689 | 39 Stanley Street, L7 0JN, Liverpool, UK."
   },
   {
     title: "3. Products & Pricing",
@@ -66,7 +66,7 @@ const sections = [
   },
   {
     title: "7. Returns & Refunds",
-    body: "We want you to be completely satisfied with your purchase. Returns are accepted under the following conditions: (a) Items must be returned within 7 days of delivery; (b) Items must be in their original, unused, unwashed condition with all tags intact; (c) For hygiene reasons, stitched-to-order garments cannot be returned unless they are faulty or damaged on arrival. To initiate a return, contact us at hello@luxeandline.co.uk within 48 hours of receiving your order. Refunds will be processed within 5–7 business days."
+    body: "We want you to be completely satisfied with your purchase. Returns are accepted under the following conditions: (a) Items must be returned within 7 days of delivery; (b) Items must be in their original, unused, unwashed condition with all tags intact; (c) For hygiene reasons, stitched-to-order garments cannot be returned unless they are faulty or damaged on arrival. To initiate a return, contact us at hello@luxeandline.uk within 48 hours of receiving your order. Refunds will be processed within 5–7 business days."
   },
   {
     title: "8. Food Products",
@@ -90,7 +90,7 @@ const sections = [
   },
   {
     title: "13. Contact",
-    body: "For any queries regarding these terms, please contact us: Email: hello@luxeandline.co.uk | Phone: +44 7405 358689 | Address: 39 Stanley Street, L7 0JN, Liverpool, Merseyside, UK."
+    body: "For any queries regarding these terms, please contact us: Email: hello@luxeandline.uk | Phone: +44 7405 358689 | Address: 39 Stanley Street, L7 0JN, Liverpool, Merseyside, UK."
   },
 ];
 

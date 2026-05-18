@@ -72,7 +72,7 @@ A luxury UK e-commerce website for a Pakistani fashion brand based in Liverpool.
 - Business contact: Atif Shah, +44 7405 358689, 39 Stanley Street L7 0JN Liverpool
 - Owner: Amjad Khan | Vice Owner: Zaheena Khan (shown in Footer + About page)
 - Admin emails: syedimad348@gmail.com, zaheenaamjad@gmail.com, luxeline26@gmail.com
-- Site email: hello@luxeandline.co.uk
+- Site email: hello@luxeandline.uk
 - Luxury dark navy (#0D1117 range) + gold (HSL 43 65% 50%) theme
 - Fonts: Cormorant Garamond (serif display) + Montserrat (body)
 

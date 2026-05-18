@@ -21,5 +21,4 @@ User-agent: Bingbot
 Allow: /
 Crawl-delay: 2
 
-Sitemap: https://www.luxeandline.co.uk/sitemap.xml
 Sitemap: https://www.luxeandline.uk/sitemap.xml

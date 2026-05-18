@@ -42,7 +42,7 @@ export function OrderConfirmation() {
 
           <div className="mt-4 space-y-2 text-sm font-body">
             <div className="flex items-center gap-2 text-foreground"><Phone size={14} className="text-primary" /> +44 7405 358689</div>
-            <div className="flex items-center gap-2 text-foreground"><Mail size={14} className="text-primary" /> hello@luxeandline.co.uk</div>
+            <div className="flex items-center gap-2 text-foreground"><Mail size={14} className="text-primary" /> hello@luxeandline.uk</div>
             <div className="flex items-center gap-2 text-muted-foreground"><MapPin size={14} className="text-primary" /> 39 Stanley Street, L7 0JN, Liverpool, UK</div>
           </div>
         </div>
