@@ -52,6 +52,10 @@ export function Footer() {
                 <a href="mailto:luxeline26@gmail.com" className="hover:text-primary transition-colors">luxeline26@gmail.com</a>
               </div>
             </div>
+            <div className="mt-4 pt-3 border-t border-border/20 text-[10px] font-body text-muted-foreground/60 space-y-1">
+              <p>Owner: <span className="text-muted-foreground/80">Amjad Khan</span></p>
+              <p>Vice Owner: <span className="text-muted-foreground/80">Zaheena Khan</span></p>
+            </div>
           </div>
 
           {/* Shop */}

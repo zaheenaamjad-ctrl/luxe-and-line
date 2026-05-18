@@ -241,17 +241,30 @@ export function Chatbot() {
                   }}
                 >
                   <p>{msg.text}</p>
-                  {msg.links?.map((link) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      onClick={() => setOpen(false)}
-                      className="block mt-2 text-[10px] uppercase tracking-wider font-semibold"
-                      style={{ color: msg.from === "user" ? "rgba(255,255,255,0.9)" : "hsl(270,80%,72%)" }}
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
+                  {msg.links?.map((link) =>
+                    link.href.startsWith("http") ? (
+                      <a
+                        key={link.href}
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block mt-2 text-[10px] uppercase tracking-wider font-semibold"
+                        style={{ color: msg.from === "user" ? "rgba(255,255,255,0.9)" : "hsl(270,80%,72%)" }}
+                      >
+                        {link.label}
+                      </a>
+                    ) : (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => setOpen(false)}
+                        className="block mt-2 text-[10px] uppercase tracking-wider font-semibold"
+                        style={{ color: msg.from === "user" ? "rgba(255,255,255,0.9)" : "hsl(270,80%,72%)" }}
+                      >
+                        {link.label}
+                      </Link>
+                    )
+                  )}
                 </div>
               </div>
             ))}

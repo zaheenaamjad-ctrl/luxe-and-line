@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAdminLogin, useGetAdminDashboard, useListOrders, useUpdateOrderStatus, getListOrdersQueryKey } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
-import { LogOut, Package, TrendingUp, ShoppingBag, Clock, CheckCircle, Truck, XCircle, Send, PackageCheck } from "lucide-react";
+import { LogOut, Package, TrendingUp, ShoppingBag, Clock, CheckCircle, XCircle, Send, PackageCheck, Users, Star } from "lucide-react";
 
-const ADMIN_EMAILS = ["syedimad348@gmail.com", "15568@cityuniversity.edu.pk"];
+const ADMIN_EMAILS = ["syedimad348@gmail.com", "zaheenaamjad@gmail.com", "luxeline26@gmail.com"];
+const ADMIN_TOKEN = "luxe_admin_secret_token_2024";
 
 function StatusBadge({ status }: { status: string }) {
   const colors: Record<string, string> = {
@@ -90,12 +91,39 @@ function AdminLogin({ onLogin }: { onLogin: (token: string) => void }) {
   );
 }
 
+type UserRow = { id: number; name: string; email: string; createdAt: string };
+type ReviewRow = { id: number; customerName: string; customerEmail: string | null; rating: number; title: string | null; body: string; approved: boolean; createdAt: string; productId: number | null };
+
 function AdminDashboard({ token, onLogout }: { token: string; onLogout: () => void }) {
   const { data: dashboard } = useGetAdminDashboard();
   const { data: orders } = useListOrders({});
   const updateStatus = useUpdateOrderStatus();
   const queryClient = useQueryClient();
   const [selectedStatus, setSelectedStatus] = useState<Record<number, string>>({});
+  const [activeTab, setActiveTab] = useState<"orders" | "users" | "reviews">("orders");
+  const [users, setUsers] = useState<UserRow[]>([]);
+  const [reviews, setReviews] = useState<ReviewRow[]>([]);
+  const [loadingUsers, setLoadingUsers] = useState(false);
+  const [loadingReviews, setLoadingReviews] = useState(false);
+
+  useEffect(() => {
+    if (activeTab === "users" && users.length === 0) {
+      setLoadingUsers(true);
+      fetch("/api/admin/users", { headers: { Authorization: `Bearer ${token}` } })
+        .then((r) => r.json())
+        .then((data: UserRow[]) => setUsers(data))
+        .catch(() => {})
+        .finally(() => setLoadingUsers(false));
+    }
+    if (activeTab === "reviews" && reviews.length === 0) {
+      setLoadingReviews(true);
+      fetch("/api/admin/reviews", { headers: { Authorization: `Bearer ${token}` } })
+        .then((r) => r.json())
+        .then((data: ReviewRow[]) => setReviews(data))
+        .catch(() => {})
+        .finally(() => setLoadingReviews(false));
+    }
+  }, [activeTab, token, users.length, reviews.length]);
 
   const handleStatusUpdate = (orderId: number) => {
     const status = selectedStatus[orderId];
@@ -118,11 +146,11 @@ function AdminDashboard({ token, onLogout }: { token: string; onLogout: () => vo
     { label: "Pending Orders", value: dashboard?.pendingOrders ?? 0, icon: Clock },
     { label: "Total Revenue", value: `£${(dashboard?.totalRevenue ?? 0).toFixed(2)}`, icon: TrendingUp },
     { label: "Products", value: dashboard?.totalProducts ?? 0, icon: Package },
+    { label: "Customers", value: (dashboard as unknown as { totalUsers?: number })?.totalUsers ?? 0, icon: Users },
   ];
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
       <div className="bg-card border-b border-border px-6 py-4 flex justify-between items-center sticky top-0 z-50">
         <div className="flex items-center gap-4">
           <span className="font-serif text-lg text-primary">LUXE & LINE</span>
@@ -140,8 +168,7 @@ function AdminDashboard({ token, onLogout }: { token: string; onLogout: () => vo
       <div className="max-w-7xl mx-auto px-6 py-8">
         <h1 className="font-serif text-3xl text-foreground mb-8">Dashboard</h1>
 
-        {/* Stat Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-10">
           {statCards.map(({ label, value, icon: Icon }) => (
             <div key={label} className="bg-card border border-border p-6">
               <div className="flex justify-between items-start mb-4">
@@ -153,105 +180,237 @@ function AdminDashboard({ token, onLogout }: { token: string; onLogout: () => vo
           ))}
         </div>
 
-        {/* Orders Table */}
-        <div className="bg-card border border-border">
-          <div className="px-6 py-4 border-b border-border flex items-center gap-3">
-            <h2 className="font-serif text-lg text-foreground">All Orders</h2>
-            <span className="text-xs font-body text-muted-foreground">({orders?.length ?? 0} total)</span>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-border text-[10px] uppercase tracking-widest font-body text-muted-foreground">
-                  <th className="px-6 py-3 text-left">Order ID</th>
-                  <th className="px-6 py-3 text-left">Customer</th>
-                  <th className="px-6 py-3 text-left">Total</th>
-                  <th className="px-6 py-3 text-left">Status</th>
-                  <th className="px-6 py-3 text-left">Payment</th>
-                  <th className="px-6 py-3 text-left">Date</th>
-                  <th className="px-6 py-3 text-left">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {(orders ?? []).map((order) => (
-                  <tr key={order.id} className="border-b border-border/50 hover:bg-muted/20 transition-colors" data-testid={`row-order-${order.id}`}>
-                    <td className="px-6 py-4 font-body text-xs text-primary">#{order.id}</td>
-                    <td className="px-6 py-4">
-                      <p className="font-body text-sm text-foreground">{order.customerName}</p>
-                      <p className="font-body text-xs text-muted-foreground">{order.customerEmail}</p>
-                    </td>
-                    <td className="px-6 py-4 font-serif text-sm text-primary">£{order.total.toFixed(2)}</td>
-                    <td className="px-6 py-4"><StatusBadge status={order.status} /></td>
-                    <td className="px-6 py-4"><StatusBadge status={order.paymentStatus} /></td>
-                    <td className="px-6 py-4 font-body text-xs text-muted-foreground">
-                      {new Date(order.createdAt).toLocaleDateString("en-GB")}
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex flex-col gap-2">
-                        <div className="flex gap-2">
-                          <select
-                            data-testid={`select-status-${order.id}`}
-                            value={selectedStatus[order.id] ?? order.status}
-                            onChange={(e) => setSelectedStatus(s => ({ ...s, [order.id]: e.target.value }))}
-                            className="bg-background border border-border text-xs font-body text-foreground px-2 py-1 focus:border-primary focus:outline-none"
-                          >
-                            {["pending","processing","shipped","delivered","cancelled"].map(s => (
-                              <option key={s} value={s}>{s}</option>
-                            ))}
-                          </select>
-                          <button
-                            data-testid={`button-update-status-${order.id}`}
-                            onClick={() => handleStatusUpdate(order.id)}
-                            className="bg-primary text-primary-foreground px-3 py-1 text-[10px] uppercase tracking-wider font-body hover:bg-primary/90"
-                          >
-                            Update
-                          </button>
-                        </div>
-                        <div className="flex flex-wrap gap-1">
-                          <button
-                            data-testid={`button-verify-payment-${order.id}`}
-                            onClick={() => handlePaymentUpdate(order.id, "verified")}
-                            className="flex items-center gap-1 text-[10px] font-body text-green-400 hover:text-green-300 transition-colors border border-green-400/30 hover:border-green-300/50 px-2 py-1"
-                          >
-                            <CheckCircle size={9} /> Payment OK
-                          </button>
-                          <button
-                            data-testid={`button-fail-payment-${order.id}`}
-                            onClick={() => handlePaymentUpdate(order.id, "failed")}
-                            className="flex items-center gap-1 text-[10px] font-body text-red-400 hover:text-red-300 transition-colors border border-red-400/30 hover:border-red-300/50 px-2 py-1"
-                          >
-                            <XCircle size={9} /> Failed
-                          </button>
-                          <button
-                            data-testid={`button-dispatch-${order.id}`}
-                            onClick={() => updateStatus.mutate({ id: order.id, data: { status: "shipped", paymentStatus: null } }, { onSuccess: () => queryClient.invalidateQueries({ queryKey: getListOrdersQueryKey() }) })}
-                            className="flex items-center gap-1 text-[10px] font-body text-blue-400 hover:text-blue-300 transition-colors border border-blue-400/30 hover:border-blue-300/50 px-2 py-1"
-                          >
-                            <Send size={9} /> Dispatched
-                          </button>
-                          <button
-                            data-testid={`button-received-${order.id}`}
-                            onClick={() => updateStatus.mutate({ id: order.id, data: { status: "delivered", paymentStatus: null } }, { onSuccess: () => queryClient.invalidateQueries({ queryKey: getListOrdersQueryKey() }) })}
-                            className="flex items-center gap-1 text-[10px] font-body text-purple-400 hover:text-purple-300 transition-colors border border-purple-400/30 hover:border-purple-300/50 px-2 py-1"
-                          >
-                            <PackageCheck size={9} /> Received
-                          </button>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-                {(orders ?? []).length === 0 && (
-                  <tr>
-                    <td colSpan={7} className="px-6 py-12 text-center text-muted-foreground font-body text-sm">
-                      No orders yet.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+        {/* Tab nav */}
+        <div className="flex gap-0 mb-6 border-b border-border">
+          {(["orders", "users", "reviews"] as const).map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`px-6 py-3 text-xs uppercase tracking-widest font-body transition-colors border-b-2 -mb-px ${
+                activeTab === tab
+                  ? "text-primary border-primary"
+                  : "text-muted-foreground border-transparent hover:text-foreground"
+              }`}
+            >
+              {tab === "orders" && <ShoppingBag size={11} className="inline mr-1.5" />}
+              {tab === "users" && <Users size={11} className="inline mr-1.5" />}
+              {tab === "reviews" && <Star size={11} className="inline mr-1.5" />}
+              {tab}
+            </button>
+          ))}
         </div>
+
+        {/* Orders Tab */}
+        {activeTab === "orders" && (
+          <div className="bg-card border border-border">
+            <div className="px-6 py-4 border-b border-border flex items-center gap-3">
+              <h2 className="font-serif text-lg text-foreground">All Orders</h2>
+              <span className="text-xs font-body text-muted-foreground">({orders?.length ?? 0} total)</span>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-border text-[10px] uppercase tracking-widest font-body text-muted-foreground">
+                    <th className="px-6 py-3 text-left">Order ID</th>
+                    <th className="px-6 py-3 text-left">Customer</th>
+                    <th className="px-6 py-3 text-left">Total</th>
+                    <th className="px-6 py-3 text-left">Status</th>
+                    <th className="px-6 py-3 text-left">Payment</th>
+                    <th className="px-6 py-3 text-left">Date</th>
+                    <th className="px-6 py-3 text-left">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {(orders ?? []).map((order) => (
+                    <tr key={order.id} className="border-b border-border/50 hover:bg-muted/20 transition-colors" data-testid={`row-order-${order.id}`}>
+                      <td className="px-6 py-4 font-body text-xs text-primary">#{order.id}</td>
+                      <td className="px-6 py-4">
+                        <p className="font-body text-sm text-foreground">{order.customerName}</p>
+                        <p className="font-body text-xs text-muted-foreground">{order.customerEmail}</p>
+                      </td>
+                      <td className="px-6 py-4 font-serif text-sm text-primary">£{order.total.toFixed(2)}</td>
+                      <td className="px-6 py-4"><StatusBadge status={order.status} /></td>
+                      <td className="px-6 py-4"><StatusBadge status={order.paymentStatus} /></td>
+                      <td className="px-6 py-4 font-body text-xs text-muted-foreground">
+                        {new Date(order.createdAt).toLocaleDateString("en-GB")}
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex flex-col gap-2">
+                          <div className="flex gap-2">
+                            <select
+                              data-testid={`select-status-${order.id}`}
+                              value={selectedStatus[order.id] ?? order.status}
+                              onChange={(e) => setSelectedStatus(s => ({ ...s, [order.id]: e.target.value }))}
+                              className="bg-background border border-border text-xs font-body text-foreground px-2 py-1 focus:border-primary focus:outline-none"
+                            >
+                              {["pending","processing","shipped","delivered","cancelled"].map(s => (
+                                <option key={s} value={s}>{s}</option>
+                              ))}
+                            </select>
+                            <button
+                              data-testid={`button-update-status-${order.id}`}
+                              onClick={() => handleStatusUpdate(order.id)}
+                              className="bg-primary text-primary-foreground px-3 py-1 text-[10px] uppercase tracking-wider font-body hover:bg-primary/90"
+                            >
+                              Update
+                            </button>
+                          </div>
+                          <div className="flex flex-wrap gap-1">
+                            <button
+                              data-testid={`button-verify-payment-${order.id}`}
+                              onClick={() => handlePaymentUpdate(order.id, "verified")}
+                              className="flex items-center gap-1 text-[10px] font-body text-green-400 hover:text-green-300 transition-colors border border-green-400/30 hover:border-green-300/50 px-2 py-1"
+                            >
+                              <CheckCircle size={9} /> Payment OK
+                            </button>
+                            <button
+                              data-testid={`button-fail-payment-${order.id}`}
+                              onClick={() => handlePaymentUpdate(order.id, "failed")}
+                              className="flex items-center gap-1 text-[10px] font-body text-red-400 hover:text-red-300 transition-colors border border-red-400/30 hover:border-red-300/50 px-2 py-1"
+                            >
+                              <XCircle size={9} /> Failed
+                            </button>
+                            <button
+                              data-testid={`button-dispatch-${order.id}`}
+                              onClick={() => updateStatus.mutate({ id: order.id, data: { status: "shipped", paymentStatus: null } }, { onSuccess: () => queryClient.invalidateQueries({ queryKey: getListOrdersQueryKey() }) })}
+                              className="flex items-center gap-1 text-[10px] font-body text-blue-400 hover:text-blue-300 transition-colors border border-blue-400/30 hover:border-blue-300/50 px-2 py-1"
+                            >
+                              <Send size={9} /> Dispatched
+                            </button>
+                            <button
+                              data-testid={`button-received-${order.id}`}
+                              onClick={() => updateStatus.mutate({ id: order.id, data: { status: "delivered", paymentStatus: null } }, { onSuccess: () => queryClient.invalidateQueries({ queryKey: getListOrdersQueryKey() }) })}
+                              className="flex items-center gap-1 text-[10px] font-body text-purple-400 hover:text-purple-300 transition-colors border border-purple-400/30 hover:border-purple-300/50 px-2 py-1"
+                            >
+                              <PackageCheck size={9} /> Received
+                            </button>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                  {(orders ?? []).length === 0 && (
+                    <tr>
+                      <td colSpan={7} className="px-6 py-12 text-center text-muted-foreground font-body text-sm">
+                        No orders yet.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* Users Tab */}
+        {activeTab === "users" && (
+          <div className="bg-card border border-border">
+            <div className="px-6 py-4 border-b border-border flex items-center gap-3">
+              <h2 className="font-serif text-lg text-foreground">Registered Customers</h2>
+              <span className="text-xs font-body text-muted-foreground">({users.length} total)</span>
+            </div>
+            {loadingUsers ? (
+              <div className="px-6 py-12 text-center">
+                <div className="w-6 h-6 border-2 border-primary/30 border-t-primary rounded-full animate-spin mx-auto" />
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b border-border text-[10px] uppercase tracking-widest font-body text-muted-foreground">
+                      <th className="px-6 py-3 text-left">ID</th>
+                      <th className="px-6 py-3 text-left">Name</th>
+                      <th className="px-6 py-3 text-left">Email</th>
+                      <th className="px-6 py-3 text-left">Joined</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {users.map((user) => (
+                      <tr key={user.id} className="border-b border-border/50 hover:bg-muted/20">
+                        <td className="px-6 py-4 font-body text-xs text-primary">#{user.id}</td>
+                        <td className="px-6 py-4 font-body text-sm text-foreground">{user.name}</td>
+                        <td className="px-6 py-4 font-body text-xs text-muted-foreground">{user.email}</td>
+                        <td className="px-6 py-4 font-body text-xs text-muted-foreground">
+                          {new Date(user.createdAt).toLocaleDateString("en-GB")}
+                        </td>
+                      </tr>
+                    ))}
+                    {users.length === 0 && (
+                      <tr>
+                        <td colSpan={4} className="px-6 py-12 text-center text-muted-foreground font-body text-sm">
+                          No registered customers yet.
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Reviews Tab */}
+        {activeTab === "reviews" && (
+          <div className="bg-card border border-border">
+            <div className="px-6 py-4 border-b border-border flex items-center gap-3">
+              <h2 className="font-serif text-lg text-foreground">Customer Reviews</h2>
+              <span className="text-xs font-body text-muted-foreground">({reviews.length} total)</span>
+            </div>
+            {loadingReviews ? (
+              <div className="px-6 py-12 text-center">
+                <div className="w-6 h-6 border-2 border-primary/30 border-t-primary rounded-full animate-spin mx-auto" />
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b border-border text-[10px] uppercase tracking-widest font-body text-muted-foreground">
+                      <th className="px-6 py-3 text-left">Customer</th>
+                      <th className="px-6 py-3 text-left">Rating</th>
+                      <th className="px-6 py-3 text-left">Review</th>
+                      <th className="px-6 py-3 text-left">Status</th>
+                      <th className="px-6 py-3 text-left">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {reviews.map((r) => (
+                      <tr key={r.id} className="border-b border-border/50 hover:bg-muted/20">
+                        <td className="px-6 py-4">
+                          <p className="font-body text-sm text-foreground">{r.customerName}</p>
+                          <p className="font-body text-xs text-muted-foreground">{r.customerEmail ?? "—"}</p>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex gap-0.5">
+                            {[1,2,3,4,5].map(s => (
+                              <span key={s} className={`text-sm ${s <= r.rating ? "text-yellow-400" : "text-muted-foreground/30"}`}>★</span>
+                            ))}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 max-w-xs">
+                          {r.title && <p className="font-body text-xs text-foreground font-semibold mb-1">{r.title}</p>}
+                          <p className="font-body text-xs text-muted-foreground leading-relaxed line-clamp-3">{r.body}</p>
+                        </td>
+                        <td className="px-6 py-4">
+                          <StatusBadge status={r.approved ? "approved" : "hidden"} />
+                        </td>
+                        <td className="px-6 py-4 font-body text-xs text-muted-foreground">
+                          {new Date(r.createdAt).toLocaleDateString("en-GB")}
+                        </td>
+                      </tr>
+                    ))}
+                    {reviews.length === 0 && (
+                      <tr>
+                        <td colSpan={5} className="px-6 py-12 text-center text-muted-foreground font-body text-sm">
+                          No reviews submitted yet.
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

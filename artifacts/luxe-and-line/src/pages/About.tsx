@@ -179,22 +179,37 @@ export function About() {
           </div>
         </div>
 
-        {/* Founder */}
+        {/* Founders */}
         <div className="mb-20">
           <div className="text-center mb-12">
             <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-body mb-3">Founded in Liverpool</p>
-            <h2 className="font-serif text-4xl text-foreground">The person behind the brand</h2>
+            <h2 className="font-serif text-4xl text-foreground">The people behind the brand</h2>
           </div>
-          <div className="max-w-lg mx-auto text-center bg-card border border-border/50 p-10">
-            <div className="w-20 h-20 bg-primary/15 border border-primary/30 rounded-full flex items-center justify-center mx-auto mb-5">
-              <span className="font-serif text-3xl text-primary">L&amp;L</span>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto mb-10">
+            <div className="text-center bg-card border border-border/50 p-8">
+              <div className="w-16 h-16 bg-primary/15 border border-primary/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="font-serif text-2xl text-primary">AK</span>
+              </div>
+              <h3 className="font-serif text-xl text-foreground mb-1">Amjad Khan</h3>
+              <p className="text-[10px] uppercase tracking-widest font-body text-primary mb-3">Owner · Liverpool, UK</p>
+              <div className="luxury-divider w-12 mx-auto mb-4" />
+              <p className="text-xs font-body text-muted-foreground leading-relaxed">
+                Visionary founder with a deep passion for Pakistani craftsmanship. Amjad established Luxe &amp; Line to bring authentic South Asian fashion directly to British Pakistani families.
+              </p>
             </div>
-            <h3 className="font-serif text-2xl text-foreground mb-1">Founder & Curator</h3>
-            <p className="text-[10px] uppercase tracking-widest font-body text-primary mb-4">Liverpool · United Kingdom</p>
-            <div className="luxury-divider w-16 mx-auto mb-5" />
-            <p className="text-sm font-body text-muted-foreground leading-relaxed mb-5">
-              Based in Liverpool, our founder curates every piece with a passion for Pakistani craftsmanship and a deep understanding of what the British market truly desires. Every collection is personally selected to reflect heritage, quality and contemporary style.
-            </p>
+            <div className="text-center bg-card border border-border/50 p-8">
+              <div className="w-16 h-16 bg-primary/15 border border-primary/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="font-serif text-2xl text-primary">ZK</span>
+              </div>
+              <h3 className="font-serif text-xl text-foreground mb-1">Zaheena Khan</h3>
+              <p className="text-[10px] uppercase tracking-widest font-body text-primary mb-3">Vice Owner · Liverpool, UK</p>
+              <div className="luxury-divider w-12 mx-auto mb-4" />
+              <p className="text-xs font-body text-muted-foreground leading-relaxed">
+                Co-founder and curator of every collection. Zaheena brings an expert eye for quality, ensuring only the finest seasonal pieces make it to your door.
+              </p>
+            </div>
+          </div>
+          <div className="max-w-lg mx-auto text-center">
             <div className="space-y-2 text-xs font-body">
               <div className="flex items-center justify-center gap-2 text-muted-foreground">
                 <MapPin size={12} className="text-primary shrink-0" /> 39 Stanley Street, L7 0JN, Liverpool, UK

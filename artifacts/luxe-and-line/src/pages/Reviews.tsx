@@ -230,6 +230,153 @@ export function Reviews() {
           </div>
         </div>
       </section>
+
+      <ReviewSubmitSection />
     </div>
+  );
+}
+
+function ReviewSubmitSection() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [rating, setRating] = useState(5);
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+  const [hoverRating, setHoverRating] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setSubmitting(true);
+    try {
+      const res = await fetch("/api/reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ customerName: name, customerEmail: email || null, rating, title: title || null, body }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error ?? "Failed to submit review.");
+      } else {
+        setSuccess(true);
+        setName(""); setEmail(""); setRating(5); setTitle(""); setBody("");
+      }
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <section className="py-20 px-6 border-t border-border/30" style={{ background: "hsl(265,25%,7%)" }}>
+      <div className="max-w-xl mx-auto">
+        <p className="text-[10px] uppercase tracking-[0.45em] text-primary font-body mb-4 text-center">Share Your Experience</p>
+        <h2 className="font-serif text-3xl text-foreground mb-10 text-center">Leave a Review</h2>
+
+        {success ? (
+          <div className="text-center py-10">
+            <div className="w-14 h-14 bg-green-500/15 border border-green-500/30 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Star size={22} className="text-green-400 fill-green-400" />
+            </div>
+            <p className="font-serif text-xl text-foreground mb-2">Thank you!</p>
+            <p className="font-body text-sm text-muted-foreground">Your review has been submitted and is now live.</p>
+            <button onClick={() => setSuccess(false)} className="mt-6 text-xs font-body text-primary uppercase tracking-widest hover:underline">
+              Leave another review
+            </button>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-[10px] uppercase tracking-[0.25em] font-body text-muted-foreground mb-2">Your Name *</label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  placeholder="Jane Smith"
+                  className="w-full bg-background border border-border px-4 py-3 text-sm font-body text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary transition-colors"
+                />
+              </div>
+              <div>
+                <label className="block text-[10px] uppercase tracking-[0.25em] font-body text-muted-foreground mb-2">Email (optional)</label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="your@email.com"
+                  className="w-full bg-background border border-border px-4 py-3 text-sm font-body text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary transition-colors"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-[10px] uppercase tracking-[0.25em] font-body text-muted-foreground mb-3">Rating *</label>
+              <div className="flex gap-2">
+                {[1,2,3,4,5].map((s) => (
+                  <button
+                    key={s}
+                    type="button"
+                    onClick={() => setRating(s)}
+                    onMouseEnter={() => setHoverRating(s)}
+                    onMouseLeave={() => setHoverRating(0)}
+                    className="transition-transform hover:scale-110"
+                  >
+                    <Star
+                      size={28}
+                      className={`transition-colors ${s <= (hoverRating || rating) ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground/30"}`}
+                    />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-[10px] uppercase tracking-[0.25em] font-body text-muted-foreground mb-2">Review Title (optional)</label>
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="Stunning quality!"
+                className="w-full bg-background border border-border px-4 py-3 text-sm font-body text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary transition-colors"
+              />
+            </div>
+
+            <div>
+              <label className="block text-[10px] uppercase tracking-[0.25em] font-body text-muted-foreground mb-2">Your Review *</label>
+              <textarea
+                value={body}
+                onChange={(e) => setBody(e.target.value)}
+                required
+                rows={4}
+                placeholder="Tell us about your experience..."
+                className="w-full bg-background border border-border px-4 py-3 text-sm font-body text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary transition-colors resize-none"
+              />
+            </div>
+
+            {error && (
+              <p className="text-red-400 text-xs font-body bg-red-500/10 border border-red-500/20 px-4 py-3">{error}</p>
+            )}
+
+            <button
+              type="submit"
+              disabled={submitting}
+              className="w-full py-4 font-body uppercase tracking-[0.2em] text-sm font-semibold flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-60"
+              style={{ background: "hsl(270,80%,65%)", color: "#fff" }}
+            >
+              {submitting ? (
+                <div className="w-5 h-5 border-2 border-white/50 border-t-white rounded-full animate-spin" />
+              ) : (
+                <><Star size={15} /> Submit Review</>
+              )}
+            </button>
+          </form>
+        )}
+      </div>
+    </section>
   );
 }

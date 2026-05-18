@@ -1,0 +1,139 @@
+Fix and fully optimize the production Luxe & Line ecommerce website for both mobile and desktop users. This is a live Vercel production website connected with Neon database and Resend email system. Carefully test all frontend and backend functionality and fix everything professionally.
+
+CRITICAL PERFORMANCE TASKS:
+1. Website is currently too slow.
+2. Optimize overall speed and performance.
+3. Reduce bundle size.
+4. Optimize React rendering.
+5. Optimize all animations and videos.
+6. Add lazy loading for images/videos/products.
+7. Compress and optimize assets.
+8. Optimize API/database queries.
+9. Improve Core Web Vitals.
+10. Ensure fast loading on mobile and desktop.
+11. Prevent unnecessary re-renders.
+12. Optimize for Vercel production hosting.
+13. Enable proper caching where appropriate.
+
+PRODUCT & SHOP ISSUES:
+1. On homepage product clicks show “Product not found” — fix completely.
+2. Shop page products are not loading — fix completely.
+3. Ensure all product routes/slugs work correctly.
+4. Ensure all products load correctly from database/API.
+5. Test every product page manually.
+
+UI & DESIGN TASKS:
+1. Entire website theme must stay premium purple/black/luxury style.
+2. Remove yellow text styling and replace with matching luxury purple theme.
+3. Ensure mobile responsiveness is perfect on all devices.
+4. Ensure desktop/laptop layout is perfect.
+5. Wallet section image says image not found — fix image loading.
+6. Footer must appear correctly on every page.
+7. Add:
+   - Company Owner: Amjad Khan
+   - Vice Owner: Zaheena Khan
+   in footer and About section.
+
+FOOTER & NAVIGATION:
+1. All footer links must work correctly.
+2. Every page navigation must work properly.
+3. No broken links anywhere.
+4. Fix WhatsApp/chatbot click button not working.
+5. Ensure routing/navigation is smooth.
+
+HOME PAGE VIDEO ISSUE:
+1. When navigating back to homepage from another page, homepage should NOT restart from videos section again.
+2. Homepage should preserve scroll position/navigation state.
+3. Only after full refresh should videos replay from beginning.
+
+AUTHENTICATION TASKS:
+1. Registration currently fails — fix completely.
+2. Login system must work correctly.
+3. Add Continue with Google authentication.
+4. User should see their Gmail account and continue easily.
+5. Google auth should create account/login automatically.
+6. Persist login sessions.
+7. User should remain logged in when revisiting website.
+8. Add Continue with Google on both:
+   - Register page
+   - Login page
+
+EMAIL SYSTEM TASKS:
+Using Resend integration:
+1. After successful registration:
+   - send welcome/congratulations email to user.
+2. After order placement:
+   - send invoice
+   - receipt
+   - order summary
+   to customer email.
+3. Send admin notification emails for:
+   - new registration
+   - new order
+   - account activity
+to:
+   - syedimad348@gmail.com
+   - zaheenaamjad@gmail.com
+   - luxeline26@gmail.com
+
+ADMIN DASHBOARD:
+1. Create proper admin dashboard access.
+2. ONLY these emails should access admin dashboard:
+   - syedimad348@gmail.com
+   - zaheenaamjad@gmail.com
+   - luxeline26@gmail.com
+3. Block all other users from admin access.
+4. Admin dashboard should show:
+   - orders
+   - users
+   - products
+   - reviews
+   - contact messages
+
+REVIEWS SYSTEM:
+1. Add customer review system.
+2. Add star ratings.
+3. Reviews must save permanently in database.
+4. Reviews must display properly on product pages.
+
+SEO & GOOGLE OPTIMIZATION:
+1. Fully optimize SEO.
+2. Add:
+   - meta titles
+   - meta descriptions
+   - Open Graph tags
+   - Twitter tags
+   - robots.txt
+   - sitemap.xml
+   - semantic headings
+   - structured data/schema markup
+3. Optimize for Google indexing.
+4. Improve ranking for:
+   - Luxe and Line
+   - luxury clothing store
+   - UK fashion store
+5. Ensure all pages are crawlable.
+6. Optimize performance SEO score.
+
+TESTING TASKS:
+1. Fully test:
+   - registration
+   - login
+   - Google auth
+   - order placement
+   - emails
+   - admin dashboard
+   - reviews
+   - product pages
+   - mobile responsiveness
+   - footer links
+   - navigation
+   - checkout flow
+2. Fix all console errors and production warnings.
+3. Ensure production Vercel build passes successfully.
+
+IMPORTANT:
+After all fixes:
+1. Push all changes to GitHub.
+2. Ensure Vercel production deployment succeeds automatically.
+3. Ensure no production build errors remain.
