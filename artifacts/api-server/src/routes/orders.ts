@@ -8,7 +8,7 @@ import {
   UpdateOrderStatusParams,
   UpdateOrderStatusBody,
 } from "@workspace/api-zod";
-import { sendOrderConfirmationEmail } from "../mailer.js";
+import { sendOrderConfirmationEmail, sendOrderStatusEmail } from "../mailer.js";
 
 const router = Router();
 
@@ -121,6 +121,13 @@ router.patch("/orders/:id", async (req, res) => {
       .returning();
 
     if (!order) { res.status(404).json({ error: "Order not found" }); return; }
+
+    // Send status notification email for key transitions
+    const notifyStatuses = ["processing", "shipped", "out_for_delivery", "delivered", "cancelled"];
+    if (notifyStatuses.includes(order.status)) {
+      sendOrderStatusEmail(order.id, order.customerName, order.customerEmail, order.status).catch(() => {});
+    }
+
     res.json(order);
   } catch (err) {
     req.log.error({ err }, "Failed to update order status");

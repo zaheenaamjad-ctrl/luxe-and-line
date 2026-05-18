@@ -1,0 +1,101 @@
+The admin dashboard still feels incomplete for a real ecommerce business. I need you to fully upgrade the production admin system on:
+https://www.luxeandline.uk
+
+ADMIN DASHBOARD REQUIREMENTS:
+
+1. ORDER MANAGEMENT SYSTEM
+   Admin dashboard must show:
+
+* total orders
+* pending orders
+* dispatched orders
+* delivered orders
+* cancelled/refunded orders
+* total revenue
+* daily/weekly/monthly analytics
+* latest customers
+* latest reviews
+
+2. ORDER STATUS CONTROLS
+   Add proper order workflow:
+
+* Pending
+* Processing
+* Dispatched
+* Out for delivery
+* Delivered
+* Cancelled
+
+Admin must be able to change status easily from dashboard.
+
+3. AUTOMATIC CUSTOMER EMAILS
+   When admin changes order status:
+
+* customer automatically receives email notification
+* professional branded email template
+* include order number and status update
+
+Examples:
+
+* Order dispatched
+* Out for delivery
+* Delivered confirmation
+
+4. ANALYTICS DASHBOARD
+   Add analytics/cards/charts:
+
+* revenue
+* total sales
+* orders count
+* top-selling products
+* new users
+* conversion stats
+* reviews count
+
+5. CUSTOMER MANAGEMENT
+   Admin should see:
+
+* customer list
+* emails
+* order history
+* total spent
+* registration date
+
+6. PRODUCT MANAGEMENT
+   Admin should be able to:
+
+* add products
+* edit products
+* delete products
+* manage stock
+* upload/change product images
+* manage categories
+
+7. REVIEW MANAGEMENT
+   Admin should:
+
+* approve/delete reviews
+* see star ratings
+* manage fake/spam reviews
+
+8. DATA PERSISTENCE
+   ALL dashboard data must save properly in Neon production DB.
+   Nothing should disappear after refresh or redeploy.
+
+9. ACCESS CONTROL
+   ONLY these emails should access admin:
+
+* [syedimad348@gmail.com](mailto:syedimad348@gmail.com)
+* [zaheenaamjad@gmail.com](mailto:zaheenaamjad@gmail.com)
+* [luxeline26@gmail.com](mailto:luxeline26@gmail.com)
+
+10. PRODUCTION TESTING
+    Do NOT stop after local testing.
+    Verify EVERYTHING directly on:
+    https://www.luxeandline.uk
+
+After completing:
+
+1. Push to GitHub
+2. Redeploy Vercel
+3. Verify admin system fully works in production

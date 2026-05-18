@@ -100,6 +100,12 @@ router.get("/auth/me", async (req, res) => {
   }
 });
 
+// GET /auth/google/client-id — returns the Google OAuth client ID for the frontend
+router.get("/auth/google/client-id", (req, res) => {
+  const clientId = process.env.GOOGLE_CLIENT_ID ?? null;
+  res.json({ clientId });
+});
+
 // POST /auth/google — verify Google ID token and sign in / register
 router.post("/auth/google", async (req, res) => {
   try {

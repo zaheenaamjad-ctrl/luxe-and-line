@@ -31,15 +31,12 @@ function emailWrapper(content: string): string {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Luxe &amp; Line</title>
-  <!--[if mso]><noscript><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript><![endif]-->
 </head>
 <body style="margin:0;padding:0;background-color:#f5f3ef;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f5f3ef;min-width:100%;">
     <tr>
       <td align="center" style="padding:32px 16px;">
         <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border:1px solid #e2ddd6;">
-
-          <!-- Header -->
           <tr>
             <td style="padding:36px 48px 28px;border-bottom:2px solid #1a1228;text-align:center;">
               <p style="margin:0 0 4px 0;font-size:9px;letter-spacing:5px;text-transform:uppercase;color:#9b7f3e;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Est. Liverpool · United Kingdom</p>
@@ -47,20 +44,15 @@ function emailWrapper(content: string): string {
               <div style="width:60px;height:1px;background:linear-gradient(90deg,transparent,#9b7f3e,transparent);margin:12px auto 0;"></div>
             </td>
           </tr>
-
-          <!-- Body -->
           ${content}
-
-          <!-- Footer -->
           <tr>
             <td style="padding:24px 48px;border-top:1px solid #e8e4dd;background:#f9f7f4;text-align:center;">
               <p style="margin:0 0 6px;font-size:11px;color:#1a1228;letter-spacing:2px;text-transform:uppercase;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:600;">LUXE &amp; LINE</p>
               <p style="margin:0 0 4px;font-size:11px;color:#7a6e64;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">39 Stanley Street, Liverpool L7 0JN, United Kingdom</p>
-              <p style="margin:0 0 10px;font-size:11px;color:#7a6e64;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">+44 7449 507661 &nbsp;·&nbsp; hello@luxeandline.uk</p>
+              <p style="margin:0 0 10px;font-size:11px;color:#7a6e64;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">+44 7449 507661 &nbsp;&middot;&nbsp; hello@luxeandline.uk</p>
               <p style="margin:0;font-size:10px;color:#a09689;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">&copy; ${new Date().getFullYear()} Luxe &amp; Line. All rights reserved.</p>
             </td>
           </tr>
-
         </table>
       </td>
     </tr>
@@ -89,120 +81,155 @@ export async function sendOrderConfirmationEmail(data: OrderEmailData): Promise<
       <p style="margin:0 0 6px;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#9b7f3e;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Order Confirmed</p>
       <h2 style="margin:0 0 20px;font-size:24px;font-weight:300;color:#1a1228;font-family:Georgia,'Times New Roman',serif;">Thank you, ${data.customerName}</h2>
       <p style="margin:0 0 24px;font-size:14px;line-height:1.7;color:#5c5147;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
-        We've received your order and will begin processing it right away. Your items will be dispatched once payment is confirmed — estimated delivery is <strong style="color:#1a1228;">4&ndash;5 business days</strong>.
+        We've received your order and will begin processing it right away. Estimated delivery is <strong style="color:#1a1228;">4&ndash;5 business days</strong>.
       </p>
     </td>
   </tr>
-
-  <!-- Order Summary -->
   <tr>
     <td style="padding:0 48px 24px;">
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f9f7f4;border:1px solid #e2ddd6;padding:0;">
-        <tr>
-          <td style="padding:16px 20px 12px;border-bottom:1px solid #e2ddd6;">
-            <p style="margin:0;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#9b7f3e;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Order #${data.orderId}</p>
-          </td>
-        </tr>
-        <tr>
-          <td style="padding:4px 20px 0;">
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-              ${itemRows}
-              <tr>
-                <td style="padding:14px 0 4px;font-size:15px;font-weight:700;color:#1a1228;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Total</td>
-                <td style="padding:14px 0 4px;font-size:15px;font-weight:700;color:#9b7f3e;text-align:right;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">&pound;${data.total.toFixed(2)}</td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-        <tr>
-          <td style="padding:12px 20px 16px;border-top:1px solid #e2ddd6;">
-            <p style="margin:0 0 4px;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#9b7f3e;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Delivery Address</p>
-            <p style="margin:4px 0 0;font-size:13px;color:#5c5147;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">${addressLines || data.address}</p>
-          </td>
-        </tr>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f9f7f4;border:1px solid #e2ddd6;">
+        <tr><td style="padding:16px 20px 12px;border-bottom:1px solid #e2ddd6;">
+          <p style="margin:0;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#9b7f3e;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Order #${data.orderId}</p>
+        </td></tr>
+        <tr><td style="padding:4px 20px 0;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+            ${itemRows}
+            <tr>
+              <td style="padding:14px 0 4px;font-size:15px;font-weight:700;color:#1a1228;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Total</td>
+              <td style="padding:14px 0 4px;font-size:15px;font-weight:700;color:#9b7f3e;text-align:right;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">&pound;${data.total.toFixed(2)}</td>
+            </tr>
+          </table>
+        </td></tr>
+        <tr><td style="padding:12px 20px 16px;border-top:1px solid #e2ddd6;">
+          <p style="margin:0 0 4px;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#9b7f3e;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Delivery Address</p>
+          <p style="margin:4px 0 0;font-size:13px;color:#5c5147;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">${addressLines || data.address}</p>
+        </td></tr>
       </table>
     </td>
   </tr>
-
-  <!-- Payment -->
   <tr>
     <td style="padding:0 48px 28px;">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#fdf9f0;border:1px solid #e8dfc8;border-left:3px solid #9b7f3e;">
-        <tr>
-          <td style="padding:14px 18px;">
-            <p style="margin:0 0 4px;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#9b7f3e;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Payment</p>
-            <p style="margin:0;font-size:13px;color:#5c5147;line-height:1.6;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">${paymentLabel}</p>
-          </td>
-        </tr>
+        <tr><td style="padding:14px 18px;">
+          <p style="margin:0 0 4px;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#9b7f3e;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Payment</p>
+          <p style="margin:0;font-size:13px;color:#5c5147;line-height:1.6;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">${paymentLabel}</p>
+        </td></tr>
       </table>
     </td>
   </tr>
-
-  <!-- CTA -->
   <tr>
     <td style="padding:0 48px 36px;text-align:center;">
       <a href="${SITE_URL}/shop" style="display:inline-block;background:#1a1228;color:#ffffff;text-decoration:none;font-size:11px;letter-spacing:3px;text-transform:uppercase;padding:14px 32px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:600;">Continue Shopping</a>
     </td>
   </tr>
-
-  <!-- Contact -->
   <tr>
     <td style="padding:0 48px 36px;border-top:1px solid #ede9e3;">
-      <p style="margin:16px 0 8px;font-size:12px;color:#7a6e64;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Questions about your order? We're here to help:</p>
-      <p style="margin:0 0 3px;font-size:12px;color:#3d3229;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">WhatsApp: +44 7449 507661</p>
-      <p style="margin:0;font-size:12px;color:#3d3229;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Email: hello@luxeandline.uk</p>
+      <p style="margin:16px 0 8px;font-size:12px;color:#7a6e64;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Questions? WhatsApp: +44 7449 507661 &nbsp;&middot;&nbsp; Email: hello@luxeandline.uk</p>
     </td>
   </tr>`;
 
   const html = emailWrapper(body);
-  const text = `Order Confirmed — Luxe & Line\n\nDear ${data.customerName},\n\nThank you for your order #${data.orderId}.\n\nItems:\n${data.items.map((i) => `  ${i.name} x${i.quantity} — £${(i.price * i.quantity).toFixed(2)}`).join("\n")}\n\nTotal: £${data.total.toFixed(2)}\nDelivery: ${addressLines || data.address}\nPayment: ${data.paymentMethod}\n\nEstimated delivery: 4–5 business days.\n\nFor queries: hello@luxeandline.uk or WhatsApp +44 7449 507661\n\nLuxe & Line, 39 Stanley Street, Liverpool L7 0JN`;
+  const text = `Order Confirmed — Luxe & Line\n\nDear ${data.customerName},\n\nOrder #${data.orderId} confirmed.\n\nItems:\n${data.items.map((i) => `  ${i.name} x${i.quantity} — £${(i.price * i.quantity).toFixed(2)}`).join("\n")}\n\nTotal: £${data.total.toFixed(2)}\nDelivery: ${addressLines || data.address}\n\nFor queries: hello@luxeandline.uk or WhatsApp +44 7449 507661`;
 
   try {
     await resend.emails.send({
-      from: FROM,
-      replyTo: REPLY_TO,
+      from: FROM, replyTo: REPLY_TO,
       to: data.customerEmail,
       subject: `Order #${data.orderId} confirmed — Luxe & Line`,
-      html,
-      text,
-      headers: {
-        "List-Unsubscribe": `<mailto:hello@luxeandline.uk?subject=unsubscribe>`,
-      },
+      html, text,
+      headers: { "List-Unsubscribe": `<mailto:hello@luxeandline.uk?subject=unsubscribe>` },
     });
-  } catch {
-    // silently fail — email must never crash checkout
-  }
+  } catch { /* silently fail */ }
 
-  // Admin notification
   const adminHtml = emailWrapper(`
-  <tr>
-    <td style="padding:28px 48px 36px;">
-      <p style="margin:0 0 4px;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#9b7f3e;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">New Order</p>
-      <h2 style="margin:0 0 20px;font-size:22px;font-weight:300;color:#1a1228;font-family:Georgia,'Times New Roman',serif;">Order #${data.orderId} Received</h2>
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
-        <tr><td style="padding:6px 0;font-size:13px;color:#5c5147;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;"><strong style="color:#1a1228;">Customer:</strong> ${data.customerName}</td></tr>
-        <tr><td style="padding:6px 0;font-size:13px;color:#5c5147;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;"><strong style="color:#1a1228;">Email:</strong> ${data.customerEmail}</td></tr>
-        <tr><td style="padding:6px 0;font-size:13px;color:#5c5147;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;"><strong style="color:#1a1228;">Total:</strong> &pound;${data.total.toFixed(2)} via ${data.paymentMethod}</td></tr>
-        <tr><td style="padding:6px 0;font-size:13px;color:#5c5147;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;"><strong style="color:#1a1228;">Address:</strong> ${addressLines || data.address}</td></tr>
-        <tr><td style="padding:6px 0;font-size:13px;color:#5c5147;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;"><strong style="color:#1a1228;">Items:</strong> ${data.items.map((i) => `${i.name} x${i.quantity}`).join(", ")}</td></tr>
-      </table>
-      <div style="margin-top:20px;">
-        <a href="${SITE_URL}/admin" style="display:inline-block;background:#1a1228;color:#ffffff;text-decoration:none;font-size:11px;letter-spacing:3px;text-transform:uppercase;padding:12px 24px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">View in Admin</a>
-      </div>
-    </td>
-  </tr>`);
+  <tr><td style="padding:28px 48px 36px;">
+    <p style="margin:0 0 4px;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#9b7f3e;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">New Order</p>
+    <h2 style="margin:0 0 20px;font-size:22px;font-weight:300;color:#1a1228;font-family:Georgia,'Times New Roman',serif;">Order #${data.orderId} — ${data.customerName}</h2>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+      <tr><td style="padding:5px 0;font-size:13px;color:#5c5147;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;"><strong style="color:#1a1228;">Email:</strong> ${data.customerEmail}</td></tr>
+      <tr><td style="padding:5px 0;font-size:13px;color:#5c5147;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;"><strong style="color:#1a1228;">Total:</strong> &pound;${data.total.toFixed(2)} via ${data.paymentMethod}</td></tr>
+      <tr><td style="padding:5px 0;font-size:13px;color:#5c5147;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;"><strong style="color:#1a1228;">Address:</strong> ${addressLines || data.address}</td></tr>
+      <tr><td style="padding:5px 0;font-size:13px;color:#5c5147;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;"><strong style="color:#1a1228;">Items:</strong> ${data.items.map((i) => `${i.name} x${i.quantity}`).join(", ")}</td></tr>
+    </table>
+    <div style="margin-top:20px;">
+      <a href="${SITE_URL}/admin" style="display:inline-block;background:#1a1228;color:#ffffff;text-decoration:none;font-size:11px;letter-spacing:3px;text-transform:uppercase;padding:12px 24px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">View in Admin</a>
+    </div>
+  </td></tr>`);
 
   try {
     await resend.emails.send({
-      from: FROM,
-      replyTo: data.customerEmail,
+      from: FROM, replyTo: data.customerEmail,
       to: ADMIN_NOTIFICATION_EMAILS,
       subject: `New order #${data.orderId} — ${data.customerName} — £${data.total.toFixed(2)}`,
       html: adminHtml,
     });
-  } catch {
-    // silently fail
-  }
+  } catch { /* silently fail */ }
+}
+
+const STATUS_LABELS: Record<string, string> = {
+  processing: "Processing",
+  shipped: "Dispatched",
+  out_for_delivery: "Out for Delivery",
+  delivered: "Delivered",
+  cancelled: "Cancelled",
+};
+
+const STATUS_MESSAGES: Record<string, string> = {
+  processing: "We're now preparing your order for dispatch.",
+  shipped: "Great news — your order is on its way! It should arrive within 4&ndash;5 business days.",
+  out_for_delivery: "Your order is out for delivery today. Please ensure someone is available to receive it.",
+  delivered: "Your order has been delivered. We hope you love everything!",
+  cancelled: "Your order has been cancelled. If you believe this is an error, please contact us immediately.",
+};
+
+export async function sendOrderStatusEmail(
+  orderId: number,
+  customerName: string,
+  customerEmail: string,
+  newStatus: string,
+): Promise<void> {
+  if (!resend) return;
+  const label = STATUS_LABELS[newStatus];
+  const message = STATUS_MESSAGES[newStatus];
+  if (!label || !message) return;
+
+  const accentColor = newStatus === "cancelled" ? "#c0392b" : newStatus === "delivered" ? "#27ae60" : "#9b7f3e";
+
+  const body = `
+  <tr>
+    <td style="padding:36px 48px 28px;">
+      <p style="margin:0 0 6px;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:${accentColor};font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Order Update</p>
+      <h2 style="margin:0 0 8px;font-size:26px;font-weight:300;color:#1a1228;font-family:Georgia,'Times New Roman',serif;">Order #${orderId}</h2>
+      <div style="display:inline-block;background:${accentColor}1a;border:1px solid ${accentColor}4d;padding:6px 16px;margin-bottom:20px;">
+        <p style="margin:0;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:${accentColor};font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:600;">${label}</p>
+      </div>
+      <p style="margin:0 0 24px;font-size:14px;line-height:1.75;color:#5c5147;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
+        Dear ${customerName},<br/><br/>${message}
+      </p>
+      ${newStatus !== "cancelled" ? `
+      <div style="text-align:center;margin-top:8px;">
+        <a href="${SITE_URL}/shop" style="display:inline-block;background:#1a1228;color:#ffffff;text-decoration:none;font-size:11px;letter-spacing:3px;text-transform:uppercase;padding:14px 32px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:600;">Continue Shopping</a>
+      </div>` : ""}
+    </td>
+  </tr>
+  <tr>
+    <td style="padding:0 48px 36px;border-top:1px solid #ede9e3;">
+      <p style="margin:16px 0 4px;font-size:12px;color:#7a6e64;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Questions? We're here to help.</p>
+      <p style="margin:0;font-size:12px;color:#3d3229;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">WhatsApp: +44 7449 507661 &nbsp;&middot;&nbsp; hello@luxeandline.uk</p>
+    </td>
+  </tr>`;
+
+  const text = `Order #${orderId} Update — ${label}\n\nDear ${customerName},\n\n${message.replace(/<[^>]+>/g, "")}\n\nFor queries: hello@luxeandline.uk or WhatsApp +44 7449 507661\n\nLuxe & Line`;
+
+  try {
+    await resend.emails.send({
+      from: FROM, replyTo: REPLY_TO,
+      to: customerEmail,
+      subject: `Order #${orderId} — ${label} · Luxe & Line`,
+      html: emailWrapper(body), text,
+      headers: { "List-Unsubscribe": `<mailto:hello@luxeandline.uk?subject=unsubscribe>` },
+    });
+  } catch { /* silently fail */ }
 }
 
 export async function sendWelcomeEmail(name: string, email: string): Promise<void> {
@@ -214,99 +241,49 @@ export async function sendWelcomeEmail(name: string, email: string): Promise<voi
       <p style="margin:0 0 6px;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#9b7f3e;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Welcome to Luxe &amp; Line</p>
       <h2 style="margin:0 0 20px;font-size:26px;font-weight:300;color:#1a1228;font-family:Georgia,'Times New Roman',serif;">Hello, ${name}</h2>
       <p style="margin:0 0 18px;font-size:14px;line-height:1.75;color:#5c5147;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
-        Welcome to Luxe &amp; Line — your new home for premium Pakistani fashion, leather accessories and artisan confectionery, delivered anywhere in the UK with free delivery on every order.
+        Welcome to Luxe &amp; Line — your home for premium Pakistani fashion, leather accessories and artisan confectionery, delivered anywhere in the UK with free delivery on every order.
       </p>
       <p style="margin:0 0 28px;font-size:14px;line-height:1.75;color:#5c5147;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
-        Your account is now active. Browse our latest Nureh Gardenia, Charizma and Zeenat collections, order our handcrafted leather wallets, or treat someone special to our award-worthy Pistachio Kunafa Bites.
+        Your account is now active. Browse our latest Nureh Gardenia, Charizma and Zeenat collections, or treat someone to our award-worthy Pistachio Kunafa Bites.
       </p>
     </td>
   </tr>
-
-  <!-- CTA -->
   <tr>
     <td style="padding:0 48px 28px;text-align:center;">
       <a href="${SITE_URL}/shop" style="display:inline-block;background:#1a1228;color:#ffffff;text-decoration:none;font-size:11px;letter-spacing:4px;text-transform:uppercase;padding:16px 40px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:600;">Shop the Collection</a>
     </td>
   </tr>
-
-  <!-- Trust badges -->
-  <tr>
-    <td style="padding:0 48px 28px;">
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e2ddd6;background:#f9f7f4;">
-        <tr>
-          <td style="padding:16px 20px;">
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-              <tr>
-                <td width="33%" style="padding:8px 12px;text-align:center;border-right:1px solid #e2ddd6;">
-                  <p style="margin:0 0 3px;font-size:16px;color:#9b7f3e;">&#10003;</p>
-                  <p style="margin:0;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#3d3229;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:600;">Free Delivery</p>
-                  <p style="margin:2px 0 0;font-size:10px;color:#7a6e64;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">All UK orders</p>
-                </td>
-                <td width="33%" style="padding:8px 12px;text-align:center;border-right:1px solid #e2ddd6;">
-                  <p style="margin:0 0 3px;font-size:16px;color:#9b7f3e;">&#9733;</p>
-                  <p style="margin:0;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#3d3229;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:600;">4.8 / 5 Rating</p>
-                  <p style="margin:2px 0 0;font-size:10px;color:#7a6e64;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Customer reviews</p>
-                </td>
-                <td width="34%" style="padding:8px 12px;text-align:center;">
-                  <p style="margin:0 0 3px;font-size:16px;color:#9b7f3e;">&#128230;</p>
-                  <p style="margin:0;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#3d3229;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:600;">4–5 Day Delivery</p>
-                  <p style="margin:2px 0 0;font-size:10px;color:#7a6e64;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Tracked shipping</p>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-
-  <!-- Contact -->
   <tr>
     <td style="padding:0 48px 36px;border-top:1px solid #ede9e3;">
-      <p style="margin:16px 0 8px;font-size:12px;color:#7a6e64;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Need help or have a question? We'd love to hear from you:</p>
-      <p style="margin:0 0 3px;font-size:12px;color:#3d3229;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">WhatsApp: <a href="https://wa.me/447449507661" style="color:#9b7f3e;text-decoration:none;">+44 7449 507661</a></p>
-      <p style="margin:0 0 3px;font-size:12px;color:#3d3229;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Email: <a href="mailto:hello@luxeandline.uk" style="color:#9b7f3e;text-decoration:none;">hello@luxeandline.uk</a></p>
-      <p style="margin:6px 0 0;font-size:12px;color:#3d3229;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Website: <a href="${SITE_URL}" style="color:#9b7f3e;text-decoration:none;">www.luxeandline.uk</a></p>
+      <p style="margin:16px 0 4px;font-size:12px;color:#7a6e64;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Need help? We'd love to hear from you.</p>
+      <p style="margin:0;font-size:12px;color:#3d3229;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">WhatsApp: <a href="https://wa.me/447449507661" style="color:#9b7f3e;text-decoration:none;">+44 7449 507661</a> &nbsp;&middot;&nbsp; <a href="mailto:hello@luxeandline.uk" style="color:#9b7f3e;text-decoration:none;">hello@luxeandline.uk</a></p>
     </td>
   </tr>`;
 
-  const html = emailWrapper(body);
-  const text = `Welcome to Luxe & Line, ${name}!\n\nYour account is now active. Browse our collections at ${SITE_URL}/shop\n\nFree UK delivery on every order. 4–5 day tracked delivery.\n\nQuestions? WhatsApp +44 7449 507661 or email hello@luxeandline.uk\n\nLuxe & Line, 39 Stanley Street, Liverpool L7 0JN`;
+  const text = `Welcome to Luxe & Line, ${name}!\n\nYour account is now active. Browse our collections at ${SITE_URL}/shop\n\nFree UK delivery on every order.\n\nQuestions? WhatsApp +44 7449 507661 or email hello@luxeandline.uk`;
 
   try {
     await resend.emails.send({
-      from: FROM,
-      replyTo: REPLY_TO,
+      from: FROM, replyTo: REPLY_TO,
       to: email,
       subject: `Welcome to Luxe & Line, ${name}`,
-      html,
-      text,
-      headers: {
-        "List-Unsubscribe": `<mailto:hello@luxeandline.uk?subject=unsubscribe>`,
-      },
+      html: emailWrapper(body), text,
+      headers: { "List-Unsubscribe": `<mailto:hello@luxeandline.uk?subject=unsubscribe>` },
     });
-  } catch {
-    // silently fail
-  }
+  } catch { /* silently fail */ }
 
-  // Admin notification
   try {
     await resend.emails.send({
       from: FROM,
       to: ADMIN_NOTIFICATION_EMAILS,
       subject: `New customer: ${name} (${email})`,
-      html: emailWrapper(`
-      <tr>
-        <td style="padding:28px 48px 36px;">
-          <p style="margin:0 0 4px;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#9b7f3e;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">New Registration</p>
-          <h2 style="margin:0 0 20px;font-size:22px;font-weight:300;color:#1a1228;font-family:Georgia,'Times New Roman',serif;">New Customer Account</h2>
-          <p style="margin:0 0 6px;font-size:13px;color:#3d3229;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;"><strong>Name:</strong> ${name}</p>
-          <p style="margin:0;font-size:13px;color:#3d3229;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;"><strong>Email:</strong> ${email}</p>
-        </td>
-      </tr>`),
-      text: `New customer registration: ${name} (${email})`,
+      html: emailWrapper(`<tr><td style="padding:28px 48px 36px;">
+        <p style="margin:0 0 4px;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#9b7f3e;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">New Registration</p>
+        <h2 style="margin:0 0 16px;font-size:22px;font-weight:300;color:#1a1228;font-family:Georgia,'Times New Roman',serif;">New Customer Account</h2>
+        <p style="margin:0 0 6px;font-size:13px;color:#3d3229;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;"><strong>Name:</strong> ${name}</p>
+        <p style="margin:0;font-size:13px;color:#3d3229;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;"><strong>Email:</strong> ${email}</p>
+      </td></tr>`),
+      text: `New customer: ${name} (${email})`,
     });
-  } catch {
-    // silently fail
-  }
+  } catch { /* silently fail */ }
 }

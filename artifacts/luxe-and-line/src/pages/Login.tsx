@@ -3,8 +3,6 @@ import { Link, useLocation } from "wouter";
 import { Eye, EyeOff, LogIn } from "lucide-react";
 import { saveAuth } from "@/lib/auth";
 
-const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID as string | undefined;
-
 type GoogleAccountsId = {
   initialize: (o: {
     client_id: string;
@@ -27,8 +25,19 @@ export function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [googleClientId, setGoogleClientId] = useState<string | null>(
+    (import.meta.env.VITE_GOOGLE_CLIENT_ID as string | undefined) ?? null
+  );
   const googleBtnRef = useRef<HTMLDivElement>(null);
   const callbackRef = useRef<((r: { credential: string }) => void) | undefined>(undefined);
+
+  useEffect(() => {
+    if (googleClientId) return;
+    fetch("/api/auth/google/client-id")
+      .then((r) => r.json())
+      .then((d: { clientId: string | null }) => { if (d.clientId) setGoogleClientId(d.clientId); })
+      .catch(() => {});
+  }, [googleClientId]);
 
   const handleGoogleResponse = async (response: { credential: string }) => {
     setGoogleLoading(true);
@@ -53,24 +62,20 @@ export function Login() {
     }
   };
 
-  // Keep callback ref fresh so the Google initialized callback always calls latest version
   callbackRef.current = handleGoogleResponse;
 
   useEffect(() => {
-    if (!GOOGLE_CLIENT_ID) return;
+    if (!googleClientId) return;
 
     const init = () => {
       const g = (window as GoogleWindow).google;
       if (!g?.accounts?.id || !googleBtnRef.current) return;
-
       const width = Math.max(googleBtnRef.current.clientWidth || 400, 200);
-
       g.accounts.id.initialize({
-        client_id: GOOGLE_CLIENT_ID,
+        client_id: googleClientId,
         callback: (r: { credential: string }) => callbackRef.current?.(r),
         use_fedcm_for_prompt: false,
       });
-
       g.accounts.id.renderButton(googleBtnRef.current, {
         theme: "filled_black",
         size: "large",
@@ -80,20 +85,14 @@ export function Login() {
       });
     };
 
-    if ((window as GoogleWindow).google?.accounts?.id) {
-      init();
-      return;
-    }
+    if ((window as GoogleWindow).google?.accounts?.id) { init(); return; }
 
     let attempts = 0;
     const t = setInterval(() => {
-      if ((window as GoogleWindow).google?.accounts?.id || ++attempts > 40) {
-        clearInterval(t);
-        init();
-      }
+      if ((window as GoogleWindow).google?.accounts?.id || ++attempts > 40) { clearInterval(t); init(); }
     }, 250);
     return () => clearInterval(t);
-  }, []);
+  }, [googleClientId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -129,7 +128,6 @@ export function Login() {
         </div>
 
         <div className="bg-card/60 backdrop-blur-sm border border-border p-8">
-          {/* Google Sign-In */}
           <div className="mb-6">
             <div
               ref={googleBtnRef}
@@ -140,9 +138,6 @@ export function Login() {
                 <div className="w-5 h-5 border-2 border-primary/50 border-t-primary rounded-full animate-spin" />
               )}
             </div>
-            {!GOOGLE_CLIENT_ID && (
-              <p className="text-center text-xs font-body text-muted-foreground/50 mt-2">Google sign-in not configured</p>
-            )}
             <div className="relative mt-5">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-border/50" />
