@@ -13,7 +13,7 @@ router.use(healthRouter);
 router.use(productsRouter);
 router.use(cartRouter);
 router.use(ordersRouter);
-router.use("/admin", adminRouter);
+router.use(adminRouter);
 router.use(authRouter);
 router.use(reviewsRouter);
 
