@@ -260,4 +260,21 @@ router.delete("/admin/products/:id", async (req, res) => {
   }
 });
 
+// GET /admin/diagnostics — production env var health check (values never exposed, only presence)
+router.get("/admin/diagnostics", (req, res) => {
+  if (!requireAdmin(req, res)) return;
+  const resendFrom = process.env.RESEND_FROM ?? "Luxe & Line <hello@luxeandline.uk>";
+  res.json({
+    ok: true,
+    env: {
+      DATABASE_URL: !!process.env.DATABASE_URL,
+      RESEND_API_KEY: !!process.env.RESEND_API_KEY,
+      RESEND_FROM: resendFrom,
+      GOOGLE_CLIENT_ID: !!process.env.GOOGLE_CLIENT_ID,
+      SITE_URL: process.env.SITE_URL ?? "(default: https://www.luxeandline.uk)",
+      NODE_ENV: process.env.NODE_ENV ?? "not set",
+    },
+  });
+});
+
 export default router;

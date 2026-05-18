@@ -1,0 +1,82 @@
+This is extremely frustrating now because I have completed ALL required infrastructure setup:
+
+* Neon database
+* Resend domain verification
+* Cloudflare DNS
+* Google OAuth setup
+* Vercel environment variables
+* Google Cloud Console origins/redirect URIs
+
+But the LIVE production website still has critical broken functionality.
+
+STOP assuming features work locally.
+I need proper PRODUCTION debugging on:
+https://www.luxeandline.uk
+
+CRITICAL ISSUES STILL NOT FIXED:
+
+1. REGISTRATION EMAILS STILL NOT SENDING
+   When users register:
+
+* welcome email still does not reliably send
+* verify registration email trigger
+* verify Resend production logs
+* verify production mailer execution
+* verify frontend/backend registration flow
+* verify no silent API failures
+
+2. ORDER CONFIRMATION EMAILS STILL FAILING
+   After checkout:
+
+* customers are not reliably receiving confirmation emails
+* verify production checkout flow
+* verify order email trigger
+* verify Resend send() execution in production
+* verify order creation and mailer integration
+
+3. EMAILS STILL NOT LANDING IN PRIMARY
+   I already verified the Resend domain.
+   Now verify:
+
+* production sender is actually:
+  Luxe & Line [hello@luxeandline.uk](mailto:hello@luxeandline.uk)
+* [onboarding@resend.dev](mailto:onboarding@resend.dev) is NOT being used anymore
+* SPF/DKIM/DMARC are active
+* inspect actual production email headers
+* improve deliverability configuration
+
+4. ADMIN DASHBOARD STILL DOES NOT WORK FOR THE 3 ADMIN EMAILS
+   These emails MUST ALWAYS have admin access:
+
+* [syedimad348@gmail.com](mailto:syedimad348@gmail.com)
+* [zaheenaamjad@gmail.com](mailto:zaheenaamjad@gmail.com)
+* [luxeline26@gmail.com](mailto:luxeline26@gmail.com)
+
+Debug:
+
+* production auth middleware
+* admin role lookup
+* Neon DB role data
+* session persistence
+* JWT/session validation
+* frontend route guards
+
+5. VERIFY EVERYTHING ON LIVE PRODUCTION
+   Do NOT tell me features work unless verified directly on:
+   https://www.luxeandline.uk
+
+I need REAL production verification:
+
+* registration
+* login
+* Google login
+* admin access
+* welcome emails
+* order confirmation emails
+* order status emails
+
+After fixing:
+
+1. Push all fixes to GitHub
+2. Redeploy Vercel
+3. Verify functionality directly on production

@@ -1,9 +1,16 @@
 import { Resend } from "resend";
+import { logger } from "./lib/logger";
 
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
-const FROM = process.env.RESEND_FROM ?? "Luxe & Line <onboarding@resend.dev>";
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
+const resend = RESEND_API_KEY ? new Resend(RESEND_API_KEY) : null;
+const FROM = process.env.RESEND_FROM ?? "Luxe & Line <hello@luxeandline.uk>";
 const REPLY_TO = "hello@luxeandline.uk";
 const SITE_URL = process.env.SITE_URL ?? "https://www.luxeandline.uk";
+
+logger.info(
+  { resendConfigured: !!RESEND_API_KEY, from: FROM, siteUrl: SITE_URL },
+  "Mailer initialised"
+);
 
 export const ADMIN_NOTIFICATION_EMAILS = [
   "syedimad348@gmail.com",
@@ -62,7 +69,10 @@ function emailWrapper(content: string): string {
 }
 
 export async function sendOrderConfirmationEmail(data: OrderEmailData): Promise<void> {
-  if (!resend) return;
+  if (!resend) {
+    logger.warn("sendOrderConfirmationEmail: RESEND_API_KEY not set, skipping");
+    return;
+  }
 
   const addressLines = [data.address, data.city, data.postCode].filter(Boolean).join(", ");
   const paymentLabel = data.paymentMethod === "bank-transfer"
@@ -132,14 +142,17 @@ export async function sendOrderConfirmationEmail(data: OrderEmailData): Promise<
   const text = `Order Confirmed — Luxe & Line\n\nDear ${data.customerName},\n\nOrder #${data.orderId} confirmed.\n\nItems:\n${data.items.map((i) => `  ${i.name} x${i.quantity} — £${(i.price * i.quantity).toFixed(2)}`).join("\n")}\n\nTotal: £${data.total.toFixed(2)}\nDelivery: ${addressLines || data.address}\n\nFor queries: hello@luxeandline.uk or WhatsApp +44 7449 507661`;
 
   try {
-    await resend.emails.send({
+    const result = await resend.emails.send({
       from: FROM, replyTo: REPLY_TO,
       to: data.customerEmail,
       subject: `Order #${data.orderId} confirmed — Luxe & Line`,
       html, text,
       headers: { "List-Unsubscribe": `<mailto:hello@luxeandline.uk?subject=unsubscribe>` },
     });
-  } catch { /* silently fail */ }
+    logger.info({ orderId: data.orderId, to: data.customerEmail, emailId: result.data?.id }, "Order confirmation email sent");
+  } catch (err) {
+    logger.error({ err, orderId: data.orderId, to: data.customerEmail, from: FROM }, "Failed to send order confirmation email");
+  }
 
   const adminHtml = emailWrapper(`
   <tr><td style="padding:28px 48px 36px;">
@@ -157,13 +170,16 @@ export async function sendOrderConfirmationEmail(data: OrderEmailData): Promise<
   </td></tr>`);
 
   try {
-    await resend.emails.send({
+    const result = await resend.emails.send({
       from: FROM, replyTo: data.customerEmail,
       to: ADMIN_NOTIFICATION_EMAILS,
       subject: `New order #${data.orderId} — ${data.customerName} — £${data.total.toFixed(2)}`,
       html: adminHtml,
     });
-  } catch { /* silently fail */ }
+    logger.info({ orderId: data.orderId, emailId: result.data?.id }, "Admin order notification sent");
+  } catch (err) {
+    logger.error({ err, orderId: data.orderId }, "Failed to send admin order notification");
+  }
 }
 
 const STATUS_LABELS: Record<string, string> = {
@@ -188,7 +204,10 @@ export async function sendOrderStatusEmail(
   customerEmail: string,
   newStatus: string,
 ): Promise<void> {
-  if (!resend) return;
+  if (!resend) {
+    logger.warn("sendOrderStatusEmail: RESEND_API_KEY not set, skipping");
+    return;
+  }
   const label = STATUS_LABELS[newStatus];
   const message = STATUS_MESSAGES[newStatus];
   if (!label || !message) return;
@@ -222,18 +241,24 @@ export async function sendOrderStatusEmail(
   const text = `Order #${orderId} Update — ${label}\n\nDear ${customerName},\n\n${message.replace(/<[^>]+>/g, "")}\n\nFor queries: hello@luxeandline.uk or WhatsApp +44 7449 507661\n\nLuxe & Line`;
 
   try {
-    await resend.emails.send({
+    const result = await resend.emails.send({
       from: FROM, replyTo: REPLY_TO,
       to: customerEmail,
       subject: `Order #${orderId} — ${label} · Luxe & Line`,
       html: emailWrapper(body), text,
       headers: { "List-Unsubscribe": `<mailto:hello@luxeandline.uk?subject=unsubscribe>` },
     });
-  } catch { /* silently fail */ }
+    logger.info({ orderId, to: customerEmail, status: newStatus, emailId: result.data?.id }, "Order status email sent");
+  } catch (err) {
+    logger.error({ err, orderId, to: customerEmail, status: newStatus, from: FROM }, "Failed to send order status email");
+  }
 }
 
 export async function sendWelcomeEmail(name: string, email: string): Promise<void> {
-  if (!resend) return;
+  if (!resend) {
+    logger.warn("sendWelcomeEmail: RESEND_API_KEY not set, skipping");
+    return;
+  }
 
   const body = `
   <tr>
@@ -263,17 +288,20 @@ export async function sendWelcomeEmail(name: string, email: string): Promise<voi
   const text = `Welcome to Luxe & Line, ${name}!\n\nYour account is now active. Browse our collections at ${SITE_URL}/shop\n\nFree UK delivery on every order.\n\nQuestions? WhatsApp +44 7449 507661 or email hello@luxeandline.uk`;
 
   try {
-    await resend.emails.send({
+    const result = await resend.emails.send({
       from: FROM, replyTo: REPLY_TO,
       to: email,
       subject: `Welcome to Luxe & Line, ${name}`,
       html: emailWrapper(body), text,
       headers: { "List-Unsubscribe": `<mailto:hello@luxeandline.uk?subject=unsubscribe>` },
     });
-  } catch { /* silently fail */ }
+    logger.info({ to: email, emailId: result.data?.id }, "Welcome email sent");
+  } catch (err) {
+    logger.error({ err, to: email, from: FROM }, "Failed to send welcome email");
+  }
 
   try {
-    await resend.emails.send({
+    const result = await resend.emails.send({
       from: FROM,
       to: ADMIN_NOTIFICATION_EMAILS,
       subject: `New customer: ${name} (${email})`,
@@ -285,5 +313,8 @@ export async function sendWelcomeEmail(name: string, email: string): Promise<voi
       </td></tr>`),
       text: `New customer: ${name} (${email})`,
     });
-  } catch { /* silently fail */ }
+    logger.info({ emailId: result.data?.id }, "Admin new-customer notification sent");
+  } catch (err) {
+    logger.error({ err }, "Failed to send admin new-customer notification");
+  }
 }
