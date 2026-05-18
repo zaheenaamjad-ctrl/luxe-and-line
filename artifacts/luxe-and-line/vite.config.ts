@@ -4,9 +4,6 @@ import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
-// PORT and BASE_PATH are required in dev (Replit workflows provide them).
-// In production builds (e.g. Vercel), the dev server is never started,
-// so we fall back to safe defaults — they are ignored during `vite build`.
 const port = Number(process.env.PORT ?? "3000");
 const basePath = process.env.BASE_PATH ?? "/";
 
@@ -41,6 +38,21 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    chunkSizeWarningLimit: 1200,
+    cssCodeSplit: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "vendor-react": ["react", "react-dom"],
+          "vendor-query": ["@tanstack/react-query"],
+          "vendor-router": ["wouter"],
+          "vendor-ui": ["lucide-react"],
+        },
+        chunkFileNames: "assets/[name]-[hash].js",
+        entryFileNames: "assets/[name]-[hash].js",
+        assetFileNames: "assets/[name]-[hash][extname]",
+      },
+    },
   },
   server: {
     port,
@@ -55,5 +67,15 @@ export default defineConfig({
     port,
     host: "0.0.0.0",
     allowedHosts: true,
+  },
+  define: {
+    // Expose GOOGLE_CLIENT_ID (set as server secret) to the Vite client bundle
+    // Falls back to VITE_GOOGLE_CLIENT_ID if that's the name used instead
+    "import.meta.env.VITE_GOOGLE_CLIENT_ID": JSON.stringify(
+      process.env.GOOGLE_CLIENT_ID ?? process.env.VITE_GOOGLE_CLIENT_ID ?? ""
+    ),
+  },
+  optimizeDeps: {
+    include: ["react", "react-dom", "@tanstack/react-query", "wouter"],
   },
 });

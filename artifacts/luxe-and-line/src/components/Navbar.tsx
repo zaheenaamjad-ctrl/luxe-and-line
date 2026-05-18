@@ -2,23 +2,22 @@ import { Link, useLocation } from "wouter";
 import { ShoppingBag, Menu, X, User, LogIn, UserPlus } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useGetCart } from "@workspace/api-client-react";
+import { AUTH_CHANGE_EVENT, getAuthUser, clearAuth } from "@/lib/auth";
 
 function useCustomerAuth() {
-  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
+  const [user, setUser] = useState(() => getAuthUser());
 
   useEffect(() => {
-    const stored = localStorage.getItem("customer_user");
-    if (stored) {
-      try { setUser(JSON.parse(stored)); } catch { /* ignore */ }
-    }
+    const sync = () => setUser(getAuthUser());
+    window.addEventListener(AUTH_CHANGE_EVENT, sync);
+    window.addEventListener("storage", sync);
+    return () => {
+      window.removeEventListener(AUTH_CHANGE_EVENT, sync);
+      window.removeEventListener("storage", sync);
+    };
   }, []);
 
-  const logout = () => {
-    localStorage.removeItem("customer_token");
-    localStorage.removeItem("customer_user");
-    setUser(null);
-  };
-
+  const logout = () => clearAuth();
   return { user, logout };
 }
 
@@ -69,7 +68,7 @@ export function Navbar() {
             {/* Logo */}
             <div className="flex items-center">
               <Link href="/" className="flex items-center">
-                <img src="/logo-transparent.png" alt="Luxe & Line" className="h-10 w-10 object-contain" />
+                <img src="/logo-transparent.png" alt="Luxe & Line" className="h-10 w-10 object-contain" loading="eager" />
               </Link>
             </div>
 
@@ -103,6 +102,9 @@ export function Navbar() {
                       className="absolute right-0 top-8 bg-card border border-border py-2 w-36 z-50"
                       onMouseLeave={() => setShowUserMenu(false)}
                     >
+                      <div className="px-4 py-1.5 text-[10px] font-body text-muted-foreground/50 uppercase tracking-wider border-b border-border/30 mb-1">
+                        {user.email.length > 18 ? user.email.slice(0, 18) + "…" : user.email}
+                      </div>
                       <button
                         onClick={() => { logout(); setShowUserMenu(false); }}
                         className="w-full text-left px-4 py-2 text-xs font-body text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors uppercase tracking-wider"
@@ -146,7 +148,7 @@ export function Navbar() {
                 ) : null}
               </Link>
 
-              <button className="md:hidden text-foreground hover:text-primary" onClick={toggleMenu}>
+              <button className="md:hidden text-foreground hover:text-primary" onClick={toggleMenu} aria-label="Toggle menu">
                 {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
             </div>
@@ -169,7 +171,6 @@ export function Navbar() {
               </Link>
             ))}
 
-            {/* Legal links in mobile menu */}
             <div className="border-t border-border/20 mt-2 pt-2 space-y-0.5">
               <Link
                 href="/terms"

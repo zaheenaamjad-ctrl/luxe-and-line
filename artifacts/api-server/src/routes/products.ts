@@ -27,6 +27,7 @@ router.get("/products", async (req, res) => {
       }
     }
 
+    res.setHeader("Cache-Control", "public, max-age=60, stale-while-revalidate=300");
     res.json(products);
   } catch (err) {
     req.log.error({ err }, "Failed to list products");
@@ -108,6 +109,7 @@ router.get("/products/:id", async (req, res) => {
       .where(eq(productsTable.id, params.data.id));
 
     if (!product) { res.status(404).json({ error: "Product not found" }); return; }
+    res.setHeader("Cache-Control", "public, max-age=300, stale-while-revalidate=600");
     res.json(product);
   } catch (err) {
     req.log.error({ err }, "Failed to get product");
