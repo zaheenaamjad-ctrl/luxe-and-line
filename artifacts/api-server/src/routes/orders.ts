@@ -36,7 +36,7 @@ router.post("/orders", async (req, res) => {
   try {
     const parsed = CreateOrderBody.safeParse(req.body);
     if (!parsed.success) {
-      return res.status(400).json({ error: "Invalid order data", details: parsed.error });
+      res.status(400).json({ error: "Invalid order data", details: parsed.error }); return;
     }
 
     const { data } = parsed;
@@ -83,14 +83,14 @@ router.post("/orders", async (req, res) => {
 router.get("/orders/:id", async (req, res) => {
   try {
     const params = GetOrderParams.safeParse({ id: parseInt(req.params.id) });
-    if (!params.success) return res.status(400).json({ error: "Invalid ID" });
+    if (!params.success) { res.status(400).json({ error: "Invalid ID" }); return; }
 
     const [order] = await db
       .select()
       .from(ordersTable)
       .where(eq(ordersTable.id, params.data.id));
 
-    if (!order) return res.status(404).json({ error: "Order not found" });
+    if (!order) { res.status(404).json({ error: "Order not found" }); return; }
     res.json(order);
   } catch (err) {
     req.log.error({ err }, "Failed to get order");
@@ -102,10 +102,10 @@ router.get("/orders/:id", async (req, res) => {
 router.patch("/orders/:id", async (req, res) => {
   try {
     const params = UpdateOrderStatusParams.safeParse({ id: parseInt(req.params.id) });
-    if (!params.success) return res.status(400).json({ error: "Invalid ID" });
+    if (!params.success) { res.status(400).json({ error: "Invalid ID" }); return; }
 
     const parsed = UpdateOrderStatusBody.safeParse(req.body);
-    if (!parsed.success) return res.status(400).json({ error: "Invalid data" });
+    if (!parsed.success) { res.status(400).json({ error: "Invalid data" }); return; }
 
     const updateData: Partial<typeof ordersTable.$inferInsert> = {
       status: parsed.data.status,
@@ -120,7 +120,7 @@ router.patch("/orders/:id", async (req, res) => {
       .where(eq(ordersTable.id, params.data.id))
       .returning();
 
-    if (!order) return res.status(404).json({ error: "Order not found" });
+    if (!order) { res.status(404).json({ error: "Order not found" }); return; }
     res.json(order);
   } catch (err) {
     req.log.error({ err }, "Failed to update order status");

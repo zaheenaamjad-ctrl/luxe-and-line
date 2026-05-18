@@ -39,7 +39,7 @@ router.post("/products", async (req, res) => {
   try {
     const parsed = CreateProductBody.safeParse(req.body);
     if (!parsed.success) {
-      return res.status(400).json({ error: "Invalid product data" });
+      res.status(400).json({ error: "Invalid product data" }); return;
     }
     const { data } = parsed;
     const [product] = await db
@@ -100,14 +100,14 @@ router.get("/products/stats/summary", async (req, res) => {
 router.get("/products/:id", async (req, res) => {
   try {
     const params = GetProductParams.safeParse({ id: parseInt(req.params.id) });
-    if (!params.success) return res.status(400).json({ error: "Invalid ID" });
+    if (!params.success) { res.status(400).json({ error: "Invalid ID" }); return; }
 
     const [product] = await db
       .select()
       .from(productsTable)
       .where(eq(productsTable.id, params.data.id));
 
-    if (!product) return res.status(404).json({ error: "Product not found" });
+    if (!product) { res.status(404).json({ error: "Product not found" }); return; }
     res.json(product);
   } catch (err) {
     req.log.error({ err }, "Failed to get product");
@@ -119,10 +119,10 @@ router.get("/products/:id", async (req, res) => {
 router.patch("/products/:id", async (req, res) => {
   try {
     const params = UpdateProductParams.safeParse({ id: parseInt(req.params.id) });
-    if (!params.success) return res.status(400).json({ error: "Invalid ID" });
+    if (!params.success) { res.status(400).json({ error: "Invalid ID" }); return; }
 
     const parsed = UpdateProductBody.safeParse(req.body);
-    if (!parsed.success) return res.status(400).json({ error: "Invalid data" });
+    if (!parsed.success) { res.status(400).json({ error: "Invalid data" }); return; }
 
     const [product] = await db
       .update(productsTable)
@@ -130,7 +130,7 @@ router.patch("/products/:id", async (req, res) => {
       .where(eq(productsTable.id, params.data.id))
       .returning();
 
-    if (!product) return res.status(404).json({ error: "Product not found" });
+    if (!product) { res.status(404).json({ error: "Product not found" }); return; }
     res.json(product);
   } catch (err) {
     req.log.error({ err }, "Failed to update product");
@@ -142,7 +142,7 @@ router.patch("/products/:id", async (req, res) => {
 router.delete("/products/:id", async (req, res) => {
   try {
     const params = DeleteProductParams.safeParse({ id: parseInt(req.params.id) });
-    if (!params.success) return res.status(400).json({ error: "Invalid ID" });
+    if (!params.success) { res.status(400).json({ error: "Invalid ID" }); return; }
 
     await db.delete(productsTable).where(eq(productsTable.id, params.data.id));
     res.status(204).end();

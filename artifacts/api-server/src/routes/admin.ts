@@ -11,10 +11,10 @@ const ADMIN_TOKEN = "luxe_admin_secret_token_2024";
 // POST /admin/login
 router.post("/admin/login", (req, res) => {
   const parsed = AdminLoginBody.safeParse(req.body);
-  if (!parsed.success) return res.status(400).json({ error: "Invalid data" });
+  if (!parsed.success) { res.status(400).json({ error: "Invalid data" }); return; }
 
   if (!ADMIN_EMAILS.includes(parsed.data.email)) {
-    return res.status(401).json({ success: false, token: "" });
+    res.status(401).json({ success: false, token: "" }); return;
   }
 
   res.json({ success: true, token: ADMIN_TOKEN });
@@ -25,7 +25,7 @@ router.get("/admin/dashboard", async (req, res) => {
   try {
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.includes(ADMIN_TOKEN)) {
-      return res.status(401).json({ error: "Unauthorized" });
+      res.status(401).json({ error: "Unauthorized" }); return;
     }
 
     const orders = await db.select().from(ordersTable);
@@ -43,10 +43,9 @@ router.get("/admin/dashboard", async (req, res) => {
       .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
       .slice(0, 10);
 
-    const [countRow] = await db.execute(
-      sql`SELECT COUNT(*) as count FROM products`
-    );
-    const totalProducts = parseInt((countRow as any).count ?? "0");
+    const countResult = await db.execute(sql`SELECT COUNT(*) as count FROM products`);
+    const countRow = countResult.rows[0] as Record<string, unknown>;
+    const totalProducts = parseInt(String(countRow?.count ?? "0"));
 
     res.json({
       totalOrders: orders.length,

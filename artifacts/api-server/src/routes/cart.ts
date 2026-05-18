@@ -46,7 +46,7 @@ router.get("/cart", (req, res) => {
 router.post("/cart", async (req, res) => {
   try {
     const parsed = AddToCartBody.safeParse(req.body);
-    if (!parsed.success) return res.status(400).json({ error: "Invalid cart data" });
+    if (!parsed.success) { res.status(400).json({ error: "Invalid cart data" }); return; }
 
     const { productId, quantity, size } = parsed.data;
 
@@ -55,7 +55,7 @@ router.post("/cart", async (req, res) => {
       .from(productsTable)
       .where(eq(productsTable.id, productId));
 
-    if (!product) return res.status(404).json({ error: "Product not found" });
+    if (!product) { res.status(404).json({ error: "Product not found" }); return; }
 
     const sid = getSessionId(req, res);
     const items = carts.get(sid) ?? [];
@@ -96,16 +96,16 @@ router.delete("/cart", (req, res) => {
 router.patch("/cart/:productId", (req, res) => {
   try {
     const params = UpdateCartItemParams.safeParse({ productId: parseInt(req.params.productId) });
-    if (!params.success) return res.status(400).json({ error: "Invalid product ID" });
+    if (!params.success) { res.status(400).json({ error: "Invalid product ID" }); return; }
 
     const parsed = UpdateCartItemBody.safeParse(req.body);
-    if (!parsed.success) return res.status(400).json({ error: "Invalid data" });
+    if (!parsed.success) { res.status(400).json({ error: "Invalid data" }); return; }
 
     const sid = getSessionId(req, res);
     const items = carts.get(sid) ?? [];
     const item = items.find((i) => i.productId === params.data.productId);
 
-    if (!item) return res.status(404).json({ error: "Item not in cart" });
+    if (!item) { res.status(404).json({ error: "Item not in cart" }); return; }
 
     item.quantity = parsed.data.quantity;
     if (item.quantity <= 0) {
@@ -125,7 +125,7 @@ router.patch("/cart/:productId", (req, res) => {
 router.delete("/cart/:productId", (req, res) => {
   try {
     const params = RemoveFromCartParams.safeParse({ productId: parseInt(req.params.productId) });
-    if (!params.success) return res.status(400).json({ error: "Invalid product ID" });
+    if (!params.success) { res.status(400).json({ error: "Invalid product ID" }); return; }
 
     const sid = getSessionId(req, res);
     const items = carts.get(sid) ?? [];

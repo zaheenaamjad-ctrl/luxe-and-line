@@ -1,0 +1,9 @@
+{
+  "buildCommand": "pnpm --filter @workspace/luxe-and-line run build",
+  "outputDirectory": "artifacts/luxe-and-line/dist",
+  "installCommand": "pnpm install",
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/index" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

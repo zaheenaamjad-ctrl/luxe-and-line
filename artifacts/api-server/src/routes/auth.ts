@@ -30,14 +30,14 @@ router.post("/auth/register", async (req, res) => {
   try {
     const { name, email, password } = req.body as { name?: string; email?: string; password?: string };
     if (!name || !email || !password) {
-      return res.status(400).json({ error: "Name, email and password are required." });
+      res.status(400).json({ error: "Name, email and password are required." }); return;
     }
     if (password.length < 8) {
-      return res.status(400).json({ error: "Password must be at least 8 characters." });
+      res.status(400).json({ error: "Password must be at least 8 characters." }); return;
     }
     const existing = await db.select().from(usersTable).where(eq(usersTable.email, email.toLowerCase())).limit(1);
     if (existing.length > 0) {
-      return res.status(409).json({ error: "An account with this email already exists." });
+      res.status(409).json({ error: "An account with this email already exists." }); return;
     }
     const passwordHash = await hashPassword(password);
     const token = generateToken();
@@ -59,15 +59,15 @@ router.post("/auth/login", async (req, res) => {
   try {
     const { email, password } = req.body as { email?: string; password?: string };
     if (!email || !password) {
-      return res.status(400).json({ error: "Email and password are required." });
+      res.status(400).json({ error: "Email and password are required." }); return;
     }
     const [user] = await db.select().from(usersTable).where(eq(usersTable.email, email.toLowerCase())).limit(1);
     if (!user) {
-      return res.status(401).json({ error: "Invalid email or password." });
+      res.status(401).json({ error: "Invalid email or password." }); return;
     }
     const valid = await verifyPassword(password, user.passwordHash);
     if (!valid) {
-      return res.status(401).json({ error: "Invalid email or password." });
+      res.status(401).json({ error: "Invalid email or password." }); return;
     }
     const token = generateToken();
     await db.update(usersTable).set({ token }).where(eq(usersTable.id, user.id));
@@ -83,9 +83,9 @@ router.get("/auth/me", async (req, res) => {
   try {
     const authHeader = req.headers.authorization;
     const token = authHeader?.replace("Bearer ", "");
-    if (!token) return res.status(401).json({ error: "No token provided." });
+    if (!token) { res.status(401).json({ error: "No token provided." }); return; }
     const [user] = await db.select().from(usersTable).where(eq(usersTable.token, token)).limit(1);
-    if (!user) return res.status(401).json({ error: "Invalid or expired token." });
+    if (!user) { res.status(401).json({ error: "Invalid or expired token." }); return; }
     res.json({ id: user.id, name: user.name, email: user.email });
   } catch (err) {
     req.log.error({ err }, "Auth me error");
