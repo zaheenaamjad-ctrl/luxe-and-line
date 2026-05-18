@@ -1,0 +1,91 @@
+The live production website on Vercel is still broken. Previous fixes did NOT solve the real production issues. Stop assuming local/dev fixes mean production works.
+
+You must now debug ONLY the LIVE PRODUCTION WEBSITE:
+https://www.luxeandline.uk
+
+CRITICAL:
+Do NOT test only inside Replit localhost/dev preview.
+Do NOT claim features work unless verified directly on the live Vercel production domain.
+
+MAIN PRODUCTION ISSUES STILL HAPPENING:
+
+1. PRODUCTS STILL BROKEN
+- Homepage products show “Product not found”
+- Shop page products fail
+- Product detail pages fail
+- Verify production API responses directly
+- Verify production Neon database contains products
+- Seed/fix production DB if empty
+- Fix product route/id/slug mismatches
+
+2. GOOGLE LOGIN STILL NOT WORKING
+- Continue with Google button missing or broken
+- Google signup/login must work on LIVE domain
+- Verify OAuth configuration against:
+  https://www.luxeandline.uk
+- Fully test production auth flow
+- User must remain logged in after refresh
+
+3. NORMAL REGISTRATION STILL FAILS
+- Fix registration API in production
+- Verify user creation in production DB
+- Verify auth token/session creation
+- Verify login after registration
+
+4. RESEND EMAILS MUST ACTUALLY SEND
+- Welcome email after signup
+- Order confirmation email
+- Invoice/receipt email
+- Admin notification emails
+Test real production email delivery.
+
+5. CHECKOUT FLOW MUST WORK
+- Add to cart
+- Checkout
+- Place order
+- Save order in production DB
+- Send emails correctly
+
+6. WEBSITE STILL TOO SLOW
+- Optimize production build
+- Improve mobile speed
+- Fix heavy loading sections
+- Optimize product loading
+- Optimize videos/images/assets
+
+7. FOOTER + NAVIGATION
+- Fix all broken footer links
+- Fix WhatsApp/chat button
+- Ensure all pages navigate correctly
+
+8. REVIEWS SYSTEM
+- Reviews and stars must save in production DB
+- Reviews must display correctly
+
+9. ADMIN DASHBOARD
+Only these emails should access:
+- syedimad348@gmail.com
+- zaheenaamjad@gmail.com
+- luxeline26@gmail.com
+
+10. FULL PRODUCTION TESTING REQUIRED
+You must manually verify on the LIVE deployed website:
+- products
+- auth
+- google login
+- registration
+- checkout
+- emails
+- reviews
+- admin dashboard
+- mobile responsiveness
+
+IMPORTANT:
+Do NOT stop after local testing.
+Do NOT say “working” unless verified on:
+https://www.luxeandline.uk
+
+After ALL production issues are actually fixed:
+1. Push changes to GitHub
+2. Ensure Vercel redeploy succeeds
+3. Confirm fixes directly on production website
