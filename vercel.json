@@ -2,8 +2,31 @@
   "buildCommand": "pnpm --filter @workspace/api-server run build && pnpm --filter @workspace/luxe-and-line run build",
   "outputDirectory": "artifacts/luxe-and-line/dist/public",
   "installCommand": "pnpm install",
+  "headers": [
+    {
+      "source": "/sitemap.xml",
+      "headers": [
+        { "key": "Content-Type", "value": "application/xml; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=3600, stale-while-revalidate=86400" }
+      ]
+    },
+    {
+      "source": "/robots.txt",
+      "headers": [
+        { "key": "Content-Type", "value": "text/plain; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=86400" }
+      ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store" }
+      ]
+    }
+  ],
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/index" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/sitemap.xml", "destination": "/api/index" },
+    { "source": "/api/(.*)",    "destination": "/api/index" },
+    { "source": "/(.*)",        "destination": "/index.html" }
   ]
 }
