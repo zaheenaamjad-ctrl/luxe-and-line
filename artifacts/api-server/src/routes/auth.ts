@@ -53,7 +53,7 @@ router.post("/auth/register", async (req, res) => {
       passwordHash,
       token,
     }).returning();
-    sendWelcomeEmail(user.name, user.email).catch(() => {});
+    await sendWelcomeEmail(user.name, user.email);
     res.status(201).json({ token, user: { id: user.id, name: user.name, email: user.email } });
   } catch (err) {
     req.log.error({ err }, "Register error");
@@ -143,7 +143,7 @@ router.post("/auth/google", async (req, res) => {
         token: newToken,
       }).returning();
       user = newUser;
-      sendWelcomeEmail(name, email).catch(() => {});
+      await sendWelcomeEmail(name, email);
     } else {
       await db.update(usersTable).set({ token: newToken }).where(eq(usersTable.id, user.id));
       user = { ...user, token: newToken };

@@ -59,8 +59,7 @@ router.post("/orders", async (req, res) => {
       })
       .returning();
 
-    // Send confirmation email (non-blocking — errors are swallowed in mailer)
-    sendOrderConfirmationEmail({
+    await sendOrderConfirmationEmail({
       orderId: order.id,
       customerName: order.customerName,
       customerEmail: order.customerEmail,
@@ -70,7 +69,7 @@ router.post("/orders", async (req, res) => {
       paymentMethod: order.paymentMethod,
       items: order.items as Array<{ name: string; quantity: number; price: number }>,
       total: order.total,
-    }).catch(() => {});
+    });
 
     res.status(201).json(order);
   } catch (err) {
@@ -122,10 +121,9 @@ router.patch("/orders/:id", async (req, res) => {
 
     if (!order) { res.status(404).json({ error: "Order not found" }); return; }
 
-    // Send status notification email for key transitions
     const notifyStatuses = ["processing", "shipped", "out_for_delivery", "delivered", "cancelled"];
     if (notifyStatuses.includes(order.status)) {
-      sendOrderStatusEmail(order.id, order.customerName, order.customerEmail, order.status).catch(() => {});
+      await sendOrderStatusEmail(order.id, order.customerName, order.customerEmail, order.status);
     }
 
     res.json(order);

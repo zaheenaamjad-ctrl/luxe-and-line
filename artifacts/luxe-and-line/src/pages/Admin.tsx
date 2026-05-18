@@ -153,20 +153,36 @@ function OverviewTab({ token }: { token: string }) {
   const [dashboard, setDashboard] = useState<DashboardData | null>(null);
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState("");
 
   const load = useCallback(() => {
     setLoading(true);
+    setFetchError("");
     Promise.all([
-      adminFetch("/api/admin/dashboard").then((r) => r.json()),
-      adminFetch("/api/admin/analytics").then((r) => r.json()),
+      adminFetch("/api/admin/dashboard").then((r) => {
+        if (!r.ok) throw new Error(`Dashboard ${r.status}`);
+        return r.json();
+      }),
+      adminFetch("/api/admin/analytics").then((r) => {
+        if (!r.ok) throw new Error(`Analytics ${r.status}`);
+        return r.json();
+      }),
     ]).then(([d, a]: [DashboardData, AnalyticsData]) => {
       setDashboard(d); setAnalytics(a);
-    }).catch(() => {}).finally(() => setLoading(false));
+    }).catch((err: unknown) => {
+      setFetchError(`Failed to load dashboard: ${err instanceof Error ? err.message : "network error"}. Check your connection and try again.`);
+    }).finally(() => setLoading(false));
   }, []);
 
   useEffect(() => { void load(); }, [load]);
 
   if (loading) return <div className="py-20 text-center"><Spinner /></div>;
+  if (fetchError) return (
+    <div className="py-20 text-center space-y-4">
+      <p className="text-red-400 font-body text-sm">{fetchError}</p>
+      <button onClick={load} className="px-4 py-2 border border-border text-xs font-body text-muted-foreground hover:text-foreground transition-colors">Retry</button>
+    </div>
+  );
   if (!dashboard) return null;
 
   const statCards = [
@@ -361,6 +377,7 @@ function OverviewTab({ token }: { token: string }) {
 function OrdersTab({ token }: { token: string }) {
   const [orders, setOrders] = useState<OrderRow[]>([]);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState("");
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [selectedStatus, setSelectedStatus] = useState<Record<number, string>>({});
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
@@ -369,8 +386,14 @@ function OrdersTab({ token }: { token: string }) {
 
   const load = useCallback(() => {
     setLoading(true);
-    adminFetch("/api/orders").then((r) => r.json()).then((data: OrderRow[]) => setOrders(data))
-      .catch(() => {}).finally(() => setLoading(false));
+    setFetchError("");
+    adminFetch("/api/orders")
+      .then((r) => { if (!r.ok) throw new Error(`Orders ${r.status}`); return r.json(); })
+      .then((data: OrderRow[]) => setOrders(data))
+      .catch((err: unknown) => {
+        setFetchError(`Failed to load orders: ${err instanceof Error ? err.message : "network error"}.`);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   useEffect(() => { void load(); }, [load]);
@@ -431,6 +454,11 @@ function OrdersTab({ token }: { token: string }) {
 
       {loading ? (
         <div className="py-20 text-center"><Spinner /></div>
+      ) : fetchError ? (
+        <div className="py-20 text-center space-y-4">
+          <p className="text-red-400 font-body text-sm">{fetchError}</p>
+          <button onClick={load} className="px-4 py-2 border border-border text-xs font-body text-muted-foreground hover:text-foreground transition-colors">Retry</button>
+        </div>
       ) : (
         <div className="bg-card border border-border">
           <div className="overflow-x-auto">
@@ -585,12 +613,22 @@ function OrdersTab({ token }: { token: string }) {
 function CustomersTab({ token }: { token: string }) {
   const [customers, setCustomers] = useState<CustomerRow[]>([]);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState("");
   const [sortBy, setSortBy] = useState<"createdAt" | "totalSpent" | "orderCount">("createdAt");
 
-  useEffect(() => {
-    adminFetch("/api/admin/users").then((r) => r.json()).then((data: CustomerRow[]) => setCustomers(data))
-      .catch(() => {}).finally(() => setLoading(false));
+  const loadCustomers = useCallback(() => {
+    setLoading(true);
+    setFetchError("");
+    adminFetch("/api/admin/users")
+      .then((r) => { if (!r.ok) throw new Error(`Users ${r.status}`); return r.json(); })
+      .then((data: CustomerRow[]) => setCustomers(data))
+      .catch((err: unknown) => {
+        setFetchError(`Failed to load customers: ${err instanceof Error ? err.message : "network error"}.`);
+      })
+      .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => { void loadCustomers(); }, [loadCustomers]);
 
   const sorted = [...customers].sort((a, b) => {
     if (sortBy === "totalSpent") return b.totalSpent - a.totalSpent;
@@ -620,6 +658,11 @@ function CustomersTab({ token }: { token: string }) {
       </div>
       {loading ? (
         <div className="py-12 text-center"><Spinner /></div>
+      ) : fetchError ? (
+        <div className="py-12 text-center space-y-4">
+          <p className="text-red-400 font-body text-sm">{fetchError}</p>
+          <button onClick={loadCustomers} className="px-4 py-2 border border-border text-xs font-body text-muted-foreground hover:text-foreground transition-colors">Retry</button>
+        </div>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full">
@@ -819,14 +862,21 @@ function ProductModal({
 function ProductsTab({ token }: { token: string }) {
   const [products, setProducts] = useState<ProductRow[]>([]);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState("");
   const [editProduct, setEditProduct] = useState<ProductRow | null | "new">(null);
   const [deleting, setDeleting] = useState<Set<number>>(new Set());
   const [toggling, setToggling] = useState<Set<number>>(new Set());
 
   const load = useCallback(() => {
     setLoading(true);
-    adminFetch("/api/admin/products").then((r) => r.json()).then((data: ProductRow[]) => setProducts(data))
-      .catch(() => {}).finally(() => setLoading(false));
+    setFetchError("");
+    adminFetch("/api/admin/products")
+      .then((r) => { if (!r.ok) throw new Error(`Products ${r.status}`); return r.json(); })
+      .then((data: ProductRow[]) => setProducts(data))
+      .catch((err: unknown) => {
+        setFetchError(`Failed to load products: ${err instanceof Error ? err.message : "network error"}.`);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   useEffect(() => { void load(); }, [load]);
@@ -904,6 +954,11 @@ function ProductsTab({ token }: { token: string }) {
         </div>
         {loading ? (
           <div className="py-12 text-center"><Spinner /></div>
+        ) : fetchError ? (
+          <div className="py-12 text-center space-y-4">
+            <p className="text-red-400 font-body text-sm">{fetchError}</p>
+            <button onClick={load} className="px-4 py-2 border border-border text-xs font-body text-muted-foreground hover:text-foreground transition-colors">Retry</button>
+          </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full">
@@ -991,12 +1046,22 @@ function ProductsTab({ token }: { token: string }) {
 function ReviewsTab({ token }: { token: string }) {
   const [reviews, setReviews] = useState<ReviewRow[]>([]);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState("");
   const [acting, setActing] = useState<Set<number>>(new Set());
 
-  useEffect(() => {
-    adminFetch("/api/admin/reviews").then((r) => r.json()).then((data: ReviewRow[]) => setReviews(data))
-      .catch(() => {}).finally(() => setLoading(false));
+  const loadReviews = useCallback(() => {
+    setLoading(true);
+    setFetchError("");
+    adminFetch("/api/admin/reviews")
+      .then((r) => { if (!r.ok) throw new Error(`Reviews ${r.status}`); return r.json(); })
+      .then((data: ReviewRow[]) => setReviews(data))
+      .catch((err: unknown) => {
+        setFetchError(`Failed to load reviews: ${err instanceof Error ? err.message : "network error"}.`);
+      })
+      .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => { void loadReviews(); }, [loadReviews]);
 
   const approve = async (id: number, approved: boolean) => {
     setActing((s) => new Set([...s, id]));
@@ -1027,6 +1092,11 @@ function ReviewsTab({ token }: { token: string }) {
       </div>
       {loading ? (
         <div className="py-12 text-center"><Spinner /></div>
+      ) : fetchError ? (
+        <div className="py-12 text-center space-y-4">
+          <p className="text-red-400 font-body text-sm">{fetchError}</p>
+          <button onClick={loadReviews} className="px-4 py-2 border border-border text-xs font-body text-muted-foreground hover:text-foreground transition-colors">Retry</button>
+        </div>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full">
