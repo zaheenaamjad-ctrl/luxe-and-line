@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
-import { Switch, Route, Router as WouterRouter } from "wouter";
+import { Switch, Route, Router as WouterRouter, Redirect } from "wouter";
+import { getAuthUser } from "@/lib/auth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -32,6 +33,16 @@ function PageLoader() {
   );
 }
 
+const ADMIN_EMAILS = new Set(["syedimad348@gmail.com", "zaheenaamjad@gmail.com", "luxeline26@gmail.com"]);
+
+function AdminGuard({ component: Component }: { component: React.ComponentType }) {
+  const hasAdminToken = !!localStorage.getItem("luxe_admin_token");
+  const user = getAuthUser();
+  const isAdmin = hasAdminToken || (user !== null && ADMIN_EMAILS.has(user.email));
+  if (!isAdmin) return <Redirect to="/" />;
+  return <Component />;
+}
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -59,8 +70,12 @@ function Router() {
           <Route path="/policy" component={Policy} />
           <Route path="/terms" component={Terms} />
           <Route path="/reviews" component={Reviews} />
-          <Route path="/admin" component={Admin} />
-          <Route path="/admin/dashboard" component={Admin} />
+          <Route path="/admin">
+            {() => <AdminGuard component={Admin} />}
+          </Route>
+          <Route path="/admin/dashboard">
+            {() => <AdminGuard component={Admin} />}
+          </Route>
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route component={NotFound} />

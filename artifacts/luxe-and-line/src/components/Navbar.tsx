@@ -1,8 +1,10 @@
 import { Link, useLocation } from "wouter";
-import { ShoppingBag, Menu, X, User, LogIn, UserPlus } from "lucide-react";
+import { ShoppingBag, Menu, X, User, LogIn, UserPlus, LayoutDashboard } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useGetCart } from "@workspace/api-client-react";
 import { AUTH_CHANGE_EVENT, getAuthUser, clearAuth } from "@/lib/auth";
+
+const ADMIN_EMAILS = new Set(["syedimad348@gmail.com", "zaheenaamjad@gmail.com", "luxeline26@gmail.com"]);
 
 function useCustomerAuth() {
   const [user, setUser] = useState(() => getAuthUser());
@@ -133,10 +135,12 @@ export function Navbar() {
                 </div>
               )}
 
-              {/* Admin icon */}
-              <Link href="/admin" className="text-muted-foreground/50 hover:text-primary transition-colors hidden md:block">
-                <User size={16} />
-              </Link>
+              {/* Admin icon — only visible to admin accounts */}
+              {user && ADMIN_EMAILS.has(user.email) && (
+                <Link href="/admin" className="text-muted-foreground/50 hover:text-primary transition-colors hidden md:block" title="Admin dashboard">
+                  <LayoutDashboard size={16} />
+                </Link>
+              )}
 
               {/* Cart */}
               <Link href="/cart" className="text-foreground hover:text-primary transition-colors relative">
