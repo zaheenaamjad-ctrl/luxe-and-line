@@ -46,7 +46,7 @@ const sections = [
   },
   {
     title: "2. About Us",
-    body: "Luxe & Line is a UK-based South Asian fashion and lifestyle boutique operating from Liverpool, Merseyside, United Kingdom. We curate and sell authentic Pakistani fashion garments, accessories, and artisan food products. Contact: hello@luxeandline.uk | +44 7405 358689 | 39 Stanley Street, L7 0JN, Liverpool, UK."
+    body: "Luxe & Line is a UK-based South Asian fashion and lifestyle boutique operating from Liverpool, Merseyside, United Kingdom. We curate and sell authentic South Asian fashion garments, accessories, and artisan food products. Contact: hello@luxeandline.uk | +44 7449 507661 | 39 Stanley Street, L7 0JN, Liverpool, UK."
   },
   {
     title: "3. Products & Pricing",
@@ -70,7 +70,7 @@ const sections = [
   },
   {
     title: "8. Food Products",
-    body: "Our Pistachio Kunafa Bites and any other food products are sold with full ingredient and allergen information provided on packaging. Luxe & Line is not responsible for adverse reactions to food products. Please review all allergen information carefully before purchasing. Food products are non-refundable once dispatched unless they arrive damaged or in an unsatisfactory condition."
+    body: "Our Kunafa Chocolates and any other food products are sold with full ingredient and allergen information provided on packaging. Luxe & Line is not responsible for adverse reactions to food products. Please review all allergen information carefully before purchasing. Food products are non-refundable once dispatched unless they arrive damaged or in an unsatisfactory condition."
   },
   {
     title: "9. Customer Responsibilities",

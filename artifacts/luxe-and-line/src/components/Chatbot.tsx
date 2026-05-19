@@ -18,7 +18,7 @@ const RESPONSES: { keywords: string[]; reply: Reply }[] = [
   {
     keywords: ["shalwar", "kameez", "suit", "lawn", "nureh", "charizma", "zeenat", "embroidered", "dress", "clothes", "clothing"],
     reply: {
-      text: "We carry Nureh Gardenia, Charizma Sun Shine Vol.01, and Zeenat Embroidered collections — all with free UK delivery! Beautiful unstitched lawn fabric. 🌸",
+      text: "We carry Nureh Gardenia, Charizma Sun Shine Vol.01, and Luxury Pret collections — all fully stitched and ready to wear, with free UK delivery! 🌸",
       links: [{ label: "Shop Shalwar Kameez →", href: "/shop?category=shalwar-kameez" }],
     },
   },
@@ -32,8 +32,8 @@ const RESPONSES: { keywords: string[]; reply: Reply }[] = [
   {
     keywords: ["kunafa", "sweet", "food", "pistachio", "chocolate", "snack", "treat", "bites"],
     reply: {
-      text: "You'll love our Pistachio Kunafa Bites by B.C.C! Rich creamy pistachio filling in premium chocolate — £22 per box with free UK delivery. 🍫",
-      links: [{ label: "Order Kunafa Bites →", href: "/product/8" }],
+      text: "You'll love our Kunafa Chocolates by B.C.C! Rich pistachio filling in premium chocolate — £22 per box with free UK delivery. 🍫",
+      links: [{ label: "Order Kunafa Chocolates →", href: "/product/8" }],
     },
   },
   {
@@ -109,7 +109,7 @@ const RESPONSES: { keywords: string[]; reply: Reply }[] = [
   {
     keywords: ["about", "brand", "story", "who", "liverpool"],
     reply: {
-      text: "We're a Liverpool-based luxury boutique bringing authentic Pakistani fashion to British wardrobes. Read our full story below. 🏴󠁧󠁢󠁥󠁮󠁧󠁿💜",
+      text: "We're a Liverpool-based luxury boutique bringing authentic South Asian fashion to British wardrobes. Read our full story below. 🏴󠁧󠁢󠁥󠁮󠁧󠁿💜",
       links: [{ label: "Our Story →", href: "/about" }],
     },
   },

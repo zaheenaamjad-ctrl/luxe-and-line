@@ -1,0 +1,119 @@
+Please apply ALL of the following changes to the website. Read every point carefully before making changes.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[1] HOME PAGE — SCROLL POSITION FROM SHOP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+When a user navigates from the Shop page to the Home page, automatically scroll the Home page to the Nureh products section (not the top). If they navigate from any other page or directly open the home URL, load normally from the top.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[2] HOME PAGE — VIDEO AUTOPLAY ON REFRESH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+When a user refreshes the Home page, the hero video must always restart and play from the beginning. Make sure the video is not resuming from a cached position.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[3] REMOVE PAKISTANI / LAHORE REFERENCES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Remove ALL mentions of "Pakistan", "Pakistani", "Lahore", "Pakistan's Finest", or any similar regional labels across the ENTIRE website — including product pages, descriptions, home page, about page, shop page, headers, footers, and meta text. Replace "Pakistan's Finest" with: "Crafted with Elegance, Worn with Pride". Replace any other Pakistani location/origin labels with tasteful, brand-appropriate alternatives such as "Premium Quality", "Artisan Collection", or "Exclusive Designs".
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[4] ALL SUITS ARE STITCHED — SITEWIDE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+For ALL suits in the Nureh, Zeenat, and Charizma sections — update every product description, product detail page, buying information, and any other relevant text across the entire website to clearly state that all suits are "fully stitched" and ready to wear. Remove any references to unstitched, semi-stitched, or fabric-only. This applies on the shop page, home page, individual product pages, and anywhere else suits are mentioned.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[5] REMOVE "ZEENAT" NAME SITEWIDE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Remove the name "Zeenat" from everywhere on the website: the section heading on the home page, all product names/titles in that collection, the shop page filter/category labels, product detail pages, and any other occurrence. Replace the section name with: "Luxury Pret Collection". Update all individual product names in that section to remove "Zeenat" from the title — keep the rest of the product name intact.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[6] WHATSAPP NUMBER — REPLACE SITEWIDE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Replace ALL existing WhatsApp/phone numbers on the website with: +44 7449 507661
+
+This number must appear on:
+- Home page (footer and/or contact section)
+- About page
+- Shop page
+- Every individual product page
+- The order/checkout flow ("Place Order via WhatsApp" button)
+- Contact section
+
+Also create a clickable WhatsApp link everywhere this number appears using this format:
+https://wa.me/447449507661
+
+The link must open WhatsApp directly. The button text should read: "Order on WhatsApp" or "Chat on WhatsApp". Remove the old number completely from every location.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[7] SECTION PRODUCT FILTERING — HOME PAGE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+On the Home page, each section (Nureh, Luxury Pret Collection, Charizma) must ONLY show products that belong to that specific collection. No cross-collection products should appear in the wrong section. Add a "View More Products" button at the bottom of each section. When clicked, it should navigate the user to the Shop page and automatically filter/show that collection's products.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[8] LEVI'S JEANS — REPLACE ALL JEANS CONTENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+All jeans on the website are Levi's jeans. Make the following updates:
+- Replace all existing jeans product names, captions, and descriptions with accurate Levi's branding and descriptions (e.g. "Levi's Classic Straight Fit Jeans", "Levi's 501 Original", etc.)
+- Remove all old/generic jeans captions sitewide
+- On the Shop page, the Jeans category/filter must show ALL jeans products (currently only 2 are showing — fix this so all jeans are displayed)
+- Jeans are the ONLY product with size options (S, M, L, XL, etc.). All other product categories must NOT show any size selector
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[9] WALLETS — SHOW ALL ON SHOP PAGE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+On the Shop page, when the Wallets category is selected/filtered, ALL wallet products must be shown — not just 2. Fix the filter so every wallet product appears. Update wallet product descriptions to be specific and accurate about the wallet (style, material, colour, compartments, etc.).
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[10] KUNAFA CHOCOLATES — CORRECT NAME SITEWIDE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+The chocolate product is called "Kunafa Chocolates" — correct this everywhere. Remove the old/incorrect name (including any BBC reference or other placeholder text) from all product pages, the home page section, the shop page, descriptions, and titles. Replace with "Kunafa Chocolates" and write a proper, appetising product description focusing on flavour, quality, and gift appeal — no references to news sources or unrelated organisations.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[11] SIZES — REMOVE FROM ALL PRODUCTS EXCEPT JEANS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Remove size selectors (S, M, L, XL, XXL, etc.) from ALL product pages except Jeans. Suits, wallets, chocolates, and any other non-jeans products must NOT have a size option displayed on their product page or in the cart/order flow.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[12] ABOUT PAGE — UPDATE IMAGES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Replace the old/outdated images on the About page with the newer images already being used on the main/home page. Pull the best images from the home page hero section or product showcases and use those on the About page to keep branding consistent.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[13] REVIEWS — LIVE SUBMISSION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+When a customer submits a review using the review form, that review must be saved and displayed in the Reviews section of the website in real time (or on next load). Reviews must not disappear on refresh. Store submitted reviews in the database and render them in the Reviews section automatically.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[14] NAVIGATION — ADD NEW LINKS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Add the following links to the main navigation bar (and mobile menu if applicable), alongside the existing Home, About, Shop etc. buttons:
+- "Reviews" — links to the reviews section/page
+- "Terms & Conditions" — links to a Terms & Conditions page (create a simple placeholder page if it doesn't exist)
+- "Privacy Policy" — links to a Privacy Policy page (create a simple placeholder page if it doesn't exist)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[15] ADMIN PANEL — CLEAR ORDER HISTORY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+In the Admin panel, delete all existing/old order data and sold product history. Clear the orders database/collection so it starts fresh with zero records. Do NOT delete products, only order/sales history data.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[16] SHOP PAGE — CATEGORY FILTERS SHOW ALL PRODUCTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Audit every category filter on the Shop page. When any category (Jeans, Wallets, Suits, Chocolates, etc.) is selected, make sure ALL products tagged with that category are displayed — not a limited subset. Fix any filtering logic that caps results.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[17] PRODUCT DESCRIPTIONS — GENERAL QUALITY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Review and improve product descriptions across the entire site. Remove placeholder text, generic filler, or any unrelated references (news organisations, location names, etc.). Each product should have a clean, compelling description relevant to what it is. Suits = stitched, elegant, ready to wear. Jeans = Levi's branding. Wallets = material/style focused. Chocolates = flavour/gift focused.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[18] WHATSAPP ORDER FLOW
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+On every product page and in the checkout/order flow, the "Place Order" or "Buy Now" button must send the customer directly to WhatsApp at +44 7449 507661 (link: https://wa.me/447449507661) with a pre-filled message that includes the product name. Example pre-filled message format:
+"Hi, I'd like to order: [Product Name]. Please let me know the availability and payment details."
+
+Make sure this works on both mobile and desktop.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+END OF CHANGES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Apply all 18 change groups above. Test each one after implementing. Do not skip any point.

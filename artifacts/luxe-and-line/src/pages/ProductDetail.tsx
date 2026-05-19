@@ -284,14 +284,14 @@ export function ProductDetail() {
 
           {/* ── Product Info ──────────────────────────────────────── */}
           <div className="flex flex-col lg:pt-4">
-            {/* Category + unstitched badge */}
+            {/* Category + stitched badge */}
             <div className="flex items-center gap-3 mb-3">
               <p className="text-[10px] uppercase tracking-[0.3em] text-primary font-body">
                 {product.category.replace(/-/g, " ")}
               </p>
               {isShalwarKameez && (
                 <span className="text-[9px] uppercase tracking-widest font-body border border-primary/50 text-primary px-2 py-0.5">
-                  Unstitched Lawn
+                  Fully Stitched
                 </span>
               )}
             </div>
@@ -354,7 +354,7 @@ export function ProductDetail() {
                   ))}
                 </div>
                 <p className="text-muted-foreground text-[10px] font-body mt-2">
-                  Unstitched fabric — we recommend ordering your usual size. Local stitching available.
+                  Fully stitched suit — select your size above. Sizes S–XXL available.
                 </p>
               </div>
             )}
@@ -405,17 +405,17 @@ export function ProductDetail() {
               {product.description}
             </p>
 
-            {/* Unstitched info card */}
+            {/* Stitched suit info card */}
             {isShalwarKameez && (
               <div className="border border-primary/25 bg-primary/5 px-5 py-4 mb-6">
                 <p className="text-primary text-[10px] uppercase tracking-widest font-body font-semibold mb-1">
                   What's included
                 </p>
                 <ul className="text-sm font-body text-muted-foreground space-y-1">
-                  <li>· Kameez fabric (printed &amp; embroidered)</li>
-                  <li>· Trouser fabric</li>
-                  <li>· Dupatta / Chiffon scarf</li>
-                  <li>· Delivered unstitched — take to any local tailor</li>
+                  <li>· Fully stitched embroidered kameez</li>
+                  <li>· Matching stitched trouser</li>
+                  <li>· Chiffon dupatta / scarf</li>
+                  <li>· Ready to wear — delivered straight to your door</li>
                 </ul>
               </div>
             )}
@@ -471,7 +471,7 @@ export function ProductDetail() {
 
             {/* WhatsApp quick order */}
             <a
-              href={`https://wa.me/447405358689?text=Hi%2C%20I%27d%20like%20to%20order%20${encodeURIComponent(product.name)}%20(%C2%A3${product.price})%20from%20Luxe%20%26%20Line`}
+              href={`https://wa.me/447449507661?text=Hi%2C%20I%27d%20like%20to%20order%20${encodeURIComponent(product.name)}%20(%C2%A3${product.price})%20x${quantity}${selectedSize ? `%20%E2%80%94%20Size%3A%20${encodeURIComponent(selectedSize)}` : ""}%20from%20Luxe%20%26%20Line`}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full py-3.5 border font-body uppercase tracking-[0.2em] text-xs font-medium transition-all duration-300 flex items-center justify-center gap-2 mb-8 hover:bg-green-900/30"

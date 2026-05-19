@@ -11,7 +11,7 @@ export function Footer() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
             {[
               { icon: Truck, label: "UK Delivery Included", sub: "All prices include delivery" },
-              { icon: Shield, label: "Authentic Products", sub: "Direct from Pakistan" },
+              { icon: Shield, label: "Authentic Products", sub: "Hand-selected quality" },
               { icon: Clock, label: "4–5 Day Delivery", sub: "After payment confirmation" },
               { icon: Mail, label: "luxeline26@gmail.com", sub: "We reply within 24hrs" },
             ].map(({ icon: Icon, label, sub }) => (
@@ -36,7 +36,7 @@ export function Footer() {
               <span className="font-serif text-xl tracking-widest text-primary">LUXE & LINE</span>
             </div>
             <p className="font-body text-xs text-muted-foreground leading-relaxed mb-5">
-              A premium South Asian fashion boutique based in Liverpool, UK. Bringing the warmth and richness of Pakistani craftsmanship to modern British wardrobes.
+              A premium South Asian fashion boutique based in Liverpool, UK. Bringing the warmth and richness of artisan craftsmanship to modern British wardrobes.
             </p>
             <div className="space-y-2 text-xs font-body text-muted-foreground">
               <div className="flex items-start gap-2">
@@ -66,7 +66,7 @@ export function Footer() {
                 { href: "/shop?category=shalwar-kameez", label: "Shalwar Kameez" },
                 { href: "/shop?category=jeans", label: "Premium Jeans" },
                 { href: "/shop?category=wallets", label: "Leather Wallets" },
-                { href: "/shop?category=food", label: "Pistachio Kunafa Bites" },
+                { href: "/shop?category=food", label: "Kunafa Chocolates" },
                 { href: "/shop", label: "All Collections" },
               ].map((item) => (
                 <li key={item.href}>

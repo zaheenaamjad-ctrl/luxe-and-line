@@ -53,11 +53,11 @@ export function About() {
           <p className="text-[10px] uppercase tracking-[0.5em] text-primary font-body mb-5">Est. Liverpool · United Kingdom</p>
           <h1 className="font-serif text-5xl md:text-7xl text-foreground mb-6 leading-tight">
             Curated for the<br />
-            <span className="gold-shimmer">British Pakistani</span> Home
+            <span className="gold-shimmer">British Asian</span> Home
           </h1>
           <div className="luxury-divider w-32 mx-auto mb-8" />
           <p className="font-body text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
-            Luxe & Line brings the finest Pakistani fashion, accessories and artisan goods directly to doorsteps across the United Kingdom — without compromise on quality, authenticity or service.
+            Luxe & Line brings the finest fashion, accessories and artisan goods directly to doorsteps across the United Kingdom — without compromise on quality, authenticity or service.
           </p>
         </div>
       </div>
@@ -69,10 +69,10 @@ export function About() {
             <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-body mb-4">Our Heritage</p>
             <h2 className="font-serif text-3xl text-foreground mb-6 leading-snug">Born from a belief in accessible luxury</h2>
             <p className="text-muted-foreground font-body text-sm leading-relaxed mb-4">
-              Luxe & Line was founded in Liverpool with one clear purpose: to make the exquisite craftsmanship of South Asian fashion accessible to every British Pakistani family — without the need to travel thousands of miles to find it.
+              Luxe & Line was founded in Liverpool with one clear purpose: to make the exquisite craftsmanship of South Asian fashion accessible to every British Asian family — without the need to travel thousands of miles to find it.
             </p>
             <p className="text-muted-foreground font-body text-sm leading-relaxed mb-4">
-              We bridge the gap between the vibrant fashion houses of Lahore, Karachi and Faisalabad and the doorsteps of the UK — bringing authentic luxury, one beautifully wrapped parcel at a time.
+              We bridge the gap between the finest fashion houses of South Asia and the doorsteps of the UK — bringing authentic luxury, one beautifully wrapped parcel at a time.
             </p>
             <p className="text-muted-foreground font-body text-sm leading-relaxed">
               Every collection is hand-selected for its craftsmanship, fabric quality and design. We never compromise on what arrives at your door.
@@ -82,13 +82,13 @@ export function About() {
             <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-body mb-4">Our Commitment</p>
             <h2 className="font-serif text-3xl text-foreground mb-6 leading-snug">A promise built on integrity</h2>
             <p className="text-muted-foreground font-body text-sm leading-relaxed mb-4">
-              We work directly with Pakistan's most respected fashion houses — Nureh, Charizma, Zeenet — ensuring you receive only the finest embroidered lawns, printed chiffons and luxury pret.
+              We work directly with the most respected fashion houses — Nureh, Charizma, Luxury Pret Collection — ensuring you receive only the finest embroidered lawns, printed chiffons and luxury pret.
             </p>
             <p className="text-muted-foreground font-body text-sm leading-relaxed mb-4">
               All prices include UK delivery. No hidden charges. No surprises. Just the garments you love, delivered safely and swiftly.
             </p>
             <p className="text-muted-foreground font-body text-sm leading-relaxed">
-              We also curate premium accessories — handcrafted leather wallets, quality denim — and artisan confectionery to bring a little more joy to every order.
+              We also curate premium accessories — handcrafted leather wallets, Levi's denim — and artisan Kunafa Chocolates to bring a little more joy to every order.
             </p>
           </div>
         </div>
@@ -142,8 +142,8 @@ export function About() {
             {[
               { name: "Nureh Gardenia", desc: "Premium embroidered lawn — Eid & formal collections" },
               { name: "Charizma Sun Shine", desc: "Contemporary printed lawn for every season" },
-              { name: "Zeenat Solid Pret", desc: "Ready-to-wear embroidered lawn with chiffon dupatta" },
-              { name: "B.C.C. Confectionery", desc: "Artisan Pistachio Kunafa Bites — premium gifting" },
+              { name: "Luxury Pret Collection", desc: "Ready-to-wear fully stitched embroidered lawn with chiffon dupatta" },
+              { name: "B.C.C. Confectionery", desc: "Artisan Kunafa Chocolates — premium gifting" },
             ].map((b) => (
               <div key={b.name} className="py-4 border-b border-border/30 md:border-b-0 md:border-r last:border-r-0 last:border-b-0 px-4">
                 <p className="font-serif text-lg text-foreground mb-1">{b.name}</p>
@@ -161,10 +161,10 @@ export function About() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { src: "/product-images/jeans/j-women-lightblue.png", label: "Premium Jeans" },
-              { src: "/product-images/kunafa/k-jar-branded.png", label: "Pistachio Kunafa Bites" },
-              { src: "/product-images/wallets/wallet-tan.png", label: "Leather Wallets" },
-              { src: "/product-images/jeans/j-men-dark.png", label: "Men's Collection" },
+              { src: "/product-images/nureh-gardenia/nsg-215.png", label: "Nureh Gardenia" },
+              { src: "/product-images/charizma/css-01.png", label: "Charizma Sun Shine" },
+              { src: "/product-images/zeenat/zpsp-01.png", label: "Luxury Pret Collection" },
+              { src: "/product-images/kunafa/k-jar-branded.png", label: "Kunafa Chocolates" },
             ].map((item) => (
               <div key={item.label} className="relative overflow-hidden group" style={{ aspectRatio: "3/4" }}>
                 <img
@@ -194,7 +194,7 @@ export function About() {
               <p className="text-[10px] uppercase tracking-widest font-body text-primary mb-3">Owner · Liverpool, UK</p>
               <div className="luxury-divider w-12 mx-auto mb-4" />
               <p className="text-xs font-body text-muted-foreground leading-relaxed">
-                Visionary founder with a deep passion for Pakistani craftsmanship. Amjad established Luxe &amp; Line to bring authentic South Asian fashion directly to British Pakistani families.
+                Visionary founder with a deep passion for South Asian craftsmanship. Amjad established Luxe &amp; Line to bring authentic South Asian fashion directly to British Asian families.
               </p>
             </div>
             <div className="text-center bg-card border border-border/50 p-8">

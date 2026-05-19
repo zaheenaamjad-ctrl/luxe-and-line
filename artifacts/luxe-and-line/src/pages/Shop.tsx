@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useSearch } from "wouter";
 import { useListProducts } from "@workspace/api-client-react";
 import { Filter, ArrowRight } from "lucide-react";
@@ -122,6 +122,10 @@ export function Shop() {
   const search = useSearch();
   const params = new URLSearchParams(search);
   const [activeCategory, setActiveCategory] = useState(params.get("category") ?? "");
+
+  useEffect(() => {
+    try { sessionStorage.setItem("luxe_from_shop", "1"); } catch {}
+  }, []);
 
   const { data: products, isLoading } = useListProducts(
     activeCategory ? { category: activeCategory } : {}

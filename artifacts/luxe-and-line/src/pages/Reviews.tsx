@@ -32,8 +32,8 @@ const REVIEWS = [
     rating: 5,
     date: "May 2026",
     review:
-      "The Pistachio Kunafa Bites were a massive hit at our family gathering! Everyone was asking where I bought them. The packaging is gorgeous and delivery was super fast. Already ordered a second box!",
-    product: "Pistachio Kunafa Bites",
+      "The Kunafa Chocolates were a massive hit at our family gathering! Everyone was asking where I bought them. The packaging is gorgeous and delivery was super fast. Already ordered a second box!",
+    product: "Kunafa Chocolates",
     avatar: "https://i.pravatar.cc/80?img=32",
   },
   {
@@ -65,8 +65,8 @@ const REVIEWS = [
     rating: 5,
     date: "March 2026",
     review:
-      "The Zeenat embroidered collection is honestly breathtaking. The photos don't do it justice — in person the embroidery work is incredibly detailed. Arrived quickly and the size guide was very helpful. 10/10.",
-    product: "Zeenat Embroidered Collection",
+      "The Luxury Pret embroidered collection is honestly breathtaking. The photos don't do it justice — in person the embroidery work is incredibly detailed. Arrived quickly and ready to wear straight away. 10/10.",
+    product: "Luxury Pret Collection",
     avatar: "https://i.pravatar.cc/80?img=5",
   },
 ];
@@ -77,8 +77,8 @@ const FAQS = [
     a: "All orders are delivered within 4–5 business days after payment confirmation. We ship across the entire UK and all prices already include delivery costs — there are absolutely no hidden charges at checkout.",
   },
   {
-    q: "Can I request custom stitching for the shalwar kameez?",
-    a: "Yes! Our shalwar kameez collections are available as unstitched fabric so they can be tailored to your exact measurements. You can WhatsApp us on +44 7449 507661 with your measurements and we'll guide you through the process. Local stitching services are also available in the Liverpool area.",
+    q: "Are the shalwar kameez suits ready to wear?",
+    a: "Yes! All our shalwar kameez suits are fully stitched and ready to wear straight away. They are available in sizes S, M, L, XL and XXL. For Levi's jeans, we offer custom waist × length sizing — WhatsApp us on +44 7449 507661 and we'll help you choose the perfect fit.",
   },
   {
     q: "Do the jeans come in standard sizes or can I order with my exact measurements?",

@@ -69,7 +69,7 @@ const VIDEOS = [
     src: "/videos/swan.mp4",
     label: "New Arrival 2026",
     title: ["LUXE", "& LINE"],
-    sub: "Summer 2026 · Premium Pakistani Fashion · Free UK Delivery",
+    sub: "Summer 2026 · Premium Fashion · Free UK Delivery",
     cta: "Explore Collection",
     link: "/shop",
   },
@@ -77,7 +77,7 @@ const VIDEOS = [
     src: "/videos/video1.mp4",
     label: "The Collection",
     title: ["ELEGANCE", "REDEFINED"],
-    sub: "Luxury Unstitched Lawn · Delivered Across the UK",
+    sub: "Luxury Pret Lawn · Delivered Across the UK",
     cta: "Shop Collection",
     link: "/shop?category=shalwar-kameez",
   },
@@ -85,7 +85,7 @@ const VIDEOS = [
     src: "/videos/video2.mp4",
     label: "Heritage Pret",
     title: ["CRAFTED", "FOR YOU"],
-    sub: "Premium Embroidery Pret · Pakistani Heritage in Every Stitch",
+    sub: "Premium Embroidery Pret · Artisan Craftsmanship in Every Stitch",
     cta: "Explore Now",
     link: "/shop",
   },
@@ -509,7 +509,7 @@ function NurehGardeniaSection() {
           eyebrow="Gardenia by Nurèh · Summer 2026 New Arrival"
           title="Gardenia"
           italic="by Nurèh"
-          desc="Embroidered and printed lawn collection with embroidered chiffon dupatta — by Riaz Arts. 10 piece set. Unstitched — delivered as fabric pieces, ready for your tailor."
+          desc="Embroidered and printed lawn collection with embroidered chiffon dupatta — by Riaz Arts. 10 piece set. Fully stitched and ready to wear. Available in sizes S, M, L, XL, XXL. UK delivery included."
         />
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 mb-14">
@@ -539,18 +539,18 @@ function NurehGardeniaSection() {
   );
 }
 
-/* ─── Zeenat Solid Pret section ──────────────────────────── */
+/* ─── Luxury Pret section ────────────────────────────────── */
 const ZEENET_ITEMS = [
-  { code: "ZPSP-01", img: "/product-images/zeenat/zpsp-01.png", name: "Solid Pret ZPSP-01", price: 45, id: 17 },
-  { code: "ZPSP-02", img: "/product-images/zeenat/zpsp-02.png", name: "Solid Pret ZPSP-02", price: 45, id: 18 },
-  { code: "ZPSP-03", img: "/product-images/zeenat/zpsp-03.png", name: "Solid Pret ZPSP-03", price: 45, id: 19 },
-  { code: "ZPSP-04", img: "/product-images/zeenat/zpsp-04.png", name: "Solid Pret ZPSP-04", price: 45, id: 20 },
-  { code: "ZPSP-05", img: "/product-images/zeenat/zpsp-05.png", name: "Solid Pret ZPSP-05", price: 45, id: 21 },
-  { code: "ZPSP-06", img: "/product-images/zeenat/zpsp-06.png", name: "Solid Pret ZPSP-06", price: 45, id: 31 },
-  { code: "ZPSP-07", img: "/product-images/zeenat/zpsp-07.png", name: "Solid Pret ZPSP-07", price: 45, id: 32 },
-  { code: "ZPSP-08", img: "/product-images/zeenat/zpsp-08.png", name: "Solid Pret ZPSP-08", price: 45, id: 33 },
-  { code: "ZPSP-09", img: "/product-images/zeenat/zpsp-09.png", name: "Solid Pret ZPSP-09", price: 45, id: 34 },
-  { code: "ZPSP-10", img: "/product-images/zeenat/zpsp-10.png", name: "Solid Pret ZPSP-10", price: 45, id: 35 },
+  { code: "ZPSP-01", img: "/product-images/zeenat/zpsp-01.png", name: "Luxury Pret ZPSP-01", price: 45, id: 17 },
+  { code: "ZPSP-02", img: "/product-images/zeenat/zpsp-02.png", name: "Luxury Pret ZPSP-02", price: 45, id: 18 },
+  { code: "ZPSP-03", img: "/product-images/zeenat/zpsp-03.png", name: "Luxury Pret ZPSP-03", price: 45, id: 19 },
+  { code: "ZPSP-04", img: "/product-images/zeenat/zpsp-04.png", name: "Luxury Pret ZPSP-04", price: 45, id: 20 },
+  { code: "ZPSP-05", img: "/product-images/zeenat/zpsp-05.png", name: "Luxury Pret ZPSP-05", price: 45, id: 21 },
+  { code: "ZPSP-06", img: "/product-images/zeenat/zpsp-06.png", name: "Luxury Pret ZPSP-06", price: 45, id: 31 },
+  { code: "ZPSP-07", img: "/product-images/zeenat/zpsp-07.png", name: "Luxury Pret ZPSP-07", price: 45, id: 32 },
+  { code: "ZPSP-08", img: "/product-images/zeenat/zpsp-08.png", name: "Luxury Pret ZPSP-08", price: 45, id: 33 },
+  { code: "ZPSP-09", img: "/product-images/zeenat/zpsp-09.png", name: "Luxury Pret ZPSP-09", price: 45, id: 34 },
+  { code: "ZPSP-10", img: "/product-images/zeenat/zpsp-10.png", name: "Luxury Pret ZPSP-10", price: 45, id: 35 },
 ];
 
 function ZeenatSection() {
@@ -568,18 +568,18 @@ function ZeenatSection() {
             </video>
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
             <div className="absolute bottom-6 left-6 right-6">
-              <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-body mb-1">Zeenat</p>
-              <p className="font-serif text-2xl text-white leading-tight">Solid Pret Vol-1</p>
+              <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-body mb-1">Luxury Pret Collection</p>
+              <p className="font-serif text-2xl text-white leading-tight">Luxury Pret Vol-1</p>
               <p className="font-body text-xs text-white/70 mt-1">Embroidered Lawn · Fancy Chiffon Dupatta</p>
             </div>
           </div>
         </RevealSection>
 
         <CatalogHeading
-          eyebrow="Zeenat · Summer 2026 New Arrival"
-          title="Solid Pret"
+          eyebrow="Luxury Pret Collection · Summer 2026 New Arrival"
+          title="Luxury Pret"
           italic="Vol-1"
-          desc="ZEENAT SOLID PRET STITCHED COTTON LAWN VOL-1 — Embroidered lawn with printed embroidered fancy chiffon dupatta. 10 designs · Sizes S, M, L · Ready to wear · UK delivery included."
+          desc="Luxury Pret Stitched Cotton Lawn Vol-1 — Embroidered lawn with fancy chiffon dupatta. 10 designs · Fully stitched and ready to wear · Sizes S, M, L, XL, XXL · UK delivery included."
         />
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 mb-14">
@@ -601,7 +601,7 @@ function ZeenatSection() {
 
         <RevealSection className="text-center">
           <LuxuryButton href="/shop?category=shalwar-kameez" dark testId="btn-pret-shop">
-            Shop Zeenat Collection
+            Shop Luxury Pret Collection
           </LuxuryButton>
         </RevealSection>
       </div>
@@ -683,12 +683,12 @@ function CharizmaSection() {
 
 /* ─── Jeans section ──────────────────────────────────────── */
 const JEANS_ITEMS = [
-  { code: "J-01", img: "/product-images/jeans/j-women-lightblue.png", name: "Women's Wide Leg — Light Blue",   desc: "Wide-leg silhouette in washed light blue denim. High-waisted comfort fit with a clean finish.", price: 38, id: 4 },
-  { code: "J-02", img: "/product-images/jeans/j-men-lightblue.png",   name: "Men's Straight Cut — Light Blue", desc: "Classic straight-leg cut in light blue wash. Relaxed waist, tapered ankle. Everyday essential.", price: 38, id: 5 },
-  { code: "J-03", img: "/product-images/jeans/j-women-dark.png",      name: "Women's Wide Leg — Charcoal",     desc: "Wide-leg cut in deep charcoal wash. Versatile styling for formal and casual occasions.", price: 38, id: 4 },
-  { code: "J-04", img: "/product-images/jeans/j-men-dark.png",        name: "Men's Straight Cut — Charcoal",   desc: "Straight-leg charcoal denim. Sharp, minimal, and hardwearing for daily wear.", price: 38, id: 5 },
-  { code: "J-05", img: "/product-images/jeans/j-women-blue.png",      name: "Women's Wide Leg — Mid Blue",     desc: "Wide-leg silhouette in mid-blue wash. Clean lines for a polished, effortless look.", price: 38, id: 4 },
-  { code: "J-06", img: "/product-images/jeans/j-men-blue.png",        name: "Men's Straight Cut — Mid Blue",   desc: "Mid-blue straight-leg cut. Timeless colour and classic proportions. Sizes available on order.", price: 38, id: 5 },
+  { code: "J-01", img: "/product-images/jeans/j-women-lightblue.png", name: "Levi's Women's Wide Leg — Light Blue",   desc: "Levi's wide-leg silhouette in washed light blue denim. High-waisted comfort fit with a clean finish.", price: 38, id: 4 },
+  { code: "J-02", img: "/product-images/jeans/j-men-lightblue.png",   name: "Levi's Men's Straight Cut — Light Blue", desc: "Levi's classic straight-leg cut in light blue wash. Relaxed waist, tapered ankle. Everyday essential.", price: 38, id: 5 },
+  { code: "J-03", img: "/product-images/jeans/j-women-dark.png",      name: "Levi's Women's Wide Leg — Charcoal",     desc: "Levi's wide-leg cut in deep charcoal wash. Versatile styling for formal and casual occasions.", price: 38, id: 4 },
+  { code: "J-04", img: "/product-images/jeans/j-men-dark.png",        name: "Levi's Men's Straight Cut — Charcoal",   desc: "Levi's straight-leg charcoal denim. Sharp, minimal, and hardwearing for daily wear.", price: 38, id: 5 },
+  { code: "J-05", img: "/product-images/jeans/j-women-blue.png",      name: "Levi's Women's Wide Leg — Mid Blue",     desc: "Levi's wide-leg silhouette in mid-blue wash. Clean lines for a polished, effortless look.", price: 38, id: 4 },
+  { code: "J-06", img: "/product-images/jeans/j-men-blue.png",        name: "Levi's Men's Straight Cut — Mid Blue",   desc: "Levi's mid-blue straight-leg cut. Timeless colour and classic proportions. Sizes available on order.", price: 38, id: 5 },
 ];
 
 function JeansSection() {
@@ -699,10 +699,10 @@ function JeansSection() {
     >
       <div className="max-w-7xl mx-auto">
         <CatalogHeading
-          eyebrow="Premium Denim · Men & Women"
-          title="Premium Jeans"
+          eyebrow="Levi's Premium Denim · Men & Women"
+          title="Levi's Jeans"
           italic="Collection"
-          desc="Wide-leg and straight-cut silhouettes for men and women. Available in light blue, mid blue and charcoal washes. Custom waist × length sizing available — just let us know your measurements. UK delivery included."
+          desc="Authentic Levi's wide-leg and straight-cut silhouettes for men and women. Available in light blue, mid blue and charcoal washes. Custom waist × length sizing — just let us know your measurements. UK delivery included."
         />
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-14">
           {JEANS_ITEMS.map((item, i) => (
@@ -783,7 +783,7 @@ function WalletsSection() {
   );
 }
 
-/* ─── Pistachio Kunafa Bites section ─────────────────────── */
+/* ─── Kunafa Chocolates section ──────────────────────────── */
 const KUNAFA_IMGS = [
   "/product-images/kunafa/k-jar-branded.png",
   "/product-images/kunafa/k-jar-open.png",
@@ -800,16 +800,16 @@ function KunafaSection() {
       <div className="max-w-5xl mx-auto">
         <CatalogHeading
           eyebrow="B.C.C. · Premium Confectionery"
-          title="Pistachio Kunafa Bites"
+          title="Kunafa Chocolates"
           italic="by B.C.C."
-          desc="Classic Middle Eastern pistachio kunafa in premium chocolate form. Rich creamy pistachio filling with a satisfying crunch. Individually wrapped — perfect as a gift or treat. UK delivery included."
+          desc="Artisan Kunafa Chocolates — rich pistachio filling encased in crispy pastry, crafted with premium chocolate and authentic flavours. Individually wrapped — perfect as a gift or indulgence. UK delivery included."
         />
         <RevealSection>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 max-w-3xl mx-auto">
             {KUNAFA_IMGS.map((img, i) => (
               <Link href="/product/8" key={i}>
                 <div className="aspect-square overflow-hidden bg-card group cursor-pointer">
-                  <img src={img} alt="Pistachio Kunafa Bites" loading="lazy"
+                  <img src={img} alt="Kunafa Chocolates" loading="lazy"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                 </div>
               </Link>
@@ -817,11 +817,11 @@ function KunafaSection() {
           </div>
           <div className="text-center">
             <p className="font-body text-xs uppercase tracking-widest text-muted-foreground mb-3">
-              B.C.C. Pistachio Kunafa Bites · Premium Gift Box
+              B.C.C. Kunafa Chocolates · Premium Gift Box
             </p>
             <p className="font-serif text-5xl text-primary price-glow mb-1">£22</p>
             <p className="text-xs font-body text-muted-foreground mb-8">per box · UK delivery included</p>
-            <LuxuryButton href="/product/8" dark testId="btn-kunafa-order">Order Kunafa Bites</LuxuryButton>
+            <LuxuryButton href="/product/8" dark testId="btn-kunafa-order">Order Kunafa Chocolates</LuxuryButton>
           </div>
         </RevealSection>
       </div>
@@ -839,12 +839,12 @@ function BrandBanner() {
             Our Promise
           </p>
           <h2 className="font-serif text-4xl md:text-6xl text-foreground mb-6 leading-tight">
-            Pakistan&apos;s Finest,
+            The Finest,
             <br />
             <em className="text-primary">Delivered Across the UK</em>
           </h2>
           <p className="font-body text-sm text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-10">
-            Every piece we curate is hand-selected from Pakistan&apos;s most celebrated fashion
+            Every piece we curate is hand-selected from the finest fashion
             houses. All prices include free UK delivery. WhatsApp us on{" "}
             <a href="tel:+447449507661" className="text-primary hover:underline">
               +44 7449 507661
@@ -923,8 +923,8 @@ const MINI_REVIEWS = [
     name: "Fatima Malik",
     location: "London",
     rating: 5,
-    text: "The Pistachio Kunafa Bites were a massive hit at our family gathering! Everyone was asking where I bought them. The packaging is gorgeous and delivery was super fast.",
-    product: "Pistachio Kunafa Bites",
+    text: "The Kunafa Chocolates were a massive hit at our family gathering! Everyone was asking where I bought them. The packaging is gorgeous and delivery was super fast.",
+    product: "Kunafa Chocolates",
     avatar: "https://i.pravatar.cc/80?img=32",
   },
   {
@@ -943,8 +943,8 @@ const MINI_FAQS = [
     a: "All orders are delivered within 4–5 business days after payment. Free UK delivery is included on every item — no hidden charges.",
   },
   {
-    q: "Can I get custom stitching on the shalwar kameez?",
-    a: "Yes! All shalwar kameez are sold unstitched and can be tailored to your exact measurements. WhatsApp us on +44 7449 507661 and we'll guide you through it.",
+    q: "Are the suits ready to wear?",
+    a: "Yes! All shalwar kameez suits are fully stitched and ready to wear immediately. They are available in sizes S, M, L, XL and XXL. For Levi's jeans, we offer custom waist × length sizing — just WhatsApp us on +44 7449 507661.",
   },
   {
     q: "What payment methods do you accept?",
@@ -1055,8 +1055,15 @@ function HomepageReviews() {
 
 /* ─── Home root ─────────────────────────────────────────── */
 export function Home() {
+  const scrollToNureh = useRef(false);
   const [videoDone, setVideoDone] = useState(() => {
-    try { return sessionStorage.getItem("luxe_hero_done") === "1"; } catch { return false; }
+    try {
+      if (sessionStorage.getItem("luxe_from_shop") === "1") {
+        scrollToNureh.current = true;
+        return true;
+      }
+      return sessionStorage.getItem("luxe_hero_done") === "1";
+    } catch { return false; }
   });
   useRevealOnScroll();
 
@@ -1064,6 +1071,16 @@ export function Home() {
     try { sessionStorage.setItem("luxe_hero_done", "1"); } catch {}
     setVideoDone(true);
   }, []);
+
+  useEffect(() => {
+    if (videoDone && scrollToNureh.current) {
+      scrollToNureh.current = false;
+      try { sessionStorage.removeItem("luxe_from_shop"); } catch {}
+      setTimeout(() => {
+        document.getElementById("nureh-section")?.scrollIntoView({ behavior: "smooth" });
+      }, 150);
+    }
+  }, [videoDone]);
 
   return (
     <div className="w-full">
@@ -1076,7 +1093,7 @@ export function Home() {
           opacity: videoDone ? 1 : 0,
         }}
       >
-        <NurehGardeniaSection />
+        <div id="nureh-section"><NurehGardeniaSection /></div>
         <ZeenatSection />
         <CharizmaSection />
         <JeansSection />

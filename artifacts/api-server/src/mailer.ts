@@ -266,10 +266,10 @@ export async function sendWelcomeEmail(name: string, email: string): Promise<voi
       <p style="margin:0 0 6px;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#9b7f3e;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Welcome to Luxe &amp; Line</p>
       <h2 style="margin:0 0 20px;font-size:26px;font-weight:300;color:#1a1228;font-family:Georgia,'Times New Roman',serif;">Hello, ${name}</h2>
       <p style="margin:0 0 18px;font-size:14px;line-height:1.75;color:#5c5147;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
-        Welcome to Luxe &amp; Line — your home for premium Pakistani fashion, leather accessories and artisan confectionery, delivered anywhere in the UK with free delivery on every order.
+        Welcome to Luxe &amp; Line — your home for premium South Asian fashion, leather accessories and artisan confectionery, delivered anywhere in the UK with free delivery on every order.
       </p>
       <p style="margin:0 0 28px;font-size:14px;line-height:1.75;color:#5c5147;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
-        Your account is now active. Browse our latest Nureh Gardenia, Charizma and Zeenat collections, or treat someone to our award-worthy Pistachio Kunafa Bites.
+        Your account is now active. Browse our latest Nureh Gardenia, Charizma and Luxury Pret collections, or treat someone to our award-worthy Kunafa Chocolates.
       </p>
     </td>
   </tr>
