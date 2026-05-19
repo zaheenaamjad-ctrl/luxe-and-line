@@ -1,4 +1,4 @@
-import express, { type Express } from "express";
+import express, { type Express, type Request, type Response, type NextFunction } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import pinoHttp from "pino-http";
@@ -36,5 +36,22 @@ app.use(express.urlencoded({ extended: true }));
 app.use(sitemapRouter);
 
 app.use("/api", router);
+
+// Global error boundary — catches any error passed to next(err) or thrown in
+// synchronous middleware. Must have exactly 4 parameters for Express to treat
+// it as an error handler.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+app.use((err: unknown, req: Request, res: Response, _next: NextFunction) => {
+  const message = err instanceof Error ? err.message : String(err);
+  const status = (err as { status?: number; statusCode?: number })?.status
+    ?? (err as { status?: number; statusCode?: number })?.statusCode
+    ?? 500;
+  req.log?.error({ err, status }, "Unhandled route error");
+  if (!res.headersSent) {
+    res.status(status >= 400 && status < 600 ? status : 500).json({
+      error: status === 500 ? "Internal server error" : message,
+    });
+  }
+});
 
 export default app;
