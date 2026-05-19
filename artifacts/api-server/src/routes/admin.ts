@@ -260,6 +260,36 @@ router.delete("/admin/products/:id", async (req, res) => {
   }
 });
 
+// GET /admin/test-email — sends a test email to syedimad348@gmail.com and returns result
+router.get("/admin/test-email", async (req, res) => {
+  if (!requireAdmin(req, res)) return;
+  try {
+    const { Resend } = await import("resend");
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) { res.status(500).json({ ok: false, error: "RESEND_API_KEY not set" }); return; }
+    const resend = new Resend(apiKey);
+    const from = process.env.RESEND_FROM ?? "Luxe & Line <hello@luxeandline.uk>";
+    const result = await resend.emails.send({
+      from,
+      to: "syedimad348@gmail.com",
+      subject: "Luxe & Line — Email Test",
+      replyTo: "hello@luxeandline.uk",
+      html: `<p>This is a test email from the Luxe & Line admin panel.</p><p>From: <strong>${from}</strong></p><p>Sent at: ${new Date().toISOString()}</p>`,
+      text: `This is a test email from the Luxe & Line admin panel.\n\nFrom: ${from}\nSent at: ${new Date().toISOString()}`,
+    });
+    if (result.error) {
+      req.log.error({ err: result.error }, "Test email failed");
+      res.json({ ok: false, error: result.error, from });
+    } else {
+      req.log.info({ emailId: result.data?.id }, "Test email sent successfully");
+      res.json({ ok: true, emailId: result.data?.id, from, to: "syedimad348@gmail.com" });
+    }
+  } catch (err) {
+    req.log.error({ err }, "Test email exception");
+    res.status(500).json({ ok: false, error: String(err) });
+  }
+});
+
 // GET /admin/diagnostics — production env var health check (values never exposed, only presence)
 router.get("/admin/diagnostics", (req, res) => {
   if (!requireAdmin(req, res)) return;

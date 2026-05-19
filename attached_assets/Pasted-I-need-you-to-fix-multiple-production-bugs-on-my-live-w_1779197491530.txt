@@ -1,0 +1,126 @@
+I need you to fix multiple production bugs on my live website https://www.luxeandline.uk (React + Vite frontend, Express backend, Neon PostgreSQL, hosted on Vercel).
+
+Do NOT test on localhost. All fixes must work on production. After each fix, remind me to push to GitHub so Vercel auto-deploys.
+
+Here are ALL the issues to fix one by one:
+
+---
+
+### BUG 1: SHOP PAGE — PRODUCTS NOT FOUND
+
+The homepage shows products fine but the /shop page shows "products not found" or empty.
+
+Please check:
+- What API endpoint does the Shop page use to fetch products? (likely GET /api/products)
+- Is there a different query/filter on the shop page vs homepage that might be failing?
+- Check if the shop page passes any category/filter params that return empty results
+- Check the backend route for /api/products — make sure it works with no filters and returns all products
+- Check if there's a CORS or auth issue on that specific route
+- Fix the shop page so it correctly fetches and displays all products
+
+---
+
+### BUG 2: GOOGLE OAUTH BUTTON NOT WORKING
+
+Google Sign-In button on the site is broken again on production.
+
+Please check:
+- The frontend fetches the Google Client ID from GET /api/auth/google/client-id — verify this route exists and returns the correct value
+- Make sure GOOGLE_CLIENT_ID is set in Vercel environment variables
+- The Google OAuth flow should redirect to /api/auth/google/callback
+- Make sure the backend properly handles the OAuth callback and sets a session cookie
+- Verify SESSION_SECRET is set in Vercel environment variables
+- Make sure the session cookie is set with: secure: true, sameSite: 'none' for cross-origin on Vercel
+- Fix any issues found so Google login works on production
+
+---
+
+### BUG 3: ALL EMAILS NOT WORKING
+
+Customers are not receiving: registration welcome email, order confirmation email, dispatch email, delivery email.
+Admin emails are also not going out.
+Emails may be going to spam/promotions instead of Primary inbox.
+
+Please check and fix ALL of the following:
+- All email send calls must use await — never fire-and-forget (.catch(() => {})) because Vercel serverless ends the function before emails send
+- Sender must be: Luxe & Line <hello@luxeandline.uk> (NOT onboarding@resend.dev)
+- RESEND_FROM env variable must be used as the from address
+- Add proper email headers to improve deliverability and avoid spam:
+  - Reply-To: hello@luxeandline.uk
+  - List-Unsubscribe header
+  - Make sure HTML emails have both html and text versions
+- Wrap every Resend API call in try/catch and log success (with message ID) and errors
+- Check: registration route (POST /api/auth/register) — ensure welcome email is awaited before response
+- Check: order placement route — ensure order confirmation email is awaited before response  
+- Check: order status update route — ensure dispatch/delivery emails are awaited before response
+- Add a test email endpoint: GET /api/admin/test-email that sends a test email to syedimad348@gmail.com and logs the result
+- Make sure RESEND_API_KEY is set in Vercel environment variables
+
+---
+
+### BUG 4: REMOVE ONLINE PAYMENT — CASH ON DELIVERY ONLY
+
+On the checkout/order page where customers choose payment method, remove all online payment options (card, Stripe, etc).
+
+- Only show "Cash on Delivery" as the payment option
+- Remove any Stripe or online payment imports, routes, or UI components
+- Make sure the order still processes correctly with cash payment method
+- Update the order confirmation email to say "Payment Method: Cash on Delivery"
+
+---
+
+### BUG 5: PAGE SCROLL — START FROM TOP ON NAVIGATION
+
+When a user clicks a link and navigates to a new page, the page renders starting from the bottom/middle instead of the top.
+
+Fix this by adding a ScrollToTop component:
+
+Create a file src/components/ScrollToTop.jsx:
+```jsx
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+
+export default function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
+```
+
+Then in your main App.jsx or Router, import and add <ScrollToTop /> as the first child inside <Router> or <BrowserRouter>, before your Routes.
+
+---
+
+### BUG 6: ADMIN DASHBOARD BROKEN
+
+The admin dashboard at /admin is not loading or accessible again.
+
+Please check:
+- The admin auth middleware — it should check if the logged-in user's email is in the admin list:
+  syedimad348@gmail.com, zaheenaamjad@gmail.com, luxeline26@gmail.com
+- Make sure the admin check is case-insensitive (use .toLowerCase())
+- Check GET /api/admin/diagnostics — it should return 200 with env variable status
+- Check if session/auth is properly persisting on Vercel (sessions need to be stored in DB or use stateless JWT, not in-memory, because Vercel is serverless and has no persistent memory)
+- If sessions are stored in-memory (MemoryStore), migrate to connect-pg-simple with the Neon DATABASE_URL to persist sessions in PostgreSQL
+- Fix the admin dashboard so it loads reliably on production
+- Make sure the admin dashboard tab for Orders shows all orders with the ability to update status (which triggers customer emails)
+
+---
+
+### AFTER ALL FIXES:
+
+1. Make sure all changes are saved in Replit
+2. Push to GitHub (git add . && git commit -m "Fix: shop page, google auth, emails, payment, scroll, admin dashboard" && git push)
+3. Wait for Vercel to auto-deploy
+4. Then test these on https://www.luxeandline.uk:
+   - /shop — should show all products
+   - Google login button — should work
+   - Register a new account — should receive welcome email in Primary inbox
+   - Place an order — should receive order confirmation email
+   - Admin dashboard — should load for admin emails
+   - Navigate between pages — should start from top
+   - Checkout — should only show Cash on Delivery
+
+Please fix all 6 issues now. Start with BUG 1 and work through each one.

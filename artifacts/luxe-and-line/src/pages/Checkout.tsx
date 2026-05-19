@@ -19,7 +19,7 @@ export function Checkout() {
     addressLine2: "",
     city: "",
     postCode: "",
-    paymentMethod: "bank-transfer",
+    paymentMethod: "cash-on-delivery",
     notes: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -141,27 +141,12 @@ export function Checkout() {
             {/* Payment Method */}
             <div>
               <h2 className="font-serif text-xl text-foreground mb-6">Payment Method</h2>
-              <div className="space-y-3">
-                {[
-                  { value: "bank-transfer", label: "Bank Transfer", desc: "We will send you our account details via email after placing your order. Please transfer within 48 hours." },
-                  { value: "cash-on-delivery", label: "Cash on Delivery", desc: "Pay when your order arrives. Available across the UK." },
-                ].map((method) => (
-                  <label key={method.value} className={`flex items-start gap-4 p-4 border cursor-pointer transition-all ${form.paymentMethod === method.value ? "border-primary bg-primary/5" : "border-border hover:border-primary/50"}`}>
-                    <input
-                      type="radio"
-                      data-testid={`payment-${method.value}`}
-                      name="paymentMethod"
-                      value={method.value}
-                      checked={form.paymentMethod === method.value}
-                      onChange={(e) => setForm((f) => ({ ...f, paymentMethod: e.target.value }))}
-                      className="mt-1 accent-primary"
-                    />
-                    <div>
-                      <p className="font-body text-sm text-foreground font-medium">{method.label}</p>
-                      <p className="text-xs text-muted-foreground font-body mt-1">{method.desc}</p>
-                    </div>
-                  </label>
-                ))}
+              <div className="flex items-start gap-4 p-4 border border-primary bg-primary/5">
+                <Truck size={18} className="text-primary mt-0.5 shrink-0" />
+                <div>
+                  <p className="font-body text-sm text-foreground font-medium">Cash on Delivery</p>
+                  <p className="text-xs text-muted-foreground font-body mt-1">Pay when your order arrives. Available across the UK.</p>
+                </div>
               </div>
             </div>
 
