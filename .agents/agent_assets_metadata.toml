@@ -1,0 +1,14 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "JV2fzBW3YOTJmEBJmQWUP"
+uri = "file://artifacts/luxe-and-line-mobile/assets/images/icon.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "lfGHj-N4lUAUj7jwh-X17"
+uri = "file://artifacts/luxe-and-line-mobile/assets/images/hero-banner.png"
+type = "image"
+title = "generated_image"
