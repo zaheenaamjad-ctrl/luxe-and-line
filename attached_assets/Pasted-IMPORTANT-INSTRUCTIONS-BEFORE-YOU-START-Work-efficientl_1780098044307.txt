@@ -1,0 +1,149 @@
+IMPORTANT INSTRUCTIONS BEFORE YOU START:
+— Work efficiently and use as few credits as possible while completing everything fully.
+— All environment secrets are already added in Replit Secrets: RESEND_API_KEY (new key just created), RESEND_FROM, SESSION_SECRET, GOOGLE_CLIENT_ID, DATABASE_URL, GOOGLE_ANALYTICS. Use these automatically — do not ask me for any keys.
+— Read every section below carefully before making any changes.
+— Complete ALL sections — do not skip any.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[1] HERO VIDEOS — REMOVE VIDEO 2, FIX VIDEO 3, MOBILE FIX
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+— Remove the second video and its text/overlay completely from the hero section.
+— The sequence should now be: Video 1 plays → Video 1 text appears → Video 3 plays immediately (no delay, no frustration) → Video 3 text appears quickly.
+— Video 3 must load and play fast — preload it so there is zero buffering or delay between transitions.
+— Both videos must display correctly on DESKTOP and MOBILE separately:
+  • Desktop: current layout is fine, keep it.
+  • Mobile: videos are currently zooming in and getting cut off. Fix this so on mobile the full video is visible, properly centred, and the logo/branding inside the video is fully visible. Use object-fit: contain on mobile or a separate mobile CSS rule — do NOT crop or zoom the video on mobile.
+— Text overlays on both videos must appear quickly and cleanly after each video starts.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[2] EMAIL SYSTEM — FIX ALL ORDER EMAILS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Using RESEND_API_KEY and RESEND_FROM from Secrets, fix the entire email system:
+
+A) ORDER CONFIRMATION EMAIL (when customer places order):
+— Send confirmation email to the CUSTOMER at their email address.
+— Send notification email to the ADMIN at hello@luxeandline.uk.
+— Both emails must send automatically on every order submission.
+
+B) ORDER STATUS UPDATE EMAILS (when admin updates order status):
+— When admin changes order status to any of the following, an email must be sent to the CUSTOMER automatically:
+  • Order Confirmed
+  • Dispatched (include estimated delivery info)
+  • Out for Delivery
+  • Delivered
+  • Cancelled (include reason if provided)
+— Currently none of these status update emails are reaching the customer — fix this completely.
+— The dispatched email is completely broken — fix it as priority.
+— The cancel order email is also not sending — fix this too.
+— Every status change from the admin panel must trigger a customer email without fail.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[3] MOBILE SPACING AND LAYOUT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+— Fix all mobile spacing issues across the entire website.
+— Ensure proper padding and margins on all pages on small screens.
+— Text must not overflow or get cut off on mobile.
+— Buttons must be full width and tappable on mobile.
+— Product cards must display in a clean 2-column grid on mobile.
+— Navigation menu must work perfectly on mobile.
+— No horizontal scrolling on any page on mobile.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[4] PAGE SPEED OPTIMISATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+— Compress and optimise all images across the website.
+— Add lazy loading to all images that are not in the first visible screen.
+— Minimise and combine CSS and JavaScript files where possible.
+— Add browser caching headers.
+— Preload the hero video and critical fonts.
+— The website must load fast on both desktop and mobile — aim for under 3 seconds.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[5] PRODUCT FILTERING — FIX SITEWIDE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+— Fix all product category filters on the Shop page so every product in that category is shown when selected.
+— Jeans filter must show ALL jeans products (currently only showing 2).
+— Wallets filter must show ALL wallet products (currently only showing 2).
+— Suits filter must show all suits from all collections.
+— No category should ever cap or limit results — show everything.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[6] CHECKOUT TRUST BADGES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+— Add trust badges to the checkout/order page and product pages to increase customer confidence.
+— Include badges such as: Secure Checkout, Free UK Delivery, Easy Returns, Encrypted Payment, WhatsApp Support.
+— Style them cleanly and professionally — small icons with short text underneath.
+— Place them below the Buy Now / Order on WhatsApp button on product pages.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[7] REMOVE ALL PAKISTANI REFERENCES — SITEWIDE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+— Remove every single mention of Pakistan, Pakistani, Lahore, Pakistani fabrics, or any South Asian regional label from the ENTIRE website.
+— This includes: page text, product descriptions, meta tags, meta descriptions, Open Graph tags, JSON-LD structured data, image alt text, and any hidden SEO fields.
+— The Google search result currently shows "Pakistani fabrics" in the description — this must be updated immediately by fixing the meta description on the home page and all relevant pages.
+— Replace with brand-appropriate language: "Premium UK Fashion", "Luxury Clothing UK", "Exclusive Designer Collection", "Elegant Stitched Suits UK".
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[8] SEO — FULL OPTIMISATION FOR UK TRAFFIC
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+The goal is to appear on PAGE 1 of Google for UK clothing, fashion, and shopping searches. Do ALL of the following:
+
+A) META TITLES AND DESCRIPTIONS — every page must have a unique, keyword-rich meta title and description:
+— Home: "Luxe & Line | Luxury Stitched Suits, Levi's Jeans & Fashion UK"
+— Shop: "Shop Luxury Fashion UK | Stitched Suits, Jeans, Wallets & More | Luxe & Line"
+— Each product page: "[Product Name] | Buy Online UK | Luxe & Line"
+— About: "About Luxe & Line | Premium UK Fashion Brand"
+
+B) TARGET KEYWORDS — include these naturally across the website and in meta tags:
+luxury stitched suits UK, women's suits UK, Pakistani stitched suits UK delivery, Levi's jeans women UK, luxury fashion UK online, buy suits online UK, Kunafa chocolates UK, designer suits UK, modest fashion UK, premium wallets UK
+
+C) PROGRAMMATIC SEO — create automatic landing pages for:
+— Each product with its own unique URL and meta data
+— Location pages: "Stitched Suits London", "Luxury Fashion Manchester", "Designer Suits Birmingham", "Buy Suits Online Leeds"
+— All auto-generated pages must be added to sitemap.xml automatically
+
+D) TECHNICAL SEO:
+— Create/update sitemap.xml with ALL pages including products and location pages
+— Create robots.txt allowing all pages to be indexed
+— Add canonical tags to every page
+— Add Open Graph and Twitter Card meta tags to every page with correct title, description, and image
+— Add JSON-LD product schema markup to every product page (name, price, availability, image, description)
+— Add JSON-LD organisation schema to home page
+
+E) BRAND SEARCH — make sure "Luxe" and "Luxe and Line" and "luxeandline" appear on page 1:
+— Add the brand name prominently in title tags, H1s, and structured data
+— Add a JSON-LD WebSite schema with SearchAction so Google recognises the brand
+
+F) BLOG PAGE — create a simple blog with these 4 starter posts:
+— "How to Style Stitched Suits in the UK — 2026 Guide"
+— "Best Levi's Jeans for Women UK — Complete Guide"
+— "Top Luxury Fashion Gifts UK — Suits, Wallets & More"
+— "Kunafa Chocolates UK — The Perfect Gift for Every Occasion"
+— Each post must link back to relevant product pages and be fully SEO optimised
+
+G) IMAGE ALT TEXT — add descriptive, keyword-rich alt text to every single image on the website
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[9] GOOGLE ANALYTICS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+— Google Analytics ID is stored in Secrets as GOOGLE_ANALYTICS (value: G-0XSNYRRKHN).
+— Make sure the tracking code is correctly added to every page of the website including all new pages created above.
+— Track page views, product page views, and order completions as events.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[10] FINAL CHECKS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+After completing all changes above, verify:
+— Website loads correctly on desktop and mobile
+— Hero video sequence works: Video 1 → text → Video 3 → text (Video 2 completely removed)
+— All emails send correctly (order confirmation to customer + admin, all status updates to customer)
+— All product filters show complete results
+— No Pakistani references anywhere including Google search preview text
+— Sitemap.xml is updated and includes all pages
+— All meta titles and descriptions are in place
+— Trust badges appear on product and checkout pages
+— Mobile layout has no spacing or zoom issues
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+END — Complete all 10 sections fully.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

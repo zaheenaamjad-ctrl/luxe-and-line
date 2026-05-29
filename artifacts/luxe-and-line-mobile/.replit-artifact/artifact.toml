@@ -1,0 +1,27 @@
+kind = "mobile"
+previewPath = "/luxe-and-line-mobile/"
+title = "Luxe & Line Mobile"
+version = "1.0.0"
+id = "artifacts/luxe-and-line-mobile"
+router = "expo-domain"
+
+[[integratedSkills]]
+name = "expo"
+version = "1.0.0"
+
+[[services]]
+ensurePreviewReachable = "/status"
+name = "expo"
+paths = [ "/luxe-and-line-mobile/" ]
+localPort = 18726
+
+[services.development]
+run = "pnpm --filter @workspace/luxe-and-line-mobile run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/luxe-and-line-mobile", "run", "build" ]
+run = [ "pnpm", "--filter", "@workspace/luxe-and-line-mobile", "run", "serve" ]
+
+[services.env]
+PORT = "18726"
+BASE_PATH = "/luxe-and-line-mobile/"
