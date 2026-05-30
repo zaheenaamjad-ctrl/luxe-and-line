@@ -324,37 +324,12 @@ export function ProductDetail() {
               }}
             />
 
-            {/* Size selector — S / M / L / XL / XXL for shalwar kameez */}
+            {/* Shalwar kameez — one size, no selector needed */}
             {isShalwarKameez && (
               <div className="mb-6">
-                <div className="flex items-center justify-between mb-3">
-                  <p className="text-xs uppercase tracking-widest font-body text-muted-foreground">Size</p>
-                  {selectedSize && <span className="text-primary text-xs font-body font-medium">{selectedSize} selected</span>}
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {["XS", "S", "M", "L", "XL", "XXL"].map((size) => (
-                    <button
-                      key={size}
-                      onClick={() => setSelectedSize(size)}
-                      className="font-body font-semibold text-sm transition-all duration-200"
-                      style={{
-                        width: 52,
-                        height: 52,
-                        border: selectedSize === size
-                          ? "2px solid hsl(270,80%,65%)"
-                          : "1px solid hsl(265,18%,22%)",
-                        background: selectedSize === size
-                          ? "hsl(270,80%,65%)"
-                          : "transparent",
-                        color: selectedSize === size ? "#fff" : "hsl(280,20%,75%)",
-                      }}
-                    >
-                      {size}
-                    </button>
-                  ))}
-                </div>
-                <p className="text-muted-foreground text-[10px] font-body mt-2">
-                  Fully stitched suit — select your size above. Sizes S–XXL available.
+                <p className="text-xs uppercase tracking-widest font-body text-muted-foreground mb-2">Size</p>
+                <p className="text-sm font-body" style={{ color: "hsl(280,20%,75%)" }}>
+                  One Size — fits all
                 </p>
               </div>
             )}

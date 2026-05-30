@@ -1,0 +1,187 @@
+⚠️ CRITICAL — READ THIS FIRST:
+This is an EXISTING website at luxeandline.uk. Do NOT build a mobile app. Do NOT create a new project. Do NOT install any app frameworks. Only make improvements to the existing website code. Work efficiently — complete everything using minimum credits. Start immediately, do not ask questions.
+
+All secrets are already saved in Replit Secrets:
+RESEND_API_KEY, RESEND_FROM, SESSION_SECRET, GOOGLE_CLIENT_ID, DATABASE_URL, GOOGLE_ANALYTICS
+Do not ask for any keys — read them from Secrets automatically.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[1] MAXIMUM WEBSITE SPEED — TOP PRIORITY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+This is the single most important task. Make the website load as fast as humanly possible:
+
+— Compress and convert ALL images to WebP format
+— Add lazy loading (loading="lazy") to every image below the fold
+— Minify ALL CSS and JavaScript files — remove whitespace, comments, unused rules
+— Enable GZIP / Brotli compression on the Express server using the 'compression' npm package
+— Add aggressive browser caching headers for all static assets (images, CSS, JS): Cache-Control: public, max-age=31536000, immutable
+— Preload the hero video and above-the-fold critical resources using 
+— Defer all non-critical JavaScript using defer or async attributes
+— Remove every unused CSS class, unused JS function, and any unused npm dependency
+— Split large CSS files and only load what each page needs
+— Use a CDN-friendly folder structure for /public/assets
+— Set ETag headers for conditional requests
+— Target: under 1.5 seconds on 4G mobile, under 1 second on desktop
+— Run a Lighthouse audit after every change and fix every issue flagged
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[2] HERO VIDEO — PORTRAIT FORMAT FOR VIDEO 2 + MOBILE FIX
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+— Video 1: landscape (16:9) — keep exactly as is, no changes
+— Video 2: MUST display in portrait (9:16) ratio — not landscape. Change the video container to portrait dimensions specifically for video 2. Do not alter the aspect ratio or crop it — display it fully in its natural portrait format, centred on screen
+— Add a separate CSS rule just for the video 2 container: aspect-ratio: 9/16; max-width: 420px; margin: 0 auto; object-fit: contain;
+— MOBILE FIX (applies to all videos): on screens under 768px, use object-fit: contain so the full video including logo is visible and centred — do NOT zoom or crop on mobile
+— Use a CSS @media (max-width: 768px) query to apply mobile-specific video styles
+— Desktop layout for video 1 stays exactly as it is
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[3] MOBILE LAYOUT — FIX SPACING SITEWIDE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+— Fix all padding and margin issues on mobile across every page
+— No horizontal scrolling on any page — test each page at 375px width
+— Product cards must display in a clean 2-column grid on mobile
+— All buttons must be full width and minimum 48px tall for easy tapping
+— Text must never overflow, be cut off, or require horizontal scrolling
+— Navigation must work perfectly on mobile — hamburger menu must open and close cleanly
+— Fix any z-index issues on mobile (dropdowns hidden behind other elements)
+— Test on iPhone SE (375px) and standard Android (360px) sizes
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[4] CHATBOT — MOBILE POSITION AND LAYOUT FIX
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+— The chatbot widget is currently misaligned on mobile — it is not centred or properly positioned
+— Fix the chatbot so it appears in the correct bottom-right position on ALL screen sizes
+— On mobile (under 768px): the chat window must be full-width (100vw) and full-height (100vh) when open — no cropping, no overflow issues
+— The chat toggle button must always be visible in bottom-right at position: fixed; bottom: 20px; right: 20px; z-index: 9999
+— When the chat window opens on mobile, it must slide up cleanly from the bottom — no jumping or misalignment
+— All chat text, input field, and send button must be easy to read and tap on mobile
+— The chat window must have proper padding so content does not touch the screen edges
+— Apply these fixes using @media (max-width: 768px) CSS rules — do not break desktop layout
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[5] PRODUCT FILTERS — SHOW ALL PRODUCTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+— Jeans filter: show ALL jeans — currently only 2 showing, fix the query or filter logic immediately
+— Wallets filter: show ALL wallets — currently only 2 showing, fix this
+— Every category filter must return ALL products in that category with no artificial limit
+— Check the database query or API call for each filter and remove any LIMIT clause that is cutting results short
+— After fixing, confirm the correct count appears for each category
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[6] REMOVE ALL PAKISTAN REFERENCES — URGENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+— Search EVERY file (HTML, JS, EJS, meta tags, JSON-LD, Open Graph, alt text, sitemap) for: Pakistan, Pakistani, Lahore, Pakistani fabrics, made in Pakistan, South Asian
+— Remove or replace ALL of them immediately
+— The Google search snippet currently shows "Pakistani fabrics" — this must be fixed right now
+— Replace all removed references with: "Premium UK Fashion", "Luxury Clothing UK", "Exclusive Designer Collection", "Crafted for the UK"
+— Check robots.txt, sitemap.xml, and any structured data files as well
+— After fixing, confirm zero mentions remain anywhere in the codebase
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[7] TRUST BADGES ON PRODUCT PAGES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+— Add trust badges directly below the Buy Now / Add to Basket button on every product page
+— Badges required: ✓ Secure Checkout  ✓ Free UK Delivery  ✓ Easy Returns  ✓ WhatsApp Support
+— Style: small inline SVG or emoji icons, light grey background strip, compact text — clean and professional
+— Must display correctly on both mobile and desktop without breaking product page layout
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[8] SEO — TARGET PAGE 1 ON GOOGLE UK FOR ALL BRAND TERMS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+This must be done like an expert SEO professional, not a generic checklist. The goal is for "Luxe", "Luxe and Line", "luxeandline", "Luxe & Line UK" to rank on page 1 of Google UK.
+
+— HOME PAGE META (fix immediately):
+  Title: Luxe & Line | Luxury Stitched Suits, Levi's Jeans & Designer Fashion UK
+  Description: Shop Luxe & Line — the UK's destination for luxury stitched suits, Levi's jeans, designer handbags and exclusive fashion. Free UK delivery. Easy returns.
+  — No mention of Pakistan anywhere in any meta tag
+
+— BRAND SCHEMA (add to every page):
+  Add JSON-LD Organisation schema with: name "Luxe & Line", url "https://luxeandline.uk", logo, sameAs social profiles, contactPoint with UK phone/email
+  Add JSON-LD WebSite schema with SearchAction for sitelinks search box
+
+— PRODUCT PAGES:
+  Add JSON-LD Product schema to every product page including: name, description, image, brand (Luxe & Line), offers (price, currency GBP, availability, url)
+  Add unique meta title and description to every single product page
+  Add canonical tags to every page
+
+— OPEN GRAPH (every page):
+  og:title, og:description, og:image, og:url, og:type, og:site_name="Luxe & Line"
+
+— H1 TAGS:
+  Every page must have exactly one H1 that includes the brand name "Luxe & Line" and a primary keyword
+  Example home H1: "Luxe & Line — Luxury Fashion for Women UK"
+
+— IMAGE ALT TEXT:
+  Every image must have descriptive, keyword-rich alt text referencing Luxe & Line and product type
+  Example: alt="Luxe & Line luxury stitched suit for women UK"
+
+— SITEMAP:
+  Generate sitemap.xml with every page including product pages, blog posts, location pages, and category pages
+  Add lastmod dates and priority values
+  Add https://luxeandline.uk/sitemap.xml to robots.txt
+
+— ROBOTS.TXT:
+  Create robots.txt allowing all crawlers, pointing to sitemap, blocking /admin and /api
+
+— LOCATION LANDING PAGES (create these 4 pages with full SEO content):
+  /stitched-suits-london — "Luxury Stitched Suits London | Luxe & Line"
+  /luxury-fashion-manchester — "Designer Fashion Manchester | Luxe & Line"
+  /designer-suits-birmingham — "Designer Suits Birmingham | Luxe & Line"
+  /buy-suits-online-leeds — "Buy Luxury Suits Online Leeds | Luxe & Line"
+  Each page: 400+ words of unique content, proper H1/H2 structure, internal links to products, JSON-LD LocalBusiness schema
+
+— SEO BLOG POSTS (create these 4 blog posts with full content):
+  1. /blog/how-to-style-stitched-suits-uk-2026
+     Title: "How to Style Stitched Suits in the UK — 2026 Guide | Luxe & Line"
+     500+ words, targets: stitched suits UK, how to style suits women UK
+  2. /blog/best-levis-jeans-women-uk
+     Title: "Best Levi's Jeans for Women UK 2026 | Luxe & Line"
+     500+ words, targets: Levi's jeans women UK, best jeans for women UK
+  3. /blog/luxury-fashion-gifts-uk
+     Title: "Top Luxury Fashion Gifts UK 2026 | Luxe & Line"
+     500+ words, targets: luxury fashion gifts UK, designer gifts women UK
+  4. /blog/kunafa-chocolates-uk-gift-guide
+     Title: "Kunafa Chocolates UK — The Perfect Gift Guide | Luxe & Line"
+     500+ words, targets: Kunafa chocolates UK, buy Kunafa UK
+
+— PRIMARY UK TARGET KEYWORDS (use naturally across all pages):
+  luxury stitched suits UK, women's stitched suits UK, Levi's jeans women UK, buy suits online UK, designer fashion UK, modest fashion UK, luxury fashion gifts UK, Kunafa chocolates UK, exclusive designer collection UK, Luxe and Line, Luxe & Line UK, luxeandline.uk
+
+— INTERNAL LINKING:
+  Every blog post and location page must link to at least 3 relevant product pages
+  Every product page must link to related products and one blog post
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[9] GOOGLE ANALYTICS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+— Read GOOGLE_ANALYTICS from Replit Secrets (value: G-0XSNYRRKHN)
+— Add GA4 tracking snippet to every existing page AND every new page created above
+— Track: page views, product page views, add to basket events, order completion events
+— Make sure the tracking fires on all dynamically rendered pages too
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EXECUTION ORDER — DO IN THIS ORDER:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Remove all Pakistan references first (takes 5 minutes, highest urgency)
+2. Fix meta tags and home page SEO immediately after
+3. Enable compression and caching (speed)
+4. Fix chatbot mobile layout
+5. Fix product filters
+6. Fix video 2 portrait + mobile video fix
+7. Add trust badges
+8. Create location pages and blog posts
+9. Add all schema, sitemaps, robots.txt
+10. Add Google Analytics to all pages
+11. Run Lighthouse audit and fix remaining issues
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FINAL — DO NOT:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+— Do NOT build a mobile app
+— Do NOT create a React Native or Expo project
+— Do NOT install app-store related packages
+— Do NOT ask questions before starting — begin immediately
+— ONLY improve the existing luxeandline.uk website code
+
+Complete all 9 sections. Test each one after implementing. Report what was done after finishing.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
