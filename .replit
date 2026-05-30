@@ -1,4 +1,4 @@
-modules = ["nodejs-24", "python-3.11"]
+modules = ["nodejs-24", "python-3.11", "postgresql-16"]
 
 [deployment]
 router = "application"
@@ -41,3 +41,6 @@ externalPort = 3000
 RESEND_FROM = "Luxe & Line <hello@luxeandline.uk>"
 ADMIN_EMAILS = "syedimad348@gmail.com,zaheenaamjad@gmail.com"
 SITE_URL = "https://www.luxeandline.uk"
+
+[nix]
+channel = "stable-25_05"
