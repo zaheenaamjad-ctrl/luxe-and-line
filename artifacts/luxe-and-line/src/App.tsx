@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Switch, Route, Router as WouterRouter, Redirect } from "wouter";
 import { getAuthUser } from "@/lib/auth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -117,6 +117,15 @@ function Router() {
 }
 
 function App() {
+  useEffect(() => {
+    const sk = document.getElementById("app-skeleton");
+    if (sk) {
+      sk.style.transition = "opacity 0.4s ease";
+      (sk as HTMLElement).style.opacity = "0";
+      setTimeout(() => sk.remove(), 400);
+    }
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>

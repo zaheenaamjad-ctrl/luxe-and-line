@@ -174,6 +174,7 @@ function VideoHero({ onExit }: { onExit: () => void }) {
           <video
             ref={(el) => { videoRefs.current[idx] = el; }}
             src={vid.src}
+            poster="/videos/hero-poster.webp"
             className="absolute inset-0 w-full h-full object-contain sm:object-cover"
             muted
             loop
@@ -456,16 +457,16 @@ function CatalogCard({
 
 /* ─── Nureh Gardenia section ─────────────────────────────── */
 const NUREH_ITEMS = [
-  { code: "NSG-215", img: "/product-images/nureh-gardenia/nsg-215.png", name: "Gardenia NSG-215", price: 65, id: 1 },
-  { code: "NSG-216", img: "/product-images/nureh-gardenia/nsg-216.png", name: "Gardenia NSG-216", price: 65, id: 9 },
-  { code: "NSG-217", img: "/product-images/nureh-gardenia/nsg-217.png", name: "Gardenia NSG-217", price: 65, id: 10 },
-  { code: "NSG-218", img: "/product-images/nureh-gardenia/nsg-218.png", name: "Gardenia NSG-218", price: 65, id: 11 },
-  { code: "NSG-219", img: "/product-images/nureh-gardenia/nsg-219.png", name: "Gardenia NSG-219", price: 65, id: 12 },
-  { code: "NSG-220", img: "/product-images/nureh-gardenia/nsg-220.png", name: "Gardenia NSG-220", price: 65, id: 13 },
-  { code: "NSG-221", img: "/product-images/nureh-gardenia/nsg-221.png", name: "Gardenia NSG-221", price: 65, id: 14 },
-  { code: "NSG-222", img: "/product-images/nureh-gardenia/nsg-222.png", name: "Gardenia NSG-222", price: 65, id: 15 },
-  { code: "NSG-223", img: "/product-images/nureh-gardenia/nsg-223.png", name: "Gardenia NSG-223", price: 65, id: 22 },
-  { code: "NSG-224", img: "/product-images/nureh-gardenia/nsg-224.png", name: "Gardenia NSG-224", price: 65, id: 16 },
+  { code: "NSG-215", img: "/product-images/nureh-gardenia/nsg-215.webp", name: "Gardenia NSG-215", price: 65, id: 1 },
+  { code: "NSG-216", img: "/product-images/nureh-gardenia/nsg-216.webp", name: "Gardenia NSG-216", price: 65, id: 9 },
+  { code: "NSG-217", img: "/product-images/nureh-gardenia/nsg-217.webp", name: "Gardenia NSG-217", price: 65, id: 10 },
+  { code: "NSG-218", img: "/product-images/nureh-gardenia/nsg-218.webp", name: "Gardenia NSG-218", price: 65, id: 11 },
+  { code: "NSG-219", img: "/product-images/nureh-gardenia/nsg-219.webp", name: "Gardenia NSG-219", price: 65, id: 12 },
+  { code: "NSG-220", img: "/product-images/nureh-gardenia/nsg-220.webp", name: "Gardenia NSG-220", price: 65, id: 13 },
+  { code: "NSG-221", img: "/product-images/nureh-gardenia/nsg-221.webp", name: "Gardenia NSG-221", price: 65, id: 14 },
+  { code: "NSG-222", img: "/product-images/nureh-gardenia/nsg-222.webp", name: "Gardenia NSG-222", price: 65, id: 15 },
+  { code: "NSG-223", img: "/product-images/nureh-gardenia/nsg-223.webp", name: "Gardenia NSG-223", price: 65, id: 22 },
+  { code: "NSG-224", img: "/product-images/nureh-gardenia/nsg-224.webp", name: "Gardenia NSG-224", price: 65, id: 16 },
 ];
 
 function NurehGardeniaSection() {
@@ -533,16 +534,16 @@ function NurehGardeniaSection() {
 
 /* ─── Luxury Pret section ────────────────────────────────── */
 const ZEENET_ITEMS = [
-  { code: "ZPSP-01", img: "/product-images/zeenat/zpsp-01.png", name: "Luxury Pret ZPSP-01", price: 45, id: 17 },
-  { code: "ZPSP-02", img: "/product-images/zeenat/zpsp-02.png", name: "Luxury Pret ZPSP-02", price: 45, id: 18 },
-  { code: "ZPSP-03", img: "/product-images/zeenat/zpsp-03.png", name: "Luxury Pret ZPSP-03", price: 45, id: 19 },
-  { code: "ZPSP-04", img: "/product-images/zeenat/zpsp-04.png", name: "Luxury Pret ZPSP-04", price: 45, id: 20 },
-  { code: "ZPSP-05", img: "/product-images/zeenat/zpsp-05.png", name: "Luxury Pret ZPSP-05", price: 45, id: 21 },
-  { code: "ZPSP-06", img: "/product-images/zeenat/zpsp-06.png", name: "Luxury Pret ZPSP-06", price: 45, id: 31 },
-  { code: "ZPSP-07", img: "/product-images/zeenat/zpsp-07.png", name: "Luxury Pret ZPSP-07", price: 45, id: 32 },
-  { code: "ZPSP-08", img: "/product-images/zeenat/zpsp-08.png", name: "Luxury Pret ZPSP-08", price: 45, id: 33 },
-  { code: "ZPSP-09", img: "/product-images/zeenat/zpsp-09.png", name: "Luxury Pret ZPSP-09", price: 45, id: 34 },
-  { code: "ZPSP-10", img: "/product-images/zeenat/zpsp-10.png", name: "Luxury Pret ZPSP-10", price: 45, id: 35 },
+  { code: "ZPSP-01", img: "/product-images/zeenat/zpsp-01.webp", name: "Luxury Pret ZPSP-01", price: 45, id: 17 },
+  { code: "ZPSP-02", img: "/product-images/zeenat/zpsp-02.webp", name: "Luxury Pret ZPSP-02", price: 45, id: 18 },
+  { code: "ZPSP-03", img: "/product-images/zeenat/zpsp-03.webp", name: "Luxury Pret ZPSP-03", price: 45, id: 19 },
+  { code: "ZPSP-04", img: "/product-images/zeenat/zpsp-04.webp", name: "Luxury Pret ZPSP-04", price: 45, id: 20 },
+  { code: "ZPSP-05", img: "/product-images/zeenat/zpsp-05.webp", name: "Luxury Pret ZPSP-05", price: 45, id: 21 },
+  { code: "ZPSP-06", img: "/product-images/zeenat/zpsp-06.webp", name: "Luxury Pret ZPSP-06", price: 45, id: 31 },
+  { code: "ZPSP-07", img: "/product-images/zeenat/zpsp-07.webp", name: "Luxury Pret ZPSP-07", price: 45, id: 32 },
+  { code: "ZPSP-08", img: "/product-images/zeenat/zpsp-08.webp", name: "Luxury Pret ZPSP-08", price: 45, id: 33 },
+  { code: "ZPSP-09", img: "/product-images/zeenat/zpsp-09.webp", name: "Luxury Pret ZPSP-09", price: 45, id: 34 },
+  { code: "ZPSP-10", img: "/product-images/zeenat/zpsp-10.webp", name: "Luxury Pret ZPSP-10", price: 45, id: 35 },
 ];
 
 function ZeenatSection() {
@@ -603,15 +604,15 @@ function ZeenatSection() {
 
 /* ─── Charizma Sunshine section ───────────────────────────── */
 const CHARIZMA_ITEMS = [
-  { code: "CSS-01", img: "/product-images/charizma/css-01.png", name: "Sun Shine CSS-01", price: 85, id: 2 },
-  { code: "CSS-02", img: "/product-images/charizma/css-02.png", name: "Sun Shine CSS-02", price: 85, id: 23 },
-  { code: "CSS-03", img: "/product-images/charizma/css-03.png", name: "Sun Shine CSS-03", price: 85, id: 24 },
-  { code: "CSS-04", img: "/product-images/charizma/css-04.png", name: "Sun Shine CSS-04", price: 85, id: 25 },
-  { code: "CSS-05", img: "/product-images/charizma/css-05.png", name: "Sun Shine CSS-05", price: 85, id: 26 },
-  { code: "CSS-06", img: "/product-images/charizma/css-06.png", name: "Sun Shine CSS-06", price: 85, id: 27 },
-  { code: "CSS-07", img: "/product-images/charizma/css-07.png", name: "Sun Shine CSS-07", price: 85, id: 28 },
-  { code: "CSS-08", img: "/product-images/charizma/css-08.png", name: "Sun Shine CSS-08", price: 85, id: 29 },
-  { code: "CSS-09", img: "/product-images/charizma/css-09.png", name: "Sun Shine CSS-09", price: 85, id: 30 },
+  { code: "CSS-01", img: "/product-images/charizma/css-01.webp", name: "Sun Shine CSS-01", price: 85, id: 2 },
+  { code: "CSS-02", img: "/product-images/charizma/css-02.webp", name: "Sun Shine CSS-02", price: 85, id: 23 },
+  { code: "CSS-03", img: "/product-images/charizma/css-03.webp", name: "Sun Shine CSS-03", price: 85, id: 24 },
+  { code: "CSS-04", img: "/product-images/charizma/css-04.webp", name: "Sun Shine CSS-04", price: 85, id: 25 },
+  { code: "CSS-05", img: "/product-images/charizma/css-05.webp", name: "Sun Shine CSS-05", price: 85, id: 26 },
+  { code: "CSS-06", img: "/product-images/charizma/css-06.webp", name: "Sun Shine CSS-06", price: 85, id: 27 },
+  { code: "CSS-07", img: "/product-images/charizma/css-07.webp", name: "Sun Shine CSS-07", price: 85, id: 28 },
+  { code: "CSS-08", img: "/product-images/charizma/css-08.webp", name: "Sun Shine CSS-08", price: 85, id: 29 },
+  { code: "CSS-09", img: "/product-images/charizma/css-09.webp", name: "Sun Shine CSS-09", price: 85, id: 30 },
 ];
 
 function CharizmaSection() {
@@ -676,12 +677,12 @@ function CharizmaSection() {
 
 /* ─── Jeans section ──────────────────────────────────────── */
 const JEANS_ITEMS = [
-  { code: "J-01", img: "/product-images/jeans/j-women-lightblue.png", name: "Levi's Women's Wide Leg — Light Blue",   desc: "Levi's wide-leg silhouette in washed light blue denim. High-waisted comfort fit with a clean finish.", price: 38, id: 4 },
-  { code: "J-02", img: "/product-images/jeans/j-men-lightblue.png",   name: "Levi's Men's Straight Cut — Light Blue", desc: "Levi's classic straight-leg cut in light blue wash. Relaxed waist, tapered ankle. Everyday essential.", price: 38, id: 5 },
-  { code: "J-03", img: "/product-images/jeans/j-women-dark.png",      name: "Levi's Women's Wide Leg — Charcoal",     desc: "Levi's wide-leg cut in deep charcoal wash. Versatile styling for formal and casual occasions.", price: 38, id: 4 },
-  { code: "J-04", img: "/product-images/jeans/j-men-dark.png",        name: "Levi's Men's Straight Cut — Charcoal",   desc: "Levi's straight-leg charcoal denim. Sharp, minimal, and hardwearing for daily wear.", price: 38, id: 5 },
-  { code: "J-05", img: "/product-images/jeans/j-women-blue.png",      name: "Levi's Women's Wide Leg — Mid Blue",     desc: "Levi's wide-leg silhouette in mid-blue wash. Clean lines for a polished, effortless look.", price: 38, id: 4 },
-  { code: "J-06", img: "/product-images/jeans/j-men-blue.png",        name: "Levi's Men's Straight Cut — Mid Blue",   desc: "Levi's mid-blue straight-leg cut. Timeless colour and classic proportions. Sizes available on order.", price: 38, id: 5 },
+  { code: "J-01", img: "/product-images/jeans/j-women-lightblue.webp", name: "Levi's Women's Wide Leg — Light Blue",   desc: "Levi's wide-leg silhouette in washed light blue denim. High-waisted comfort fit with a clean finish.", price: 38, id: 4 },
+  { code: "J-02", img: "/product-images/jeans/j-men-lightblue.webp",   name: "Levi's Men's Straight Cut — Light Blue", desc: "Levi's classic straight-leg cut in light blue wash. Relaxed waist, tapered ankle. Everyday essential.", price: 38, id: 5 },
+  { code: "J-03", img: "/product-images/jeans/j-women-dark.webp",      name: "Levi's Women's Wide Leg — Charcoal",     desc: "Levi's wide-leg cut in deep charcoal wash. Versatile styling for formal and casual occasions.", price: 38, id: 4 },
+  { code: "J-04", img: "/product-images/jeans/j-men-dark.webp",        name: "Levi's Men's Straight Cut — Charcoal",   desc: "Levi's straight-leg charcoal denim. Sharp, minimal, and hardwearing for daily wear.", price: 38, id: 5 },
+  { code: "J-05", img: "/product-images/jeans/j-women-blue.webp",      name: "Levi's Women's Wide Leg — Mid Blue",     desc: "Levi's wide-leg silhouette in mid-blue wash. Clean lines for a polished, effortless look.", price: 38, id: 4 },
+  { code: "J-06", img: "/product-images/jeans/j-men-blue.webp",        name: "Levi's Men's Straight Cut — Mid Blue",   desc: "Levi's mid-blue straight-leg cut. Timeless colour and classic proportions. Sizes available on order.", price: 38, id: 5 },
 ];
 
 function JeansSection() {
@@ -730,9 +731,9 @@ function JeansSection() {
 
 /* ─── Wallets section ─────────────────────────────────────── */
 const WALLET_ITEMS = [
-  { img: "/product-images/wallets/w-accordion-brown.png", name: "Atrix Leather Accordion Wallet", desc: "Zip-around accordion design, 8+ card slots. Compact carry for everyday essentials.", price: 12, id: 6 },
-  { img: "/product-images/wallets/w-embossed-brown.png",  name: "Embossed Button Wallet",         desc: "Embossed geometric detail with snap button closure. Slim profile, multiple card slots.", price: 12, id: 7 },
-  { img: "/product-images/wallets/w-snap-beige.png",      name: "Snap Button Wallet — Beige",     desc: "Clean minimalist design in premium beige leather. Snap closure, card organiser inside.", price: 12, id: 7 },
+  { img: "/product-images/wallets/w-accordion-brown.webp", name: "Atrix Leather Accordion Wallet", desc: "Zip-around accordion design, 8+ card slots. Compact carry for everyday essentials.", price: 12, id: 6 },
+  { img: "/product-images/wallets/w-embossed-brown.webp",  name: "Embossed Button Wallet",         desc: "Embossed geometric detail with snap button closure. Slim profile, multiple card slots.", price: 12, id: 7 },
+  { img: "/product-images/wallets/w-snap-beige.webp",      name: "Snap Button Wallet — Beige",     desc: "Clean minimalist design in premium beige leather. Snap closure, card organiser inside.", price: 12, id: 7 },
 ];
 
 function WalletsSection() {
@@ -778,10 +779,10 @@ function WalletsSection() {
 
 /* ─── Kunafa Chocolates section ──────────────────────────── */
 const KUNAFA_IMGS = [
-  { src: "/product-images/kunafa/k-jar-branded.png", alt: "B.C.C. Kunafa Chocolates gift jar UK — premium pistachio filled chocolates" },
-  { src: "/product-images/kunafa/k-jar-open.png", alt: "Kunafa Chocolates UK open jar showing pistachio filling" },
-  { src: "/product-images/kunafa/k-loose-pieces.png", alt: "Luxury Kunafa Chocolate pieces with authentic pistachio filling UK" },
-  { src: "/product-images/kunafa/k-single-wrap.png", alt: "Individually wrapped Kunafa Chocolate UK — artisan confectionery gift" },
+  { src: "/product-images/kunafa/k-jar-branded.webp", alt: "B.C.C. Kunafa Chocolates gift jar UK — premium pistachio filled chocolates" },
+  { src: "/product-images/kunafa/k-jar-open.webp", alt: "Kunafa Chocolates UK open jar showing pistachio filling" },
+  { src: "/product-images/kunafa/k-loose-pieces.webp", alt: "Luxury Kunafa Chocolate pieces with authentic pistachio filling UK" },
+  { src: "/product-images/kunafa/k-single-wrap.webp", alt: "Individually wrapped Kunafa Chocolate UK — artisan confectionery gift" },
 ];
 
 function KunafaSection() {

@@ -32,7 +32,7 @@ export function Footer() {
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="flex items-center gap-3 mb-5">
-              <img src="/logo-transparent.png" alt="Luxe & Line" className="h-10 w-10 object-contain" />
+              <img src="/logo-transparent.webp" alt="Luxe & Line" className="h-10 w-10 object-contain" />
               <span className="font-serif text-xl tracking-widest text-primary">LUXE & LINE</span>
             </div>
             <p className="font-body text-xs text-muted-foreground leading-relaxed mb-5">

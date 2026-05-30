@@ -161,10 +161,10 @@ export function About() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { src: "/product-images/nureh-gardenia/nsg-215.png", label: "Nureh Gardenia", alt: "Nureh Gardenia luxury stitched suit UK — embroidered lawn collection" },
-              { src: "/product-images/charizma/css-01.png", label: "Charizma Sun Shine", alt: "Charizma Sun Shine designer stitched suit UK — premium embroidered collection" },
-              { src: "/product-images/zeenat/zpsp-01.png", label: "Luxury Pret Collection", alt: "Luxury Pret fully stitched suit UK — ready to wear embroidered lawn" },
-              { src: "/product-images/kunafa/k-jar-branded.png", label: "Kunafa Chocolates", alt: "B.C.C. Kunafa Chocolates UK — artisan pistachio filled gift box" },
+              { src: "/product-images/nureh-gardenia/nsg-215.webp", label: "Nureh Gardenia", alt: "Nureh Gardenia luxury stitched suit UK — embroidered lawn collection" },
+              { src: "/product-images/charizma/css-01.webp", label: "Charizma Sun Shine", alt: "Charizma Sun Shine designer stitched suit UK — premium embroidered collection" },
+              { src: "/product-images/zeenat/zpsp-01.webp", label: "Luxury Pret Collection", alt: "Luxury Pret fully stitched suit UK — ready to wear embroidered lawn" },
+              { src: "/product-images/kunafa/k-jar-branded.webp", label: "Kunafa Chocolates", alt: "B.C.C. Kunafa Chocolates UK — artisan pistachio filled gift box" },
             ].map((item) => (
               <div key={item.label} className="relative overflow-hidden group" style={{ aspectRatio: "3/4" }}>
                 <img
