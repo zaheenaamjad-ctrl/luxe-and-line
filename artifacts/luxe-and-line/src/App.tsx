@@ -7,6 +7,13 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Layout } from "@/components/Layout";
 import { Chatbot } from "@/components/Chatbot";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { setBaseUrl } from "@workspace/api-client-react";
+
+// When VITE_API_BASE_URL is set (e.g. on Vercel pointing to the deployed API
+// server), all API calls become absolute so they reach the correct backend.
+// Falls back to relative /api/* paths when running on Replit (reverse-proxied).
+const _apiBase = import.meta.env.VITE_API_BASE_URL as string | undefined;
+if (_apiBase) setBaseUrl(_apiBase);
 
 // Lazy-load all pages so each route gets its own chunk
 const Home = lazy(() => import("@/pages/Home").then((m) => ({ default: m.Home })));
