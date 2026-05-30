@@ -20,7 +20,8 @@ router.get("/products", async (req, res) => {
 
     if (query.success) {
       if (query.data.category) {
-        products = products.filter((p) => p.category === query.data.category);
+        const cat = query.data.category.toLowerCase();
+        products = products.filter((p) => p.category.toLowerCase() === cat);
       }
       if (query.data.featured !== undefined) {
         products = products.filter((p) => p.featured === query.data.featured);

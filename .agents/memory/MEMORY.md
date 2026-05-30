@@ -1,0 +1,1 @@
+- [Luxe & Line web improvements](luxe-web-improvements.md) — 10 sections applied; mobile app explicitly cancelled by user; RESEND_API_KEY must be set via Secrets for emails to work.

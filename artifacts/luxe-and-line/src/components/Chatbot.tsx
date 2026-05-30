@@ -109,7 +109,7 @@ const RESPONSES: { keywords: string[]; reply: Reply }[] = [
   {
     keywords: ["about", "brand", "story", "who", "liverpool"],
     reply: {
-      text: "We're a Liverpool-based luxury boutique bringing authentic South Asian fashion to British wardrobes. Read our full story below. 🏴󠁧󠁢󠁥󠁮󠁧󠁿💜",
+      text: "We're a Liverpool-based luxury boutique curating the finest fashion collections and accessories for British homes. Read our full story below. 🏴󠁧󠁢󠁥󠁮󠁧󠁿💜",
       links: [{ label: "Our Story →", href: "/about" }],
     },
   },

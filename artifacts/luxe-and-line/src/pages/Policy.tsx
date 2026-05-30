@@ -39,7 +39,7 @@ function FloatingShapes() {
 const sections = [
   {
     title: "1. Who We Are",
-    body: "Luxe & Line is a UK-based South Asian fashion boutique operating from Liverpool, Merseyside. We are committed to protecting your personal information and being transparent about how we use it. For any privacy-related queries, contact us at hello@luxeandline.uk or +44 7405 358689."
+    body: "Luxe & Line is a UK-based luxury fashion boutique operating from Liverpool, Merseyside. We are committed to protecting your personal information and being transparent about how we use it. For any privacy-related queries, contact us at hello@luxeandline.uk or +44 7449 507661."
   },
   {
     title: "2. Information We Collect",

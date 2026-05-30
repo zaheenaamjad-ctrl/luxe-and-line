@@ -150,6 +150,21 @@ export function Checkout() {
               </div>
             </div>
 
+            {/* Trust badges */}
+            <div className="grid grid-cols-2 gap-3 text-xs font-body text-muted-foreground border border-border/50 bg-card/40 p-4">
+              {[
+                { icon: "🔒", label: "Secure Checkout" },
+                { icon: "🚚", label: "Free UK Delivery" },
+                { icon: "✅", label: "Quality Guaranteed" },
+                { icon: "💬", label: "WhatsApp Support" },
+              ].map(({ icon, label }) => (
+                <div key={label} className="flex items-center gap-2">
+                  <span>{icon}</span>
+                  <span>{label}</span>
+                </div>
+              ))}
+            </div>
+
             <button
               type="submit"
               data-testid="button-place-order"

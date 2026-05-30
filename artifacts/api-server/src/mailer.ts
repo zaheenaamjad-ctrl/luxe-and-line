@@ -183,7 +183,7 @@ export async function sendOrderConfirmationEmail(data: OrderEmailData): Promise<
 }
 
 const STATUS_LABELS: Record<string, string> = {
-  processing: "Processing",
+  processing: "Order Confirmed",
   shipped: "Dispatched",
   out_for_delivery: "Out for Delivery",
   delivered: "Delivered",
@@ -191,7 +191,7 @@ const STATUS_LABELS: Record<string, string> = {
 };
 
 const STATUS_MESSAGES: Record<string, string> = {
-  processing: "We're now preparing your order for dispatch.",
+  processing: "We've confirmed your order and are now preparing it for dispatch. Your items will be dispatched within 1&ndash;2 business days, with an estimated delivery of 4&ndash;5 business days.",
   shipped: "Great news — your order is on its way! It should arrive within 4&ndash;5 business days.",
   out_for_delivery: "Your order is out for delivery today. Please ensure someone is available to receive it.",
   delivered: "Your order has been delivered. We hope you love everything!",
@@ -266,7 +266,7 @@ export async function sendWelcomeEmail(name: string, email: string): Promise<voi
       <p style="margin:0 0 6px;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#9b7f3e;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Welcome to Luxe &amp; Line</p>
       <h2 style="margin:0 0 20px;font-size:26px;font-weight:300;color:#1a1228;font-family:Georgia,'Times New Roman',serif;">Hello, ${name}</h2>
       <p style="margin:0 0 18px;font-size:14px;line-height:1.75;color:#5c5147;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
-        Welcome to Luxe &amp; Line — your home for premium South Asian fashion, leather accessories and artisan confectionery, delivered anywhere in the UK with free delivery on every order.
+        Welcome to Luxe &amp; Line — your home for premium fashion, leather accessories and artisan confectionery, delivered anywhere in the UK with free delivery on every order.
       </p>
       <p style="margin:0 0 28px;font-size:14px;line-height:1.75;color:#5c5147;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
         Your account is now active. Browse our latest Nureh Gardenia, Charizma and Luxury Pret collections, or treat someone to our award-worthy Kunafa Chocolates.

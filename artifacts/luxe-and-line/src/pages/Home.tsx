@@ -60,10 +60,10 @@ function LuxuryButton({
   );
 }
 
-/* ─── Video Hero — 6-stage scroll (video → text → video → …) ── */
-// stage 0,2,4 = video playing (no text overlay)
-// stage 1,3,5 = text visible over that video
-// Each scroll increments stage by 1; after stage 5 user exits hero.
+/* ─── Video Hero — 4-stage scroll (video → text → video → text) ── */
+// stage 0,2 = video playing (no text overlay)
+// stage 1,3 = text visible over that video
+// Each scroll increments stage by 1; after stage 3 user exits hero.
 const VIDEOS = [
   {
     src: "/videos/swan.mp4",
@@ -74,26 +74,18 @@ const VIDEOS = [
     link: "/shop",
   },
   {
-    src: "/videos/video1.mp4",
-    label: "The Collection",
-    title: ["ELEGANCE", "REDEFINED"],
-    sub: "Luxury Pret Lawn · Delivered Across the UK",
-    cta: "Shop Collection",
-    link: "/shop?category=shalwar-kameez",
-  },
-  {
     src: "/videos/video2.mp4",
-    label: "Heritage Pret",
+    label: "The Collection",
     title: ["CRAFTED", "FOR YOU"],
-    sub: "Premium Embroidery Pret · Artisan Craftsmanship in Every Stitch",
+    sub: "Premium Stitched Suits · Artisan Craftsmanship in Every Stitch",
     cta: "Explore Now",
     link: "/shop",
   },
 ];
 
 function VideoHero({ onExit }: { onExit: () => void }) {
-  // 6 stages: 0 = video1 no text, 1 = video1 text, 2 = video2 no text,
-  //           3 = video2 text, 4 = video3 no text, 5 = video3 text
+  // 4 stages: 0 = video1 no text, 1 = video1 text,
+  //           2 = video2 no text, 3 = video2 text
   const [stage, setStage] = useState(0);
   const [locked, setLocked] = useState(false);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
@@ -121,7 +113,7 @@ function VideoHero({ onExit }: { onExit: () => void }) {
     if (now - lastScrollTime.current < 700) return;
     lastScrollTime.current = now;
     setLocked(true);
-    if (stage < 5) {
+    if (stage < 3) {
       setStage((s) => s + 1);
     } else {
       onExit();
@@ -192,7 +184,7 @@ function VideoHero({ onExit }: { onExit: () => void }) {
           <video
             ref={(el) => { videoRefs.current[idx] = el; }}
             src={vid.src}
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-contain sm:object-cover"
             muted
             loop
             playsInline

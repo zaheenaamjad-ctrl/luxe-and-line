@@ -48,7 +48,7 @@ export function Cart() {
         <div className="text-center">
           <ShoppingBag size={64} className="mx-auto text-muted-foreground mb-6" />
           <h2 className="font-serif text-3xl text-foreground mb-3">Your bag is empty</h2>
-          <p className="text-muted-foreground font-body text-sm mb-8">Discover our curated collection of luxury South Asian fashion.</p>
+          <p className="text-muted-foreground font-body text-sm mb-8">Discover our curated collection of luxury fashion and accessories.</p>
           <Link href="/shop">
             <button data-testid="button-continue-shopping" className="bg-primary text-primary-foreground px-10 py-4 font-body uppercase tracking-widest text-xs hover:bg-primary/90 transition-colors">
               Start Shopping

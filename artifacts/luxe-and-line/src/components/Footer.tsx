@@ -36,7 +36,7 @@ export function Footer() {
               <span className="font-serif text-xl tracking-widest text-primary">LUXE & LINE</span>
             </div>
             <p className="font-body text-xs text-muted-foreground leading-relaxed mb-5">
-              A premium South Asian fashion boutique based in Liverpool, UK. Bringing the warmth and richness of artisan craftsmanship to modern British wardrobes.
+              A premium luxury fashion boutique based in Liverpool, UK. Bringing the finest handpicked collections and artisan craftsmanship to modern British wardrobes.
             </p>
             <div className="space-y-2 text-xs font-body text-muted-foreground">
               <div className="flex items-start gap-2">

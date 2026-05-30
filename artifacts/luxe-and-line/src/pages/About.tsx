@@ -69,10 +69,10 @@ export function About() {
             <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-body mb-4">Our Heritage</p>
             <h2 className="font-serif text-3xl text-foreground mb-6 leading-snug">Born from a belief in accessible luxury</h2>
             <p className="text-muted-foreground font-body text-sm leading-relaxed mb-4">
-              Luxe & Line was founded in Liverpool with one clear purpose: to make the exquisite craftsmanship of South Asian fashion accessible to every British Asian family — without the need to travel thousands of miles to find it.
+              Luxe & Line was founded in Liverpool with one clear purpose: to make the exquisite craftsmanship of luxury fashion accessible to every family across the UK — bringing the finest collections directly to your door.
             </p>
             <p className="text-muted-foreground font-body text-sm leading-relaxed mb-4">
-              We bridge the gap between the finest fashion houses of South Asia and the doorsteps of the UK — bringing authentic luxury, one beautifully wrapped parcel at a time.
+              We bridge the gap between the world's finest fashion houses and the doorsteps of the UK — bringing authentic luxury, one beautifully wrapped parcel at a time.
             </p>
             <p className="text-muted-foreground font-body text-sm leading-relaxed">
               Every collection is hand-selected for its craftsmanship, fabric quality and design. We never compromise on what arrives at your door.
@@ -194,7 +194,7 @@ export function About() {
               <p className="text-[10px] uppercase tracking-widest font-body text-primary mb-3">Owner · Liverpool, UK</p>
               <div className="luxury-divider w-12 mx-auto mb-4" />
               <p className="text-xs font-body text-muted-foreground leading-relaxed">
-                Visionary founder with a deep passion for South Asian craftsmanship. Amjad established Luxe &amp; Line to bring authentic South Asian fashion directly to British Asian families.
+                Visionary founder with a deep passion for craftsmanship and luxury fashion. Amjad established Luxe &amp; Line to bring the finest collections directly to UK homes.
               </p>
             </div>
             <div className="text-center bg-card border border-border/50 p-8">
