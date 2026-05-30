@@ -119,6 +119,9 @@ export function KunafaChocolatesUK() {
           <p>
             For optimal freshness, store Kunafa Chocolates in a cool, dry place away from direct sunlight. They can be refrigerated in warm weather but should be brought to room temperature before serving for the best flavour experience. Once opened, they're best consumed within two weeks.
           </p>
+          <p>
+            For more on the history and cultural significance of kunafa in Middle Eastern cuisine, <a href="https://www.bbcgoodfood.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">BBC Good Food</a> offers extensive guides to Middle Eastern desserts and their origins. To explore the world of premium chocolate and confectionery craft, <a href="https://www.thechocolatesociety.co.uk/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">The Chocolate Society UK</a> is a trusted authority on artisan chocolate in Britain.
+          </p>
         </section>
 
         <div className="mt-12 p-6 border border-primary/20 bg-card">

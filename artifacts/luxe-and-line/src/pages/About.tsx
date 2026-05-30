@@ -67,7 +67,7 @@ export function About() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-24">
           <div>
             <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-body mb-4">Our Heritage</p>
-            <h2 className="font-serif text-3xl text-foreground mb-6 leading-snug">Born from a belief in accessible luxury</h2>
+            <h2 className="font-serif text-3xl text-foreground mb-6 leading-snug">Our Story</h2>
             <p className="text-muted-foreground font-body text-sm leading-relaxed mb-4">
               Luxe & Line was founded with one clear purpose: to make the exquisite craftsmanship of luxury fashion accessible to every family across the UK — bringing the finest collections directly to your door.
             </p>
@@ -80,7 +80,7 @@ export function About() {
           </div>
           <div>
             <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-body mb-4">Our Commitment</p>
-            <h2 className="font-serif text-3xl text-foreground mb-6 leading-snug">A promise built on integrity</h2>
+            <h2 className="font-serif text-3xl text-foreground mb-6 leading-snug">Our Mission</h2>
             <p className="text-muted-foreground font-body text-sm leading-relaxed mb-4">
               We work directly with the most respected fashion houses — Nureh, Charizma, Luxury Pret Collection — ensuring you receive only the finest embroidered lawns, printed chiffons and luxury pret.
             </p>
@@ -112,7 +112,7 @@ export function About() {
         <div className="mb-24">
           <div className="text-center mb-12">
             <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-body mb-3">Why Choose Us</p>
-            <h2 className="font-serif text-4xl text-foreground">The Luxe & Line standard</h2>
+            <h2 className="font-serif text-4xl text-foreground">Why Choose Luxe &amp; Line</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
@@ -161,15 +161,15 @@ export function About() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { src: "/product-images/nureh-gardenia/nsg-215.png", label: "Nureh Gardenia" },
-              { src: "/product-images/charizma/css-01.png", label: "Charizma Sun Shine" },
-              { src: "/product-images/zeenat/zpsp-01.png", label: "Luxury Pret Collection" },
-              { src: "/product-images/kunafa/k-jar-branded.png", label: "Kunafa Chocolates" },
+              { src: "/product-images/nureh-gardenia/nsg-215.png", label: "Nureh Gardenia", alt: "Nureh Gardenia luxury stitched suit UK — embroidered lawn collection" },
+              { src: "/product-images/charizma/css-01.png", label: "Charizma Sun Shine", alt: "Charizma Sun Shine designer stitched suit UK — premium embroidered collection" },
+              { src: "/product-images/zeenat/zpsp-01.png", label: "Luxury Pret Collection", alt: "Luxury Pret fully stitched suit UK — ready to wear embroidered lawn" },
+              { src: "/product-images/kunafa/k-jar-branded.png", label: "Kunafa Chocolates", alt: "B.C.C. Kunafa Chocolates UK — artisan pistachio filled gift box" },
             ].map((item) => (
               <div key={item.label} className="relative overflow-hidden group" style={{ aspectRatio: "3/4" }}>
                 <img
                   src={item.src}
-                  alt={item.label}
+                  alt={item.alt}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />

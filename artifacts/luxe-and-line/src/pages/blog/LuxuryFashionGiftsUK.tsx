@@ -106,6 +106,9 @@ export function LuxuryFashionGiftsUK() {
           <p>
             All Luxe & Line gifts ship free to any UK postcode within 4–5 business days. Whether you're buying from Liverpool, London, Birmingham, or Manchester — we've got the UK covered. Browse our full collection at <Link href="/shop" className="text-primary hover:underline">luxeandline.uk/shop</Link> or <Link href="/contact" className="text-primary hover:underline">WhatsApp our team</Link> for personalised gift recommendations.
           </p>
+          <p>
+            For gift-giving inspiration and curated luxury gift ideas in the UK, <a href="https://www.independent.co.uk/extras/indybest/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">The Independent's IndyBest</a> is a trusted editorial source for tested and reviewed products. For broader luxury fashion gift trends and styling ideas, <a href="https://www.elle.com/uk/fashion/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">ELLE UK's fashion section</a> covers the latest in luxury gifting and occasion dressing across the UK.
+          </p>
         </section>
 
         <div className="mt-12 p-6 border border-primary/20 bg-card">

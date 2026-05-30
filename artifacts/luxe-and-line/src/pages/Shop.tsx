@@ -161,12 +161,14 @@ export function Shop() {
 
       <div className="max-w-7xl mx-auto px-6 py-12">
         {/* Category filter bar */}
-        <div className="flex items-center gap-2 mb-12 overflow-x-auto pb-2 scrollbar-none">
-          <Filter size={13} className="text-primary shrink-0 opacity-60" />
+        <h2 className="sr-only">Filter by Category</h2>
+        <div className="flex items-center gap-2 mb-12 overflow-x-auto pb-2 scrollbar-none" role="group" aria-label="Filter by category">
+          <Filter size={13} className="text-primary shrink-0 opacity-60" aria-hidden="true" />
           {CATEGORIES.map((cat) => (
             <button
               key={cat.value}
               data-testid={`filter-${cat.value || "all"}`}
+              aria-pressed={activeCategory === cat.value}
               onClick={() => setActiveCategory(cat.value)}
               className="px-6 py-2.5 text-[10px] uppercase tracking-[0.25em] font-body border transition-all duration-300 whitespace-nowrap"
               style={{
@@ -181,9 +183,14 @@ export function Shop() {
         </div>
 
         {!isLoading && products && (
-          <p className="text-xs font-body text-muted-foreground mb-8 tracking-widest uppercase">
-            {products.length} {activeCategory ? activeCategory.replace(/-/g, " ") : "items in collection"}
-          </p>
+          <>
+            <h2 className="font-serif text-2xl text-foreground mb-2">
+              {activeCategory ? activeCategory.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase()) : "All Products"}
+            </h2>
+            <p className="text-xs font-body text-muted-foreground mb-8 tracking-widest uppercase">
+              {products.length} {activeCategory ? activeCategory.replace(/-/g, " ") : "items in collection"}
+            </p>
+          </>
         )}
 
         {isLoading && (

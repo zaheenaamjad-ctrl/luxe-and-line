@@ -139,24 +139,28 @@ export function Contact() {
                   { name: "email" as const, label: "Email Address", type: "email" },
                 ].map(({ name, label, type }) => (
                   <div key={name}>
-                    <label className="block text-xs uppercase tracking-widest font-body text-muted-foreground mb-2">{label}</label>
+                    <label htmlFor={`contact-${name}`} className="block text-xs uppercase tracking-widest font-body text-muted-foreground mb-2">{label}</label>
                     <input
+                      id={`contact-${name}`}
                       type={type}
                       data-testid={`input-${name}`}
                       value={form[name]}
                       onChange={(e) => setForm((f) => ({ ...f, [name]: e.target.value }))}
                       required
+                      aria-required="true"
                       className="w-full bg-background border border-border px-4 py-3 text-sm font-body text-foreground focus:border-primary focus:outline-none transition-colors"
                     />
                   </div>
                 ))}
                 <div>
-                  <label className="block text-xs uppercase tracking-widest font-body text-muted-foreground mb-2">Message</label>
+                  <label htmlFor="contact-message" className="block text-xs uppercase tracking-widest font-body text-muted-foreground mb-2">Message</label>
                   <textarea
+                    id="contact-message"
                     data-testid="input-message"
                     value={form.message}
                     onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
                     required
+                    aria-required="true"
                     rows={5}
                     className="w-full bg-background border border-border px-4 py-3 text-sm font-body text-foreground focus:border-primary focus:outline-none transition-colors resize-none"
                   />
@@ -164,9 +168,10 @@ export function Contact() {
                 <button
                   type="submit"
                   data-testid="button-send-message"
+                  aria-label="Send message to Luxe & Line"
                   className="w-full bg-primary text-primary-foreground py-4 font-body uppercase tracking-widest text-xs hover:bg-primary/90 transition-colors flex items-center justify-center gap-2"
                 >
-                  <Send size={14} /> Send Message
+                  <Send size={14} aria-hidden="true" /> Send Message
                 </button>
               </form>
             )}

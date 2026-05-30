@@ -109,6 +109,9 @@ export function HowToStyleStitchedSuits() {
           <p>
             Browse our <Link href="/shop?category=shalwar-kameez" className="text-primary hover:underline">full stitched suits collection</Link>, explore our <Link href="/reviews" className="text-primary hover:underline">customer reviews</Link>, or <Link href="/contact" className="text-primary hover:underline">contact us</Link> for personalised styling advice. We ship to all UK postcodes with 4–5 day delivery.
           </p>
+          <p>
+            For broader inspiration on South Asian fashion in the UK and how contemporary designers are reinterpreting traditional silhouettes, <a href="https://www.harpersbazaar.com/uk/fashion/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Harper's Bazaar UK</a> regularly features editorial coverage of occasion dressing and statement fashion. For information on fabric care and textile care symbols used on UK garment labels, the <a href="https://www.thelaundress.com/pages/fabric-care-guide" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">fabric care guide</a> is a helpful practical reference.
+          </p>
         </section>
 
         <div className="mt-12 p-6 border border-primary/20 bg-card">

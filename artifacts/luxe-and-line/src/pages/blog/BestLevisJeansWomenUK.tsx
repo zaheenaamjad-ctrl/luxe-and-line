@@ -117,6 +117,9 @@ export function BestLevisJeansWomenUK() {
           <p>
             Every pair in our collection ships free to all UK addresses within 4–5 business days. Browse our <Link href="/shop?category=jeans" className="text-primary hover:underline">full jeans collection</Link>, check our <Link href="/reviews" className="text-primary hover:underline">customer reviews</Link>, or <Link href="/contact" className="text-primary hover:underline">WhatsApp us</Link> for sizing advice.
           </p>
+          <p>
+            For more information on Levi's authentic denim heritage and the full range of Levi's fits, visit the <a href="https://www.levi.com/GB/en_GB/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">official Levi's UK website</a>. For UK fashion trends and style inspiration, <a href="https://www.vogue.co.uk/fashion" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Vogue UK's fashion section</a> is an excellent resource for pairing ideas and seasonal lookbooks.
+          </p>
         </section>
 
         <div className="mt-12 p-6 border border-primary/20 bg-card">

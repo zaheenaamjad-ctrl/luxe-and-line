@@ -269,13 +269,15 @@ function VideoHero({ onExit }: { onExit: () => void }) {
       </div>
 
       {/* Progress dots — one per VIDEO (3 dots), active when that video is showing */}
-      <div className="absolute right-8 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-4">
+      <div className="absolute right-8 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-4" role="group" aria-label="Collection navigation">
         {VIDEOS.map((_, i) => (
           <button
             key={i}
             data-testid={`dot-${i}`}
+            aria-label={`View collection ${i + 1}`}
+            aria-current={videoIdx === i ? "true" : undefined}
             onClick={() => { if (!locked) setStage(i * 2); }}
-            className="transition-all duration-500 rounded-full"
+            className="transition-all duration-500 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
             style={{
               width: 6,
               height: videoIdx === i ? 42 : 6,
@@ -287,10 +289,14 @@ function VideoHero({ onExit }: { onExit: () => void }) {
 
       {/* Scroll indicator — always visible, changes label */}
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-3 pointer-events-auto">
-        <div className="scroll-indicator cursor-pointer" onClick={advance}>
+        <button
+          aria-label={showText ? "Proceed to next section" : "Scroll to reveal content"}
+          className="scroll-indicator cursor-pointer bg-transparent border-0 p-0 focus:outline-none focus:ring-2 focus:ring-primary"
+          onClick={advance}
+        >
           <div className="scroll-line" />
-        </div>
-        <span className="text-[9px] uppercase tracking-[0.4em] font-body text-white/35">
+        </button>
+        <span className="text-[9px] uppercase tracking-[0.4em] font-body text-white/35" aria-hidden="true">
           {stage === 5 ? "Enter" : showText ? "Next" : "Scroll"}
         </span>
       </div>
@@ -466,6 +472,9 @@ function NurehGardeniaSection() {
   return (
     <section className="py-28 px-6 bg-background border-t border-border/30">
       <div className="max-w-7xl mx-auto">
+        <RevealSection className="text-center mb-10">
+          <h2 className="font-serif text-xl text-muted-foreground tracking-widest">Shop Our Latest Products</h2>
+        </RevealSection>
         {/* Portrait model video */}
         <RevealSection className="mb-16 flex justify-center">
           <div className="relative overflow-hidden" style={{ width: 340, aspectRatio: "9/16", maxHeight: "75vh" }}>
@@ -474,6 +483,7 @@ function NurehGardeniaSection() {
               muted
               loop
               playsInline
+              preload="none"
               className="w-full h-full object-cover"
             >
               <source src="/videos/model-gardenia.mp4" type="video/mp4" />
@@ -489,8 +499,8 @@ function NurehGardeniaSection() {
 
         <CatalogHeading
           eyebrow="Gardenia by Nurèh · Summer 2026 New Arrival"
-          title="Gardenia"
-          italic="by Nurèh"
+          title="Nureh Collection"
+          italic="Fully Stitched Luxury Suits"
           desc="Embroidered and printed lawn collection with embroidered chiffon dupatta — by Riaz Arts. 10 piece set. Fully stitched and ready to wear. Available in sizes S, M, L, XL, XXL. UK delivery included."
         />
 
@@ -545,7 +555,7 @@ function ZeenatSection() {
         {/* Portrait model video */}
         <RevealSection className="mb-16 flex justify-center">
           <div className="relative overflow-hidden" style={{ width: 340, aspectRatio: "9/16", maxHeight: "75vh" }}>
-            <video autoPlay muted loop playsInline className="w-full h-full object-cover">
+            <video autoPlay muted loop playsInline preload="none" className="w-full h-full object-cover">
               <source src="/videos/model-zeenat.mp4" type="video/mp4" />
             </video>
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
@@ -559,8 +569,8 @@ function ZeenatSection() {
 
         <CatalogHeading
           eyebrow="Luxury Pret Collection · Summer 2026 New Arrival"
-          title="Luxury Pret"
-          italic="Vol-1"
+          title="Luxury Pret Collection"
+          italic="Ready to Wear Elegance"
           desc="Luxury Pret Stitched Cotton Lawn Vol-1 — Embroidered lawn with fancy chiffon dupatta. 10 designs · Fully stitched and ready to wear · Sizes S, M, L, XL, XXL · UK delivery included."
         />
 
@@ -616,6 +626,7 @@ function CharizmaSection() {
               muted
               loop
               playsInline
+              preload="none"
               className="w-full h-full object-cover"
             >
               <source src="/videos/model-charizma.mp4" type="video/mp4" />
@@ -631,8 +642,8 @@ function CharizmaSection() {
 
         <CatalogHeading
           eyebrow="Charizma · Summer 2026 New Arrival"
-          title="Sun Shine"
-          italic="Vol. 01"
+          title="Charizma Collection"
+          italic="Premium Designer Suits"
           desc="Charizma Sun Shine Stitched Embroidered Lawn Suit Collection with Embroidered Chiffon Dupatta Vol.01. 3-piece stitched suit — ready to wear. UK delivery included."
         />
 
@@ -767,10 +778,10 @@ function WalletsSection() {
 
 /* ─── Kunafa Chocolates section ──────────────────────────── */
 const KUNAFA_IMGS = [
-  "/product-images/kunafa/k-jar-branded.png",
-  "/product-images/kunafa/k-jar-open.png",
-  "/product-images/kunafa/k-loose-pieces.png",
-  "/product-images/kunafa/k-single-wrap.png",
+  { src: "/product-images/kunafa/k-jar-branded.png", alt: "B.C.C. Kunafa Chocolates gift jar UK — premium pistachio filled chocolates" },
+  { src: "/product-images/kunafa/k-jar-open.png", alt: "Kunafa Chocolates UK open jar showing pistachio filling" },
+  { src: "/product-images/kunafa/k-loose-pieces.png", alt: "Luxury Kunafa Chocolate pieces with authentic pistachio filling UK" },
+  { src: "/product-images/kunafa/k-single-wrap.png", alt: "Individually wrapped Kunafa Chocolate UK — artisan confectionery gift" },
 ];
 
 function KunafaSection() {
@@ -788,10 +799,10 @@ function KunafaSection() {
         />
         <RevealSection>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 max-w-3xl mx-auto">
-            {KUNAFA_IMGS.map((img, i) => (
+            {KUNAFA_IMGS.map((item, i) => (
               <Link href="/product/8" key={i}>
                 <div className="aspect-square overflow-hidden bg-card group cursor-pointer">
-                  <img src={img} alt="Kunafa Chocolates" loading="lazy"
+                  <img src={item.src} alt={item.alt} loading="lazy"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                 </div>
               </Link>
@@ -821,9 +832,7 @@ function BrandBanner() {
             Our Promise
           </p>
           <h2 className="font-serif text-4xl md:text-6xl text-foreground mb-6 leading-tight">
-            The Finest,
-            <br />
-            <em className="text-primary">Delivered Across the UK</em>
+            Why Choose Luxe &amp; Line
           </h2>
           <p className="font-body text-sm text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-10">
             Every piece we curate is hand-selected from the finest fashion
