@@ -32,6 +32,18 @@ const Register = lazy(() => import("@/pages/Register").then((m) => ({ default: m
 const Reviews = lazy(() => import("@/pages/Reviews").then((m) => ({ default: m.Reviews })));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
+// Blog pages
+const HowToStyleStitchedSuits = lazy(() => import("@/pages/blog/HowToStyleStitchedSuits").then((m) => ({ default: m.HowToStyleStitchedSuits })));
+const BestLevisJeansWomenUK = lazy(() => import("@/pages/blog/BestLevisJeansWomenUK").then((m) => ({ default: m.BestLevisJeansWomenUK })));
+const LuxuryFashionGiftsUK = lazy(() => import("@/pages/blog/LuxuryFashionGiftsUK").then((m) => ({ default: m.LuxuryFashionGiftsUK })));
+const KunafaChocolatesUK = lazy(() => import("@/pages/blog/KunafaChocolatesUK").then((m) => ({ default: m.KunafaChocolatesUK })));
+
+// Location pages
+const StitchedSuitsLondon = lazy(() => import("@/pages/locations/StitchedSuitsLondon").then((m) => ({ default: m.StitchedSuitsLondon })));
+const LuxuryFashionManchester = lazy(() => import("@/pages/locations/LuxuryFashionManchester").then((m) => ({ default: m.LuxuryFashionManchester })));
+const DesignerSuitsBirmingham = lazy(() => import("@/pages/locations/DesignerSuitsBirmingham").then((m) => ({ default: m.DesignerSuitsBirmingham })));
+const BuySuitsOnlineLeeds = lazy(() => import("@/pages/locations/BuySuitsOnlineLeeds").then((m) => ({ default: m.BuySuitsOnlineLeeds })));
+
 function PageLoader() {
   return (
     <div className="min-h-[60vh] flex items-center justify-center">
@@ -85,6 +97,16 @@ function Router() {
           </Route>
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
+          {/* Blog pages */}
+          <Route path="/blog/how-to-style-stitched-suits-uk-2026" component={HowToStyleStitchedSuits} />
+          <Route path="/blog/best-levis-jeans-women-uk" component={BestLevisJeansWomenUK} />
+          <Route path="/blog/luxury-fashion-gifts-uk" component={LuxuryFashionGiftsUK} />
+          <Route path="/blog/kunafa-chocolates-uk-gift-guide" component={KunafaChocolatesUK} />
+          {/* Location pages */}
+          <Route path="/stitched-suits-london" component={StitchedSuitsLondon} />
+          <Route path="/luxury-fashion-manchester" component={LuxuryFashionManchester} />
+          <Route path="/designer-suits-birmingham" component={DesignerSuitsBirmingham} />
+          <Route path="/buy-suits-online-leeds" component={BuySuitsOnlineLeeds} />
           <Route component={NotFound} />
         </Switch>
       </Suspense>

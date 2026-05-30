@@ -18,8 +18,8 @@ const RESPONSES: { keywords: string[]; reply: Reply }[] = [
   {
     keywords: ["shalwar", "kameez", "suit", "lawn", "nureh", "charizma", "zeenat", "embroidered", "dress", "clothes", "clothing"],
     reply: {
-      text: "We carry Nureh Gardenia, Charizma Sun Shine Vol.01, and Luxury Pret collections — all fully stitched and ready to wear, with free UK delivery! 🌸",
-      links: [{ label: "Shop Shalwar Kameez →", href: "/shop?category=shalwar-kameez" }],
+      text: "We carry Nureh Gardenia, Charizma Sun Shine Vol.01, and Luxury Pret collections — all fully stitched and ready to wear in one universal size, with free UK delivery! 🌸",
+      links: [{ label: "Shop Stitched Suits →", href: "/shop?category=shalwar-kameez" }],
     },
   },
   {
@@ -74,14 +74,14 @@ const RESPONSES: { keywords: string[]; reply: Reply }[] = [
   {
     keywords: ["contact", "phone", "email", "whatsapp", "call", "message", "reach"],
     reply: {
-      text: "You can WhatsApp or call us on +44 7449 507661, or email luxeline26@gmail.com. We reply within 24 hours! 💜",
+      text: "You can WhatsApp or call us on +44 7449 507661, or email hello@luxeandline.uk. We reply within 24 hours! 💜",
       links: [{ label: "Contact Page →", href: "/contact" }],
     },
   },
   {
     keywords: ["size", "sizing", "fit", "measurement", "waist", "length", "xl", "medium"],
     reply: {
-      text: "For shalwar kameez we offer XS to XXL. For jeans we have waist×length sizing (e.g. 32×30) plus a custom measurement option on the product page. 📏",
+      text: "Our stitched suits are one universal size — they fit all. For jeans we offer waist×length sizing (e.g. 32×30) plus a custom measurement option on the product page. 📏",
       links: [{ label: "Contact Us for Help →", href: "/contact" }],
     },
   },
@@ -102,7 +102,7 @@ const RESPONSES: { keywords: string[]; reply: Reply }[] = [
   {
     keywords: ["shop", "collection", "browse", "buy", "product", "all"],
     reply: {
-      text: "Browse our full collection — shalwar kameez, jeans, leather wallets and pistachio kunafa. Free UK delivery on every item! 🛍️",
+      text: "Browse our full collection — stitched suits, jeans, leather wallets and pistachio kunafa. Free UK delivery on every item! 🛍️",
       links: [{ label: "Shop All Collections →", href: "/shop" }],
     },
   },
@@ -116,7 +116,7 @@ const RESPONSES: { keywords: string[]; reply: Reply }[] = [
 ];
 
 const DEFAULT_REPLY: Reply = {
-  text: "Sorry, our owner didn't allow me to talk about that. Please ask questions related to our store and I'll give you the answer respectfully. Thank you sweetheart! ❤️ You can also reach us directly on WhatsApp for anything!",
+  text: "Sorry, I can only help with questions about our store. Please ask about our collections, delivery, sizing, or payments — I'm happy to help! You can also reach us directly on WhatsApp. ❤️",
   links: [{ label: "Chat on WhatsApp →", href: "https://wa.me/447449507661" }],
 };
 
@@ -138,6 +138,13 @@ export function Chatbot() {
   const bottomRef = useRef<HTMLDivElement>(null);
   const [location] = useLocation();
   const [scrolled, setScrolled] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => typeof window !== "undefined" && window.innerWidth < 768);
+
+  useEffect(() => {
+    const handler = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handler, { passive: true });
+    return () => window.removeEventListener("resize", handler);
+  }, []);
 
   useEffect(() => {
     const check = () => setScrolled(window.scrollY > 80);
@@ -181,7 +188,7 @@ export function Chatbot() {
       <button
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? "Close chat" : "Open chat"}
-        className="fixed bottom-6 right-6 z-50 flex items-center gap-2 text-white text-[11px] font-body font-semibold uppercase tracking-wider transition-all duration-500 hover:scale-105 active:scale-95"
+        className="fixed bottom-6 right-6 z-[9999] flex items-center gap-2 text-white text-[11px] font-body font-semibold uppercase tracking-wider transition-all duration-500 hover:scale-105 active:scale-95"
         style={{
           background: "linear-gradient(135deg, hsl(270,80%,65%), hsl(270,60%,48%))",
           borderRadius: 50,
@@ -198,8 +205,21 @@ export function Chatbot() {
 
       {open && (
         <div
-          className="fixed bottom-[72px] right-6 z-50 flex flex-col"
-          style={{
+          className="fixed z-[9998] flex flex-col"
+          style={isMobile ? {
+            inset: 0,
+            width: "100vw",
+            height: "100vh",
+            bottom: 0,
+            right: 0,
+            background: "hsl(265,32%,8%)",
+            border: "none",
+            borderRadius: 0,
+            overflow: "hidden",
+            boxShadow: "none",
+          } : {
+            bottom: 88,
+            right: 24,
             width: 316,
             maxHeight: 470,
             background: "hsl(265,32%,8%)",
@@ -210,21 +230,32 @@ export function Chatbot() {
           }}
         >
           <div
-            className="flex items-center gap-3 px-4 py-3 shrink-0"
+            className="flex items-center justify-between px-4 py-3 shrink-0"
             style={{ background: "linear-gradient(135deg, hsl(270,80%,58%), hsl(270,60%,42%))" }}
           >
-            <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0">
-              <MessageCircle size={14} className="text-white" />
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+                <MessageCircle size={14} className="text-white" />
+              </div>
+              <div>
+                <p className="text-white text-xs font-body font-semibold tracking-wide">Luxe & Line Assistant</p>
+                <p className="text-white/70 text-[10px] font-body">Always here to help 💜</p>
+              </div>
             </div>
-            <div>
-              <p className="text-white text-xs font-body font-semibold tracking-wide">Luxe & Line Assistant</p>
-              <p className="text-white/70 text-[10px] font-body">Always here to help 💜</p>
-            </div>
+            {isMobile && (
+              <button
+                onClick={() => setOpen(false)}
+                className="text-white/80 hover:text-white transition-colors p-1"
+                aria-label="Close chat"
+              >
+                <X size={20} />
+              </button>
+            )}
           </div>
 
           <div
             className="overflow-y-auto px-3 py-3 space-y-2.5"
-            style={{ flex: "1 1 auto", minHeight: 0, maxHeight: 340 }}
+            style={{ flex: "1 1 auto", minHeight: 0 }}
           >
             {messages.map((msg, i) => (
               <div key={i} className={`flex ${msg.from === "user" ? "justify-end" : "justify-start"}`}>
@@ -272,7 +303,7 @@ export function Chatbot() {
           </div>
 
           <div
-            className="px-3 py-2.5 shrink-0 border-t flex gap-2 items-center"
+            className="px-3 py-3 shrink-0 border-t flex gap-2 items-center"
             style={{ borderColor: "hsl(270,50%,40%,0.2)" }}
           >
             <input
@@ -280,14 +311,14 @@ export function Chatbot() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSend()}
               placeholder="Ask about jeans, delivery, sizing..."
-              className="flex-1 bg-transparent border border-border/40 focus:border-primary focus:outline-none rounded-full px-3.5 py-1.5 text-xs font-body text-foreground placeholder:text-muted-foreground/40 transition-colors"
+              className="flex-1 bg-transparent border border-border/40 focus:border-primary focus:outline-none rounded-full px-3.5 py-2 text-xs font-body text-foreground placeholder:text-muted-foreground/40 transition-colors"
             />
             <button
               onClick={handleSend}
-              className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all hover:scale-110 active:scale-95"
+              className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-all hover:scale-110 active:scale-95"
               style={{ background: "linear-gradient(135deg, hsl(270,80%,62%), hsl(270,60%,46%))" }}
             >
-              <Send size={12} className="text-white" />
+              <Send size={13} className="text-white" />
             </button>
           </div>
         </div>

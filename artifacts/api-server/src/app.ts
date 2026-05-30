@@ -1,6 +1,7 @@
 import express, { type Express, type Request, type Response, type NextFunction } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import compression from "compression";
 import pinoHttp from "pino-http";
 import router from "./routes";
 import sitemapRouter from "./routes/sitemap";
@@ -8,6 +9,7 @@ import { logger } from "./lib/logger";
 
 const app: Express = express();
 
+app.use(compression());
 app.use(
   pinoHttp({
     logger,

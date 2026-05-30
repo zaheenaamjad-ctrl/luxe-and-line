@@ -181,15 +181,36 @@ function VideoHero({ onExit }: { onExit: () => void }) {
             zIndex: videoIdx === idx ? 2 : 1,
           }}
         >
-          <video
-            ref={(el) => { videoRefs.current[idx] = el; }}
-            src={vid.src}
-            className="absolute inset-0 w-full h-full object-contain sm:object-cover"
-            muted
-            loop
-            playsInline
-            preload="auto"
-          />
+          {idx === 1 ? (
+            <video
+              ref={(el) => { videoRefs.current[idx] = el; }}
+              src={vid.src}
+              muted
+              loop
+              playsInline
+              preload="auto"
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                width: "min(420px, 100%)",
+                aspectRatio: "9/16",
+                objectFit: "contain",
+                maxHeight: "100%",
+              }}
+            />
+          ) : (
+            <video
+              ref={(el) => { videoRefs.current[idx] = el; }}
+              src={vid.src}
+              className="absolute inset-0 w-full h-full object-contain sm:object-cover"
+              muted
+              loop
+              playsInline
+              preload="auto"
+            />
+          )}
           <div
             className="absolute inset-0"
             style={{
