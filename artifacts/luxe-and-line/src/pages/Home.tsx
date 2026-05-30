@@ -60,10 +60,9 @@ function LuxuryButton({
   );
 }
 
-/* ─── Video Hero — 4-stage scroll (video → text → video → text) ── */
-// stage 0,2 = video playing (no text overlay)
-// stage 1,3 = text visible over that video
-// Each scroll increments stage by 1; after stage 3 user exits hero.
+/* ─── Video Hero — 2-stage scroll (video → text → exit) ── */
+// stage 0 = video playing (no text overlay)
+// stage 1 = text visible over video; scroll again to exit hero
 const VIDEOS = [
   {
     src: "/videos/swan.mp4",
@@ -73,33 +72,17 @@ const VIDEOS = [
     cta: "Explore Collection",
     link: "/shop",
   },
-  {
-    src: "/videos/video2.mp4",
-    label: "The Collection",
-    title: ["CRAFTED", "FOR YOU"],
-    sub: "Premium Stitched Suits · Artisan Craftsmanship in Every Stitch",
-    cta: "Explore Now",
-    link: "/shop",
-  },
 ];
 
 function VideoHero({ onExit }: { onExit: () => void }) {
-  // 4 stages: 0 = video1 no text, 1 = video1 text,
-  //           2 = video2 no text, 3 = video2 text
+  // 2 stages: 0 = video playing (no text), 1 = text overlay → scroll exits hero
   const [stage, setStage] = useState(0);
   const [locked, setLocked] = useState(false);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const lastScrollTime = useRef(0);
-  const [isDesktop, setIsDesktop] = useState(() => typeof window !== "undefined" && window.innerWidth >= 1024);
 
-  useEffect(() => {
-    const handler = () => setIsDesktop(window.innerWidth >= 1024);
-    window.addEventListener("resize", handler, { passive: true });
-    return () => window.removeEventListener("resize", handler);
-  }, []);
-
-  const videoIdx = Math.floor(stage / 2);   // 0, 1, 2
-  const showText = stage % 2 === 1;          // true for stages 1, 3, 5
+  const videoIdx = 0;                        // always video 0
+  const showText = stage === 1;
 
   // Play active video
   useEffect(() => {
@@ -120,7 +103,7 @@ function VideoHero({ onExit }: { onExit: () => void }) {
     if (now - lastScrollTime.current < 700) return;
     lastScrollTime.current = now;
     setLocked(true);
-    if (stage < 3) {
+    if (stage < 1) {
       setStage((s) => s + 1);
     } else {
       onExit();
@@ -188,38 +171,15 @@ function VideoHero({ onExit }: { onExit: () => void }) {
             zIndex: videoIdx === idx ? 2 : 1,
           }}
         >
-          {idx === 1 && !isDesktop ? (
-            /* Portrait on mobile/tablet (<1024px) */
-            <video
-              ref={(el) => { videoRefs.current[idx] = el; }}
-              src={vid.src}
-              muted
-              loop
-              playsInline
-              preload="auto"
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                width: "min(420px, 100%)",
-                aspectRatio: "9/16",
-                objectFit: "contain",
-                maxHeight: "100%",
-              }}
-            />
-          ) : (
-            /* Landscape on desktop (≥1024px), and always for Video 1 */
-            <video
-              ref={(el) => { videoRefs.current[idx] = el; }}
-              src={vid.src}
-              className="absolute inset-0 w-full h-full object-cover"
-              muted
-              loop
-              playsInline
-              preload="auto"
-            />
-          )}
+          <video
+            ref={(el) => { videoRefs.current[idx] = el; }}
+            src={vid.src}
+            className="absolute inset-0 w-full h-full object-contain sm:object-cover"
+            muted
+            loop
+            playsInline
+            preload="auto"
+          />
           <div
             className="absolute inset-0"
             style={{
