@@ -90,6 +90,13 @@ function VideoHero({ onExit }: { onExit: () => void }) {
   const [locked, setLocked] = useState(false);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const lastScrollTime = useRef(0);
+  const [isDesktop, setIsDesktop] = useState(() => typeof window !== "undefined" && window.innerWidth >= 1024);
+
+  useEffect(() => {
+    const handler = () => setIsDesktop(window.innerWidth >= 1024);
+    window.addEventListener("resize", handler, { passive: true });
+    return () => window.removeEventListener("resize", handler);
+  }, []);
 
   const videoIdx = Math.floor(stage / 2);   // 0, 1, 2
   const showText = stage % 2 === 1;          // true for stages 1, 3, 5
@@ -181,7 +188,8 @@ function VideoHero({ onExit }: { onExit: () => void }) {
             zIndex: videoIdx === idx ? 2 : 1,
           }}
         >
-          {idx === 1 ? (
+          {idx === 1 && !isDesktop ? (
+            /* Portrait on mobile/tablet (<1024px) */
             <video
               ref={(el) => { videoRefs.current[idx] = el; }}
               src={vid.src}
@@ -201,10 +209,11 @@ function VideoHero({ onExit }: { onExit: () => void }) {
               }}
             />
           ) : (
+            /* Landscape on desktop (≥1024px), and always for Video 1 */
             <video
               ref={(el) => { videoRefs.current[idx] = el; }}
               src={vid.src}
-              className="absolute inset-0 w-full h-full object-contain sm:object-cover"
+              className="absolute inset-0 w-full h-full object-cover"
               muted
               loop
               playsInline
