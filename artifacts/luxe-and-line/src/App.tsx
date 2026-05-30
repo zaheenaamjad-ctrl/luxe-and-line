@@ -40,7 +40,7 @@ function PageLoader() {
   );
 }
 
-const ADMIN_EMAILS = new Set(["syedimad348@gmail.com", "zaheenaamjad@gmail.com", "luxeline26@gmail.com"]);
+const ADMIN_EMAILS = new Set(["syedimad348@gmail.com", "zaheenaamjad@gmail.com"]);
 
 function AdminGuard({ component: Component }: { component: React.ComponentType }) {
   const hasAdminToken = !!localStorage.getItem("luxe_admin_token");

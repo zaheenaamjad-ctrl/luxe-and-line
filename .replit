@@ -34,3 +34,10 @@ externalPort = 3002
 [[ports]]
 localPort = 26101
 externalPort = 3000
+
+[userenv]
+
+[userenv.shared]
+RESEND_FROM = "Luxe & Line <hello@luxeandline.uk>"
+ADMIN_EMAILS = "syedimad348@gmail.com,zaheenaamjad@gmail.com"
+SITE_URL = "https://www.luxeandline.uk"

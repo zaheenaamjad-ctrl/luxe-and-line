@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useGetCart } from "@workspace/api-client-react";
 import { AUTH_CHANGE_EVENT, getAuthUser, clearAuth } from "@/lib/auth";
 
-const ADMIN_EMAILS = new Set(["syedimad348@gmail.com", "zaheenaamjad@gmail.com", "luxeline26@gmail.com"]);
+const ADMIN_EMAILS = new Set(["syedimad348@gmail.com", "zaheenaamjad@gmail.com"]);
 
 function useCustomerAuth() {
   const [user, setUser] = useState(() => getAuthUser());

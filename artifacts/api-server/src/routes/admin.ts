@@ -5,7 +5,9 @@ import { AdminLoginBody } from "@workspace/api-zod";
 
 const router = Router();
 
-const ADMIN_EMAILS = ["syedimad348@gmail.com", "zaheenaamjad@gmail.com", "luxeline26@gmail.com"];
+const ADMIN_EMAILS = (process.env.ADMIN_EMAILS ?? "syedimad348@gmail.com,zaheenaamjad@gmail.com")
+  .split(",").map((e) => e.trim().toLowerCase());
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "12345";
 const ADMIN_TOKEN = "luxe_admin_secret_token_2024";
 
 function requireAdmin(req: import("express").Request, res: import("express").Response): boolean {
@@ -21,7 +23,11 @@ function requireAdmin(req: import("express").Request, res: import("express").Res
 router.post("/admin/login", (req, res) => {
   const parsed = AdminLoginBody.safeParse(req.body);
   if (!parsed.success) { res.status(400).json({ error: "Invalid data" }); return; }
-  if (!ADMIN_EMAILS.includes(parsed.data.email)) {
+  if (!ADMIN_EMAILS.includes(parsed.data.email.toLowerCase())) {
+    res.status(401).json({ success: false, token: "" }); return;
+  }
+  const submittedPassword = (req.body as Record<string, unknown>).password as string | undefined;
+  if (!submittedPassword || submittedPassword !== ADMIN_PASSWORD) {
     res.status(401).json({ success: false, token: "" }); return;
   }
   res.json({ success: true, token: ADMIN_TOKEN });

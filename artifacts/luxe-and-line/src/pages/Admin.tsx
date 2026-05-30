@@ -1,12 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
-import { useAdminLogin } from "@workspace/api-client-react";
 import {
   LogOut, Package, TrendingUp, ShoppingBag, Clock, CheckCircle, XCircle,
   Users, Star, BarChart2, Pencil, Trash2, Plus, ChevronDown, ChevronUp,
   Mail, ToggleLeft, ToggleRight, RefreshCw, AlertTriangle,
 } from "lucide-react";
 
-const ADMIN_EMAILS = ["syedimad348@gmail.com", "zaheenaamjad@gmail.com", "luxeline26@gmail.com"];
+const ADMIN_EMAILS = ["syedimad348@gmail.com", "zaheenaamjad@gmail.com"];
 const ADMIN_TOKEN = "luxe_admin_secret_token_2024";
 
 type AdminTab = "overview" | "orders" | "customers" | "products" | "reviews";
@@ -93,22 +92,36 @@ function Spinner() {
 
 function AdminLogin({ onLogin }: { onLogin: (token: string) => void }) {
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const adminLogin = useAdminLogin();
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!ADMIN_EMAILS.includes(email)) { setError("Access denied. This portal is restricted."); return; }
-    adminLogin.mutate(
-      { data: { email } },
-      {
-        onSuccess: (result) => {
-          if (result.success) { localStorage.setItem("luxe_admin_token", result.token); onLogin(result.token); }
-          else setError("Access denied.");
-        },
-        onError: () => setError("Access denied."),
+    if (!ADMIN_EMAILS.includes(email.toLowerCase())) {
+      setError("Access denied. This portal is restricted.");
+      return;
+    }
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const result = await res.json() as { success: boolean; token: string };
+      if (result.success) {
+        localStorage.setItem("luxe_admin_token", result.token);
+        onLogin(result.token);
+      } else {
+        setError("Incorrect email or password.");
       }
-    );
+    } catch {
+      setError("Connection error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -133,14 +146,25 @@ function AdminLogin({ onLogin }: { onLogin: (token: string) => void }) {
                 className="w-full bg-background border border-border px-4 py-3 text-sm font-body text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
               />
             </div>
+            <div>
+              <label className="block text-xs uppercase tracking-widest font-body text-muted-foreground mb-2">Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => { setPassword(e.target.value); setError(""); }}
+                placeholder="Enter password"
+                required
+                className="w-full bg-background border border-border px-4 py-3 text-sm font-body text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
+              />
+            </div>
             {error && <p className="text-destructive text-xs font-body">{error}</p>}
             <button
               type="submit"
               data-testid="button-admin-login"
-              disabled={adminLogin.isPending}
+              disabled={loading}
               className="w-full bg-primary text-primary-foreground py-4 font-body uppercase tracking-widest text-xs hover:bg-primary/90 transition-colors disabled:opacity-50"
             >
-              {adminLogin.isPending ? "Verifying..." : "Continue"}
+              {loading ? "Verifying..." : "Continue"}
             </button>
           </form>
         </div>
