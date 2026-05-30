@@ -43,6 +43,7 @@ const StitchedSuitsLondon = lazy(() => import("@/pages/locations/StitchedSuitsLo
 const LuxuryFashionManchester = lazy(() => import("@/pages/locations/LuxuryFashionManchester").then((m) => ({ default: m.LuxuryFashionManchester })));
 const DesignerSuitsBirmingham = lazy(() => import("@/pages/locations/DesignerSuitsBirmingham").then((m) => ({ default: m.DesignerSuitsBirmingham })));
 const BuySuitsOnlineLeeds = lazy(() => import("@/pages/locations/BuySuitsOnlineLeeds").then((m) => ({ default: m.BuySuitsOnlineLeeds })));
+const StitchedSuitsUK = lazy(() => import("@/pages/locations/StitchedSuitsUK").then((m) => ({ default: m.StitchedSuitsUK })));
 
 function PageLoader() {
   return (
@@ -107,6 +108,7 @@ function Router() {
           <Route path="/luxury-fashion-manchester" component={LuxuryFashionManchester} />
           <Route path="/designer-suits-birmingham" component={DesignerSuitsBirmingham} />
           <Route path="/buy-suits-online-leeds" component={BuySuitsOnlineLeeds} />
+          <Route path="/stitched-suits-uk" component={StitchedSuitsUK} />
           <Route component={NotFound} />
         </Switch>
       </Suspense>

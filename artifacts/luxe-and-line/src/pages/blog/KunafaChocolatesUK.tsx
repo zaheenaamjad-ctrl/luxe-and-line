@@ -7,7 +7,7 @@ export function KunafaChocolatesUK() {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "headline": "Kunafa Chocolates UK — The Perfect Gift Guide",
-        "description": "Everything you need to know about Kunafa Chocolates in the UK. Buy B.C.C Kunafa with free delivery from Luxe & Line Liverpool.",
+        "description": "Everything you need to know about Kunafa Chocolates in the UK. Buy B.C.C Kunafa with free delivery from Luxe & Line UK.",
         "image": "https://www.luxeandline.uk/og-image.jpg",
         "author": { "@type": "Organization", "name": "Luxe & Line" },
         "publisher": { "@type": "Organization", "name": "Luxe & Line", "logo": { "@type": "ImageObject", "url": "https://www.luxeandline.uk/logo-transparent.png" } },

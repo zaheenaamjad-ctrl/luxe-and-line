@@ -50,10 +50,10 @@ export function About() {
       {/* Hero */}
       <div className="relative z-10 border-b border-border/30" style={{ background: "linear-gradient(180deg, hsl(265,30%,5%) 0%, hsl(265,28%,7%) 100%)" }}>
         <div className="max-w-4xl mx-auto px-6 py-28 text-center">
-          <p className="text-[10px] uppercase tracking-[0.5em] text-primary font-body mb-5">Est. Liverpool · United Kingdom</p>
+          <p className="text-[10px] uppercase tracking-[0.5em] text-primary font-body mb-5">Est. United Kingdom</p>
           <h1 className="font-serif text-5xl md:text-7xl text-foreground mb-6 leading-tight">
             Curated for the<br />
-            <span className="gold-shimmer">British Asian</span> Home
+            <span className="gold-shimmer">Modern UK</span> Wardrobe
           </h1>
           <div className="luxury-divider w-32 mx-auto mb-8" />
           <p className="font-body text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
@@ -69,7 +69,7 @@ export function About() {
             <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-body mb-4">Our Heritage</p>
             <h2 className="font-serif text-3xl text-foreground mb-6 leading-snug">Born from a belief in accessible luxury</h2>
             <p className="text-muted-foreground font-body text-sm leading-relaxed mb-4">
-              Luxe & Line was founded in Liverpool with one clear purpose: to make the exquisite craftsmanship of luxury fashion accessible to every family across the UK — bringing the finest collections directly to your door.
+              Luxe & Line was founded with one clear purpose: to make the exquisite craftsmanship of luxury fashion accessible to every family across the UK — bringing the finest collections directly to your door.
             </p>
             <p className="text-muted-foreground font-body text-sm leading-relaxed mb-4">
               We bridge the gap between the world's finest fashion houses and the doorsteps of the UK — bringing authentic luxury, one beautifully wrapped parcel at a time.
@@ -116,7 +116,7 @@ export function About() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { icon: Shield, title: "Authenticity Guaranteed", desc: "Every item is sourced directly from Pakistan's leading fashion houses. No replicas, no compromises." },
+              { icon: Shield, title: "Authenticity Guaranteed", desc: "Every item is sourced directly from the world's leading fashion houses. No replicas, no compromises." },
               { icon: Truck, title: "UK Delivery Included", desc: "All prices include nationwide UK delivery. What you see is what you pay — always." },
               { icon: Star, title: "Curated Selection", desc: "We select only the finest seasonal collections, laser-focused on quality and contemporary style." },
               { icon: Clock, title: "Prompt & Personal", desc: "Orders dispatched swiftly. Every customer is treated as a valued guest, not a transaction." },
@@ -136,7 +136,7 @@ export function About() {
         <div className="mb-24 border border-border/30 p-10" style={{ background: "hsl(265,28%,6%)" }}>
           <div className="text-center mb-10">
             <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-body mb-3">Our Brands</p>
-            <h2 className="font-serif text-3xl text-foreground">Curated from Pakistan's finest houses</h2>
+            <h2 className="font-serif text-3xl text-foreground">Curated from the finest fashion houses</h2>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
@@ -182,7 +182,7 @@ export function About() {
         {/* Founders */}
         <div className="mb-20">
           <div className="text-center mb-12">
-            <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-body mb-3">Founded in Liverpool</p>
+            <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-body mb-3">Meet the Founders</p>
             <h2 className="font-serif text-4xl text-foreground">The people behind the brand</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto mb-10">
@@ -191,7 +191,7 @@ export function About() {
                 <span className="font-serif text-2xl text-primary">AK</span>
               </div>
               <h3 className="font-serif text-xl text-foreground mb-1">Amjad Khan</h3>
-              <p className="text-[10px] uppercase tracking-widest font-body text-primary mb-3">Owner · Liverpool, UK</p>
+              <p className="text-[10px] uppercase tracking-widest font-body text-primary mb-3">Owner · Luxe &amp; Line UK</p>
               <div className="luxury-divider w-12 mx-auto mb-4" />
               <p className="text-xs font-body text-muted-foreground leading-relaxed">
                 Visionary founder with a deep passion for craftsmanship and luxury fashion. Amjad established Luxe &amp; Line to bring the finest collections directly to UK homes.
@@ -202,7 +202,7 @@ export function About() {
                 <span className="font-serif text-2xl text-primary">ZK</span>
               </div>
               <h3 className="font-serif text-xl text-foreground mb-1">Zaheena Khan</h3>
-              <p className="text-[10px] uppercase tracking-widest font-body text-primary mb-3">Vice Owner · Liverpool, UK</p>
+              <p className="text-[10px] uppercase tracking-widest font-body text-primary mb-3">Co-Founder · Luxe &amp; Line UK</p>
               <div className="luxury-divider w-12 mx-auto mb-4" />
               <p className="text-xs font-body text-muted-foreground leading-relaxed">
                 Co-founder and curator of every collection. Zaheena brings an expert eye for quality, ensuring only the finest seasonal pieces make it to your door.

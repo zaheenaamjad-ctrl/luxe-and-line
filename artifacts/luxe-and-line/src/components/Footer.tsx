@@ -36,7 +36,7 @@ export function Footer() {
               <span className="font-serif text-xl tracking-widest text-primary">LUXE & LINE</span>
             </div>
             <p className="font-body text-xs text-muted-foreground leading-relaxed mb-5">
-              A premium luxury fashion boutique based in Liverpool, UK. Bringing the finest handpicked collections and artisan craftsmanship to modern British wardrobes.
+              A premium luxury fashion boutique in the UK. Bringing the finest handpicked collections and artisan craftsmanship to modern British wardrobes.
             </p>
             <div className="space-y-2 text-xs font-body text-muted-foreground">
               <div className="flex items-start gap-2">
@@ -49,7 +49,7 @@ export function Footer() {
               </div>
               <div className="flex items-center gap-2">
                 <Mail size={12} className="text-primary shrink-0" />
-                <a href="mailto:luxeline26@gmail.com" className="hover:text-primary transition-colors">luxeline26@gmail.com</a>
+                <a href="mailto:hello@luxeandline.uk" className="hover:text-primary transition-colors">hello@luxeandline.uk</a>
               </div>
             </div>
             <div className="mt-4 pt-3 border-t border-border/20 text-[10px] font-body text-muted-foreground/60 space-y-1">
@@ -83,10 +83,12 @@ export function Footer() {
             <h4 className="font-body text-[10px] uppercase tracking-[0.3em] text-primary mb-5 pb-3 border-b border-primary/25">Company</h4>
             <ul className="space-y-3">
               {[
+                { href: "/", label: "Home" },
                 { href: "/about", label: "About Us" },
                 { href: "/contact", label: "Contact" },
                 { href: "/reviews", label: "Reviews & FAQ" },
                 { href: "/shop", label: "Our Collection" },
+                { href: "/blog/how-to-style-stitched-suits-uk-2026", label: "Blog" },
               ].map((item) => (
                 <li key={item.href}>
                   <Link href={item.href} className="font-body text-xs text-muted-foreground hover:text-primary transition-colors hover:pl-1 inline-block" style={{ transitionProperty: "color, padding-left" }}>
@@ -120,14 +122,14 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="border-t-2 border-primary/20 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="font-body text-[10px] text-muted-foreground tracking-widest uppercase">
-            © {year} Luxe & Line · Liverpool, United Kingdom. All rights reserved.
+            © {year} Luxe & Line · United Kingdom. All rights reserved.
           </p>
           <div className="flex items-center gap-6 text-[10px] font-body text-muted-foreground">
             <Link href="/policy" className="hover:text-primary transition-colors">Privacy</Link>
             <span className="text-border">|</span>
             <Link href="/terms" className="hover:text-primary transition-colors">Terms</Link>
             <span className="text-border">|</span>
-            <span>UK Company · Registered Liverpool</span>
+            <span>UK Registered Company</span>
           </div>
         </div>
       </div>

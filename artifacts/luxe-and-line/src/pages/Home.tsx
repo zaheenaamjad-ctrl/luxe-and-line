@@ -1075,6 +1075,33 @@ export function Home() {
           opacity: videoDone ? 1 : 0,
         }}
       >
+        {/* SEO intro section — visible text for Google indexing */}
+        <section className="py-20 px-6 border-b border-border/30" style={{ background: "linear-gradient(180deg, hsl(265,30%,5%) 0%, hsl(265,28%,7%) 100%)" }}>
+          <div className="max-w-4xl mx-auto text-center">
+            <p className="text-[10px] uppercase tracking-[0.5em] text-primary font-body mb-5">Luxury Fashion UK</p>
+            <h1 className="font-serif text-4xl md:text-5xl text-foreground mb-6 leading-tight">
+              Luxury Fashion UK — Stitched Suits,<br className="hidden md:block" />
+              <em className="text-primary not-italic"> Levi's Jeans &amp; Designer Accessories</em>
+            </h1>
+            <div className="mx-auto mb-8" style={{ width: 100, height: 1, background: "linear-gradient(90deg, transparent, hsl(270,80%,65%), transparent)" }} />
+            <p className="font-body text-base text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-6">
+              Welcome to Luxe &amp; Line — your destination for premium luxury fashion in the UK. We offer fully stitched suits from the Nureh Gardenia and Charizma Sunshine collections, authentic Levi's jeans for women, genuine Atrix leather wallets, and handcrafted Kunafa chocolates. All suits are fully stitched and ready to wear. Fast UK delivery available on every order. Order via WhatsApp for personalised service.
+            </p>
+            <p className="font-body text-sm text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-6">
+              Our Nureh Gardenia Summer 2026 collection features 10 stunning embroidered lawn suits with chiffon dupattas — each piece beautifully crafted and ready to wear. The Luxury Pret Vol-1 range offers elegant embroidered cotton lawn at an exceptional price point, while our Charizma Sunshine collection brings vibrant summer prints to your wardrobe. Every suit is available in sizes S, M, L, XL and XXL, with UK delivery included in the price.
+            </p>
+            <p className="font-body text-sm text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-8">
+              Beyond clothing, Luxe &amp; Line curates a selection of premium Atrix genuine leather wallets — available in accordion and snap-button styles in brown and beige — and our exclusive Kunafa chocolates by B.C.C, filled with rich pistachio in premium chocolate. Whether you are looking for a gift, a treat, or a statement outfit, Luxe &amp; Line delivers quality and luxury to your door across the UK. Free delivery is included on everything we sell.
+            </p>
+            <div className="flex flex-wrap gap-3 justify-center">
+              <a href="/shop?category=shalwar-kameez" className="text-[10px] uppercase tracking-widest font-body text-primary border border-primary/40 px-5 py-2.5 hover:bg-primary/10 transition-colors">Shop Stitched Suits</a>
+              <a href="/shop?category=jeans" className="text-[10px] uppercase tracking-widest font-body text-primary border border-primary/40 px-5 py-2.5 hover:bg-primary/10 transition-colors">Shop Levi's Jeans</a>
+              <a href="/shop?category=wallets" className="text-[10px] uppercase tracking-widest font-body text-primary border border-primary/40 px-5 py-2.5 hover:bg-primary/10 transition-colors">Shop Wallets</a>
+              <a href="/shop" className="text-[10px] uppercase tracking-widest font-body text-white px-5 py-2.5 transition-all hover:opacity-90" style={{ background: "linear-gradient(135deg, hsl(270,80%,65%), hsl(270,60%,48%))" }}>View All Collections</a>
+            </div>
+          </div>
+        </section>
+
         <div id="nureh-section"><NurehGardeniaSection /></div>
         <ZeenatSection />
         <CharizmaSection />

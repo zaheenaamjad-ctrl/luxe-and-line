@@ -30,7 +30,7 @@ export function DesignerSuitsBirmingham() {
         </h1>
         <div className="luxury-divider w-16 mb-6" />
         <p className="text-muted-foreground font-body leading-relaxed text-base">
-          Premium designer suits and luxury fashion delivered free across Birmingham. Fully stitched, ready to wear — dispatched from Liverpool with love.
+          Premium designer suits and luxury fashion delivered free across Birmingham. Fully stitched, ready to wear — dispatched with love across the UK.
         </p>
       </header>
 

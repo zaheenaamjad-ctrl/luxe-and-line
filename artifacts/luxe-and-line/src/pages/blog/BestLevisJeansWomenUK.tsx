@@ -112,7 +112,7 @@ export function BestLevisJeansWomenUK() {
         <section>
           <h2 className="font-serif text-2xl text-foreground mb-4">Where to Buy the Best Jeans for Women UK</h2>
           <p>
-            If you're searching for premium quality women's jeans in the UK with custom sizing and free delivery, Luxe & Line is your answer. We're a Liverpool-based boutique offering carefully curated denim that combines quality, fit, and value.
+            If you're searching for premium quality women's jeans in the UK with custom sizing and free delivery, Luxe & Line is your answer. We're a UK luxury boutique offering carefully curated denim that combines quality, fit, and value.
           </p>
           <p>
             Every pair in our collection ships free to all UK addresses within 4–5 business days. Browse our <Link href="/shop?category=jeans" className="text-primary hover:underline">full jeans collection</Link>, check our <Link href="/reviews" className="text-primary hover:underline">customer reviews</Link>, or <Link href="/contact" className="text-primary hover:underline">WhatsApp us</Link> for sizing advice.

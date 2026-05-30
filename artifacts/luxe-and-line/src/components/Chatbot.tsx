@@ -109,7 +109,7 @@ const RESPONSES: { keywords: string[]; reply: Reply }[] = [
   {
     keywords: ["about", "brand", "story", "who", "liverpool"],
     reply: {
-      text: "We're a Liverpool-based luxury boutique curating the finest fashion collections and accessories for British homes. Read our full story below. 🏴󠁧󠁢󠁥󠁮󠁧󠁿💜",
+      text: "We're a UK luxury boutique curating the finest fashion collections and accessories for British homes. Read our full story below. 💜",
       links: [{ label: "Our Story →", href: "/about" }],
     },
   },
@@ -207,16 +207,15 @@ export function Chatbot() {
         <div
           className="fixed z-[9998] flex flex-col"
           style={isMobile ? {
-            inset: 0,
-            width: "100vw",
-            height: "100vh",
-            bottom: 0,
-            right: 0,
+            bottom: 80,
+            right: 12,
+            width: "min(360px, 92vw)",
+            maxHeight: "60vh",
             background: "hsl(265,32%,8%)",
-            border: "none",
-            borderRadius: 0,
+            border: "1px solid hsl(270,50%,40%,0.35)",
+            borderRadius: 16,
             overflow: "hidden",
-            boxShadow: "none",
+            boxShadow: "0 16px 48px rgba(0,0,0,0.7)",
           } : {
             bottom: 88,
             right: 24,

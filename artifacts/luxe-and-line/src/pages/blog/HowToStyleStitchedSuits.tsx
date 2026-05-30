@@ -104,7 +104,7 @@ export function HowToStyleStitchedSuits() {
         <section>
           <h2 className="font-serif text-2xl text-foreground mb-4">Where to Buy Luxury Stitched Suits in the UK</h2>
           <p>
-            If you're searching for where to buy women's stitched suits in the UK, Luxe & Line is Liverpool's premier destination for authentic, premium quality collections. We offer free UK delivery on every order, and our stitched suits are ready-to-wear — no waiting for tailoring, no sizing uncertainty.
+            If you're searching for where to buy women's stitched suits in the UK, Luxe & Line is your premier destination for authentic, premium quality collections. We offer free UK delivery on every order, and our stitched suits are ready-to-wear — no waiting for tailoring, no sizing uncertainty.
           </p>
           <p>
             Browse our <Link href="/shop?category=shalwar-kameez" className="text-primary hover:underline">full stitched suits collection</Link>, explore our <Link href="/reviews" className="text-primary hover:underline">customer reviews</Link>, or <Link href="/contact" className="text-primary hover:underline">contact us</Link> for personalised styling advice. We ship to all UK postcodes with 4–5 day delivery.

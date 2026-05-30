@@ -1,0 +1,219 @@
+⚠️ STRICT INSTRUCTIONS — READ BEFORE STARTING:
+You are fixing an EXISTING website at luxeandline.uk. Do NOT build anything new. Do NOT create a mobile app. Work efficiently using minimum credits. Complete EVERY fix below — do not skip anything. All secrets are in Replit Secrets — do not ask for any keys.
+
+I have run a full SEO and performance audit. The results are very poor. Fix every single issue listed below. Other developers fix these problems easily — I expect you to do the same or better. Be thorough, be fast, complete everything.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[1] SPEED — CRITICAL PRIORITY — TARGET SCORES: MOBILE 90+, DESKTOP 95+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+The audit shows catastrophic speed issues. Fix ALL of these:
+
+A) LCP RENDER DELAY IS 17.4 SECONDS — this is the biggest problem:
+— The Largest Contentful Paint render delay must be reduced to under 2.5s
+— Find what is causing the 17.4s render delay (likely a large unoptimised hero image or video) and fix it immediately
+— Preload the LCP element using  in the HTML head
+— Add fetchpriority="high" to the LCP image or video element
+
+B) RENDER-BLOCKING REQUESTS — currently costing 1,190ms:
+— Move all non-critical JavaScript to load with defer or async attributes
+— Move all non-critical CSS to load after the page renders
+— Inline only the critical above-the-fold CSS directly in the HTML head
+— Remove any third-party scripts that block rendering
+
+C) CACHE — potential savings of 3,775 KiB:
+— Add proper cache-control headers for all static assets (images, CSS, JS, fonts)
+— Set cache lifetime to at least 1 year for versioned assets
+— Use ETags for dynamic content
+
+D) IMAGES — potential savings of 802 KiB:
+— Convert ALL images to WebP format
+— Compress every image to under 100KB where possible
+— Add width and height attributes to every image to prevent layout shift
+— Add lazy loading to ALL images below the fold
+— Use srcset for responsive images on different screen sizes
+
+E) TOTAL BLOCKING TIME 266ms — fix this:
+— Split large JavaScript bundles into smaller chunks
+— Remove unused JavaScript and CSS
+— Defer all analytics and third-party scripts (Google Analytics, chat widget) to load after page is interactive
+
+F) TARGET MILESTONES TO ACHIEVE (UK users):
+— Time to First Byte: under 0.7s mobile, under 0.6s desktop
+— First Contentful Paint: under 1.4s mobile, under 1.1s desktop
+— Largest Contentful Paint: under 1.8s mobile, under 1.7s desktop
+— Speed Index: under 1.5s
+— Total Blocking Time: under 150ms
+
+G) ADDITIONAL SPEED FIXES:
+— Enable GZIP or Brotli compression on the server
+— Reduce DOM size — remove unnecessary nested elements
+— Eliminate forced reflow by avoiding reading layout properties during JavaScript execution
+— Optimise the network dependency chain — reduce critical request chains
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[2] SEO — FIX ALL AUDIT ERRORS — TARGET PAGE 1 ON GOOGLE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+The SEO audit shows 0 words on page, missing H1, missing H2, no keywords. Fix everything:
+
+A) H1 TAG — CRITICAL ERROR — ADD IMMEDIATELY:
+— Add ONE H1 tag to the home page: "Luxury Fashion UK — Stitched Suits, Levi's Jeans & Designer Accessories"
+— Every other page must also have exactly one H1 tag relevant to that page
+— H1 must contain the focus keyword for that page
+
+B) H2 TAGS — CRITICAL ERROR — ADD TO EVERY PAGE:
+— Home page H2s: "Nureh Collection", "Luxury Pret Collection", "Charizma Collection", "Shop Our Latest Products", "Customer Reviews", "Why Choose Luxe & Line"
+— Shop page H2: "All Products", "Filter by Category"
+— Each product page H2: product category name
+— About page H2: "Our Story", "Our Mission", "Why Luxe & Line"
+
+C) PAGE CONTENT — 0 WORDS DETECTED — CRITICAL:
+— The SEO audit detected ZERO words on the home page — Google cannot index content it cannot read
+— Add at least 300 words of visible, crawlable text to the home page
+— Add a section below the hero with text like: "Welcome to Luxe & Line — your destination for premium luxury fashion in the UK. We offer fully stitched suits from Nureh and Charizma collections, authentic Levi's jeans for women, designer leather wallets, and handcrafted Kunafa chocolates. All suits are fully stitched and ready to wear. Fast UK delivery available. Order via WhatsApp for personalised service."
+— Add similar descriptive text paragraphs to every collection section
+— Each product page must have at least 150 words of description
+
+D) REMOVE ALL PAKISTANI REFERENCES — URGENT:
+— Google is currently showing "Premium Pakistani Fashion & Clothing" and "South Asian fashion boutique based in Liverpool" in search results
+— Remove EVERY mention of Pakistani, Pakistan, South Asian, British Asian, Liverpool from:
+  • All meta titles and descriptions
+  • All Open Graph tags
+  • All JSON-LD structured data
+  • All page content and headings
+  • About page
+  • Terms and Conditions page
+  • Every other page on the site
+— Home page meta title must be exactly: "Luxe & Line | Luxury Stitched Suits & Fashion UK"
+— Home page meta description must be exactly (under 155 chars): "Shop premium luxury fashion at Luxe & Line UK. Fully stitched suits, Levi's jeans, designer wallets & Kunafa chocolates. Fast UK delivery. Order on WhatsApp."
+
+E) FOCUS KEYWORDS — ADD TO TITLE AND DESCRIPTION:
+— Home page focus keyword: "luxury fashion UK"
+— Include focus keyword in: meta title, meta description, H1, first paragraph of content
+— Shop page focus keyword: "buy luxury suits UK online"
+— Each product page focus keyword: product name + UK
+
+F) INTERNAL LINKS — CRITICAL ERROR:
+— Add internal links throughout the website
+— Every product on home page must link to its product page
+— Every section must have a "View All" link to the shop page
+— Footer must link to: Home, Shop, About, Blog, Reviews, Terms, Privacy
+— Blog posts must link to relevant product pages
+— About page must link to Shop page
+
+G) META TITLES — ALL UNDER 60 CHARACTERS:
+— Home: "Luxe & Line | Luxury Fashion UK" (31 chars) ✓
+— Shop: "Shop Luxury Fashion UK | Luxe & Line" (36 chars) ✓
+— About: "About Us | Luxe & Line UK Fashion" (33 chars) ✓
+— Every product: "[Product Name] UK | Luxe & Line"
+
+H) STRUCTURED DATA — ADD JSON-LD TO EVERY PAGE:
+— WebSite schema on home page with SearchAction
+— Organisation schema with name "Luxe & Line", url, logo, contactPoint (WhatsApp +44 7449 507661)
+— Product schema on every product page with name, description, price, image, availability, brand
+— BreadcrumbList schema on all inner pages
+
+I) TECHNICAL SEO:
+— Create complete sitemap.xml with ALL pages, products, blog posts, location pages
+— Create robots.txt allowing all pages
+— Add canonical tag to every page
+— Add Open Graph title, description, image, url to every page
+— Add Twitter Card meta tags to every page
+— Add keyword-rich alt text to EVERY image
+
+J) PROGRAMMATIC LOCATION PAGES — CREATE THESE:
+— /stitched-suits-london
+— /luxury-fashion-manchester
+— /designer-suits-birmingham
+— /buy-suits-online-leeds
+— /stitched-suits-uk
+Each page must have unique content, H1, H2, 250+ words, and link to relevant products
+
+K) BLOG — CREATE 4 SEO POSTS:
+— "How to Style Stitched Suits in the UK — 2026 Guide"
+— "Best Levi's Jeans for Women UK — Complete Buying Guide 2026"
+— "Top Luxury Fashion Gifts UK — Suits, Wallets & Chocolates"
+— "Kunafa Chocolates UK — The Perfect Luxury Gift"
+Each post: 500+ words, proper H1/H2/H3 structure, internal links to products, meta title and description
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[3] ACCESSIBILITY — FIX ALL ERRORS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+The audit shows accessibility score is n/a — these also affect SEO:
+
+— Add aria-label to every button that has no visible text
+— Add discernible names to all links (no empty  tags)
+— Fix colour contrast — ensure all text meets WCAG AA contrast ratio (4.5:1 minimum)
+— Fix heading hierarchy — headings must go H1 → H2 → H3 in order, never skip levels
+— Add alt text to every image
+— Add role and aria attributes to navigation elements
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[4] SECURITY HEADERS — ADD ALL MISSING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+The audit shows missing security headers. Add these to the server/vercel config:
+
+— X-Frame-Options: DENY (prevents clickjacking)
+— X-Content-Type-Options: nosniff (prevents content type sniffing)
+— Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://wa.me; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; frame-ancestors 'none'
+— Referrer-Policy: strict-origin-when-cross-origin
+— Permissions-Policy: camera=(), microphone=(), geolocation=()
+Add these headers in vercel.json headers configuration
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[5] MOBILE CHATBOT — FIX SIZE AND EXPERIENCE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+The chatbot currently opens full screen on mobile which is terrible UX. Fix it:
+
+— On mobile, chatbot must open as a small popup window in the bottom right corner
+— Maximum height: 60% of screen height
+— Maximum width: 90% of screen width
+— Must have a clear X close button at the top right
+— Chat input must be visible and easy to type in without the keyboard hiding it
+— Messages must be readable with proper font size (minimum 14px)
+— The chat bubble/icon must stay fixed at bottom right and not cover important content
+— On desktop keep the current size if it works fine
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[6] BEST PRACTICES — FIX ALL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Audit shows Best Practices score is n/a. Fix these:
+
+— Add charset meta tag to every page
+— Add viewport meta tag to every page
+— Ensure all pages use HTTPS
+— Remove any console errors from JavaScript
+— Ensure no mixed content (HTTP resources on HTTPS page)
+— Add rel="noopener noreferrer" to all external links
+— Ensure all forms have proper labels
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[7] FINAL VERIFICATION — CHECK EVERY FIX
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+After completing everything above, verify:
+
+SPEED:
+— Mobile PageSpeed score must be 90+
+— Desktop PageSpeed score must be 95+
+— LCP must be under 2.5s (currently 17.4s — reduce by 85%)
+— No render-blocking resources remaining
+
+SEO:
+— Every page has exactly one H1
+— Every page has multiple H2s
+— Home page has 300+ words of visible text
+— Zero mentions of Pakistani, Pakistan, South Asian, Liverpool anywhere
+— Google search snippet shows correct title and description
+— Sitemap.xml is complete and up to date
+— All images have alt text
+
+SECURITY:
+— All 5 security headers are in place
+— No mixed content warnings
+
+MOBILE:
+— Chatbot opens as small popup, not full screen
+— No horizontal scrolling on any page
+— All text readable without zooming
+
+Complete ALL 7 sections. Do not stop until every fix is done. Do not skip anything.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
