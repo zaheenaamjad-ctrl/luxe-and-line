@@ -49,7 +49,8 @@ function ProductCard({ product, delay = 0 }: {
   };
   delay?: number;
 }) {
-  const images = (product.images as string[]) ?? [];
+  const toWebP = (s: string) => s.replace(/\.(png|jpg|jpeg)$/i, ".webp");
+  const images = ((product.images as string[]) ?? []).map(toWebP);
   const [hovered, setHovered] = useState(false);
 
   return (

@@ -29,7 +29,8 @@ export function ProductDetail() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  const images = (product?.images ?? []) as string[];
+  const toWebP = (s: string) => s.replace(/\.(png|jpg|jpeg)$/i, ".webp");
+  const images = ((product?.images ?? []) as string[]).map(toWebP);
   const isShalwarKameez = product?.category === "shalwar-kameez";
   const isJeans = product?.category === "jeans";
   const originalPrice = product ? computeOriginalPrice(product.price) : null;
@@ -498,7 +499,7 @@ function RelatedProducts({ category, currentId }: { category: string; currentId:
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {related.map((p) => {
-            const imgs = (p.images as string[]) ?? [];
+            const imgs = ((p.images as string[]) ?? []).map((s: string) => s.replace(/\.(png|jpg|jpeg)$/i, ".webp"));
             return (
               <Link key={p.id} href={`/product/${p.id}`}>
                 <div className="group cursor-pointer">
