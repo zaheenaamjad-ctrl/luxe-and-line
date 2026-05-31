@@ -174,7 +174,7 @@ function VideoHero({ onExit }: { onExit: () => void }) {
           <video
             ref={(el) => { videoRefs.current[idx] = el; }}
             src={vid.src}
-            poster="/videos/hero-poster.webp"
+            poster="/videos/swan-poster.webp"
             className="absolute inset-0 w-full h-full object-contain sm:object-cover"
             muted
             loop
