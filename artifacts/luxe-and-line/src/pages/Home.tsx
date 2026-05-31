@@ -171,11 +171,21 @@ function VideoHero({ onExit }: { onExit: () => void }) {
             zIndex: videoIdx === idx ? 2 : 1,
           }}
         >
+          {/* Mobile: static poster — no video download on slow connections */}
+          <img
+            src="/videos/swan-poster.webp"
+            alt=""
+            width="1920"
+            height="1080"
+            fetchPriority="high"
+            className="absolute inset-0 w-full h-full object-cover block md:hidden"
+          />
+          {/* Desktop: autoplay video */}
           <video
             ref={(el) => { videoRefs.current[idx] = el; }}
             src={vid.src}
             poster="/videos/swan-poster.webp"
-            className="absolute inset-0 w-full h-full object-contain sm:object-cover"
+            className="absolute inset-0 w-full h-full object-contain sm:object-cover hidden md:block"
             muted
             loop
             playsInline
