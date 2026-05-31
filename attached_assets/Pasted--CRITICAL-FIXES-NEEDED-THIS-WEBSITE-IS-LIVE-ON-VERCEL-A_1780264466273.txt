@@ -1,0 +1,35 @@
+"CRITICAL FIXES NEEDED — THIS WEBSITE IS LIVE ON VERCEL AND CLOUDFLARE, NOT ON REPLIT. Every fix must be committed to GitHub so Vercel auto-deploys. Do not just save files locally. Commit and push EVERY change to GitHub immediately after fixing. Use minimum credits and work in parallel on all issues.
+PROBLEM 1 — 404 NOT_FOUND ON ALL DIRECT LINKS — STILL BROKEN:
+The vercel.json rewrite rule is still not working. Do this:
+— Open vercel.json RIGHT NOW and paste its exact contents in your response
+— Make sure it contains EXACTLY this and nothing else conflicting:
+{
+'version': 2,
+'rewrites': [{ 'source': '/(.*)', 'destination': '/index.html' }]
+}
+— Remove ANY 'routes', 'builds', or 'headers' that might be overriding rewrites
+— Commit and push to GitHub immediately
+— This is stopping customers from opening ANY product page directly
+PROBLEM 2 — WEBSITE OPENS FROM MIDDLE OF PAGE FOR 0.2 SECONDS:
+When the website loads, for 0.2 seconds it shows the middle of the page before jumping to the top. Fix this:
+— Add window.scrollTo(0, 0) at the very top of the App.tsx before anything renders
+— Add scroll-behavior: auto on html and body in CSS
+— Make sure the skeleton/poster covers the full viewport from the very top
+— The page must always start from the very top showing video 1 only
+PROBLEM 3 — GARDENIA MODEL VIDEO IS MISSING:
+The Gardenia by Nureh section model video (model-gardenia.mp4) is not showing. Fix this:
+— Check if model-gardenia.mp4 exists in the videos folder
+— If it was deleted during compression, restore it from the compressed version
+— Make sure the video source path in Home.tsx is correct and pointing to the right file
+— The Gardenia section must show its model video just like Charizma and Luxury Pret sections
+PROBLEM 4 — JEANS, WALLETS AND KUNAFA PRICES SHOWING WRONG COLOUR:
+Jeans, wallets and Kunafa chocolates prices are showing in purple colour instead of matching the suits style. Fix this:
+— The suits show white bold price text — apply the exact same price styling to ALL products including jeans, wallets and Kunafa chocolates
+— Find where the price colour is set for these product types and change to match suits styling exactly
+— This must be consistent across home page, shop page and all product pages
+PROBLEM 5 — JEANS AND WALLETS MISSING SALE BADGES:
+Jeans and wallets no longer show the red SALE badge that suits have. Fix this:
+— Add the same red SALE badge to all jeans products and all wallet products
+— The badge must appear in the same position as on suits — top right corner of product image
+— Match exactly the same style, size and colour as the suits SALE badge
+After ALL fixes are done — commit everything to GitHub with message 'Fix 404, scroll, video, prices and badges' and push immediately so Vercel deploys automatically."

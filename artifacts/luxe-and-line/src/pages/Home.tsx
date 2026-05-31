@@ -494,7 +494,7 @@ function NurehGardeniaSection() {
               muted
               loop
               playsInline
-              preload="none"
+              preload="metadata"
               className="w-full h-full object-cover"
             >
               <source src="/videos/model-gardenia.mp4" type="video/mp4" />
@@ -716,6 +716,7 @@ function JeansSection() {
                   <div className="relative overflow-hidden bg-card aspect-[2/3] mb-3">
                     <img src={item.img} alt={item.name} loading="lazy"
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 object-top" />
+                    <div className="absolute top-2 right-2 bg-red-600 text-white text-[9px] uppercase tracking-widest px-2 py-1 font-body font-bold shadow-lg z-10">SALE</div>
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                       <span className="text-white text-[9px] uppercase tracking-[0.2em] font-body border border-white/60 px-3 py-1.5">View</span>
                     </div>
@@ -725,7 +726,7 @@ function JeansSection() {
                   </div>
                   <p className="font-body text-xs text-foreground/80 group-hover:text-primary transition-colors leading-snug mb-0.5">{item.name}</p>
                   <p className="font-body text-[10px] text-muted-foreground leading-snug mb-1 line-clamp-2">{item.desc}</p>
-                  <p className="text-xs font-body text-primary font-medium mt-0.5 price-glow">£{item.price}</p>
+                  <p className="text-xs font-body text-white font-bold mt-0.5 price-glow">£{item.price}</p>
                 </div>
               </Link>
             </RevealSection>
@@ -767,13 +768,14 @@ function WalletsSection() {
                   <div className="relative overflow-hidden bg-card aspect-square mb-4">
                     <img src={item.img} alt={item.name} loading="lazy"
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <div className="absolute top-2 right-2 bg-red-600 text-white text-[9px] uppercase tracking-widest px-2 py-1 font-body font-bold shadow-lg z-10">SALE</div>
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                       <span className="text-white text-[9px] uppercase tracking-[0.2em] font-body border border-white/60 px-4 py-2">View</span>
                     </div>
                   </div>
                   <h3 className="font-serif text-lg text-foreground group-hover:text-primary transition-colors mb-1">{item.name}</h3>
                   <p className="text-xs font-body text-muted-foreground leading-relaxed mb-2">{item.desc}</p>
-                  <p className="font-serif text-xl text-primary price-glow">£{item.price}</p>
+                  <p className="font-serif text-xl text-white font-bold price-glow">£{item.price}</p>
                 </div>
               </Link>
             </RevealSection>
@@ -823,7 +825,7 @@ function KunafaSection() {
             <p className="font-body text-xs uppercase tracking-widest text-muted-foreground mb-3">
               B.C.C. Kunafa Chocolates · Premium Gift Box
             </p>
-            <p className="font-serif text-5xl text-primary price-glow mb-1">£22</p>
+            <p className="font-serif text-5xl text-white font-bold price-glow mb-1">£22</p>
             <p className="text-xs font-body text-muted-foreground mb-8">per box · UK delivery included</p>
             <LuxuryButton href="/product/8" dark testId="btn-kunafa-order">Order Kunafa Chocolates</LuxuryButton>
           </div>
