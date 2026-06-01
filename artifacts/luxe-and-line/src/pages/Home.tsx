@@ -96,18 +96,6 @@ function VideoHero({ onExit }: { onExit: () => void }) {
     });
   }, [videoIdx]);
 
-  // Mobile: video is hidden — use a timer to mimic video-end behaviour
-  useEffect(() => {
-    if (window.innerWidth >= 768) return;
-    const t = setTimeout(() => {
-      onExit();
-      setTimeout(() => {
-        document.getElementById('nureh-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 150);
-    }, 5000);
-    return () => clearTimeout(t);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
 
   const advance = useCallback(() => {
@@ -184,21 +172,12 @@ function VideoHero({ onExit }: { onExit: () => void }) {
             zIndex: videoIdx === idx ? 2 : 1,
           }}
         >
-          {/* Mobile: static poster — no video download on slow connections */}
-          <img
-            src="/videos/swan-poster.webp"
-            alt=""
-            width="1920"
-            height="1080"
-            fetchPriority="high"
-            className="absolute inset-0 w-full h-full object-cover block md:hidden"
-          />
-          {/* Desktop: autoplay video */}
           <video
             ref={(el) => { videoRefs.current[idx] = el; }}
             src={vid.src}
             poster="/videos/swan-poster.webp"
-            className="absolute inset-0 w-full h-full object-contain sm:object-cover hidden md:block"
+            className="absolute inset-0 w-full h-full object-cover"
+            autoPlay
             muted
             playsInline
             preload="auto"
