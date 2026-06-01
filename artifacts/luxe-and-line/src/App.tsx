@@ -118,6 +118,9 @@ function Router() {
 
 function App() {
   useEffect(() => {
+    document.documentElement.style.overflow = '';
+    document.documentElement.style.opacity = '';
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
     const sk = document.getElementById("app-skeleton");
     if (sk) {
       sk.style.transition = "opacity 0.4s ease";

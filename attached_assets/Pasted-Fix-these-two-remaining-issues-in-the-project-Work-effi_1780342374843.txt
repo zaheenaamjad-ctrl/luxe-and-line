@@ -1,0 +1,69 @@
+Fix these two remaining issues in the project. Work efficiently, make all changes, then commit and push to GitHub when done.
+
+═══════════════════════════════════════
+FIX 1 — WEBSITE OPENS FROM MIDDLE OF PAGE FOR 0.2 SECONDS ON LOAD
+═══════════════════════════════════════
+
+The page briefly flashes showing the middle/bottom of the page before jumping to the top. This is caused by browser scroll restoration happening before React mounts. Fix it with ALL of the following steps together:
+
+STEP A — In index.html, add this as the VERY FIRST script tag inside <head>, before ALL other tags including meta, title, links, and stylesheets:
+
+<script>
+  if (history.scrollRestoration) { history.scrollRestoration = 'manual'; }
+  window.scrollTo(0, 0);
+  document.documentElement.style.overflow = 'hidden';
+  document.documentElement.style.opacity = '0';
+</script>
+
+STEP B — In your main App.tsx (or App.jsx), inside the useEffect that runs on mount (empty dependency array []), add these lines AT THE START of the effect, before anything else:
+
+  document.documentElement.style.overflow = '';
+  document.documentElement.style.opacity = '';
+  window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+
+STEP C — In your global CSS file (index.css or App.css), add:
+
+html {
+  scroll-behavior: auto !important;
+}
+
+This completely hides the page until React has mounted at position 0,0, then instantly reveals it. No flash, no mid-page open.
+
+═══════════════════════════════════════
+FIX 2 — BUTTONS CANNOT OPEN LINKS IN A NEW TAB
+═══════════════════════════════════════
+
+Buttons that should open links are not opening in a new tab. This is because <button> elements cannot natively open new tabs — only <a> tags can. Fix every button that is supposed to open a URL in a new tab:
+
+STEP A — Find every button with an onClick that calls window.open() or navigates to a URL. Replace the <button> with a proper anchor tag styled as a button:
+
+WRONG (does not support new tab):
+<button onClick={() => window.open('https://...', '_blank')}>Label</button>
+
+CORRECT (supports right-click → open in new tab, middle-click, Ctrl+click):
+
+  href="https://YOUR_ACTUAL_URL_HERE"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="your-existing-button-classes"
+  style={{ display: 'inline-block', textDecoration: 'none' }}
+>
+  Label
+</a>
+
+STEP B — For any button that uses React Router navigation (internal links), replace with:
+
+import { Link } from 'react-router-dom';
+<Link to="/your-path" className="your-existing-button-classes">Label</Link>
+
+STEP C — Do NOT use window.open() for any link that should support new tab behavior. Replace all such instances.
+
+STEP D — Make sure no parent element has onClick with e.stopPropagation() or e.preventDefault() that could be blocking the anchor tag's default behavior.
+
+═══════════════════════════════════════
+AFTER ALL FIXES
+═══════════════════════════════════════
+
+Run: git add . && git commit -m "Fix scroll flash on load and open-in-new-tab for buttons" && git push
+
+Confirm the push was successful and list every file that was changed.

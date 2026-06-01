@@ -37,25 +37,24 @@ function LuxuryButton({
   testId?: string;
 }) {
   return (
-    <Link href={href}>
-      <button
-        data-testid={testId}
-        className={`luxury-btn group relative overflow-hidden inline-flex items-center gap-3 px-10 py-4 uppercase tracking-[0.25em] text-xs font-body font-medium transition-all duration-500 ${
-          dark
-            ? "bg-primary text-primary-foreground"
-            : "border border-white/60 text-white hover:border-primary"
-        }`}
-      >
-        <span className="relative z-10 flex items-center gap-3">
-          {children}
-          <ArrowRight
-            size={13}
-            className="group-hover:translate-x-1 transition-transform duration-300"
-          />
-        </span>
-        {/* Shimmer sweep */}
-        <span className="luxury-btn-shine" />
-      </button>
+    <Link
+      href={href}
+      data-testid={testId}
+      className={`luxury-btn group relative overflow-hidden inline-flex items-center gap-3 px-10 py-4 uppercase tracking-[0.25em] text-xs font-body font-medium transition-all duration-500 ${
+        dark
+          ? "bg-primary text-primary-foreground"
+          : "border border-white/60 text-white hover:border-primary"
+      }`}
+    >
+      <span className="relative z-10 flex items-center gap-3">
+        {children}
+        <ArrowRight
+          size={13}
+          className="group-hover:translate-x-1 transition-transform duration-300"
+        />
+      </span>
+      {/* Shimmer sweep */}
+      <span className="luxury-btn-shine" />
     </Link>
   );
 }
