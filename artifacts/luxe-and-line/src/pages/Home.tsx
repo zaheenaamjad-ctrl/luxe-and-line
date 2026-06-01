@@ -176,7 +176,7 @@ function VideoHero({ onExit }: { onExit: () => void }) {
             ref={(el) => { videoRefs.current[idx] = el; }}
             src={vid.src}
             poster="/videos/swan-poster.webp"
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-contain md:object-cover"
             autoPlay
             muted
             playsInline
