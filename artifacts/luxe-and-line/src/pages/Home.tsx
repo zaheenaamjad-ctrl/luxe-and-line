@@ -96,6 +96,19 @@ function VideoHero({ onExit }: { onExit: () => void }) {
     });
   }, [videoIdx]);
 
+  // Mobile: video is hidden — use a timer to mimic video-end behaviour
+  useEffect(() => {
+    if (window.innerWidth >= 768) return;
+    const t = setTimeout(() => {
+      onExit();
+      setTimeout(() => {
+        document.getElementById('nureh-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 150);
+    }, 5000);
+    return () => clearTimeout(t);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
 
   const advance = useCallback(() => {
     if (locked) return;
