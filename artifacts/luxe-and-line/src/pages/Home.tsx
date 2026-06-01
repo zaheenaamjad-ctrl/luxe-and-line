@@ -193,9 +193,19 @@ function VideoHero({ onExit }: { onExit: () => void }) {
             poster="/videos/swan-poster.webp"
             className="absolute inset-0 w-full h-full object-contain sm:object-cover hidden md:block"
             muted
-            loop
             playsInline
             preload="auto"
+            onEnded={() => {
+              onExit();
+              setTimeout(() => {
+                const next = document.getElementById('main-content');
+                if (next) {
+                  next.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else {
+                  window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+                }
+              }, 100);
+            }}
           />
           <div
             className="absolute inset-0"
@@ -1106,7 +1116,7 @@ export function Home() {
         }}
       >
         {/* SEO intro section — visible text for Google indexing */}
-        <section className="py-20 px-6 border-b border-border/30" style={{ background: "linear-gradient(180deg, hsl(265,30%,5%) 0%, hsl(265,28%,7%) 100%)" }}>
+        <section id="main-content" className="py-20 px-6 border-b border-border/30" style={{ background: "linear-gradient(180deg, hsl(265,30%,5%) 0%, hsl(265,28%,7%) 100%)" }}>
           <div className="max-w-4xl mx-auto text-center">
             <p className="text-[10px] uppercase tracking-[0.5em] text-primary font-body mb-5">Luxury Fashion UK</p>
             <h1 className="font-serif text-4xl md:text-5xl text-foreground mb-6 leading-tight">
