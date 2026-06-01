@@ -150,11 +150,11 @@ export function Shop() {
         />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
           <p className="text-[10px] uppercase tracking-[0.45em] font-body mb-5" style={{ color: GOLD }}>
-            Our Collection
+            Explore Our Range
           </p>
           <h1 className="font-serif mb-5 leading-none" style={{ fontSize: "clamp(3rem, 8vw, 7rem)" }}>
-            <span className="text-white">The </span>
-            <em style={{ color: GOLD }}>Edit</em>
+            <span className="text-white">Shop All </span>
+            <em style={{ color: GOLD }}>Collections</em>
           </h1>
           <div style={{ width: 80, height: 1, background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
         </div>

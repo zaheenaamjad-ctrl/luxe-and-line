@@ -63,11 +63,11 @@ export function Footer() {
             <h4 className="font-body text-[10px] uppercase tracking-[0.3em] text-primary mb-5 pb-3 border-b border-primary/25">Shop</h4>
             <ul className="space-y-3">
               {[
-                { href: "/shop?category=shalwar-kameez", label: "Shalwar Kameez" },
-                { href: "/shop?category=jeans", label: "Premium Jeans" },
-                { href: "/shop?category=wallets", label: "Leather Wallets" },
+                { href: "/shop?category=shalwar-kameez", label: "Stitched Suits" },
+                { href: "/shop?category=jeans", label: "Levi's Jeans" },
+                { href: "/shop?category=wallets", label: "Wallets" },
                 { href: "/shop?category=food", label: "Kunafa Chocolates" },
-                { href: "/shop", label: "All Collections" },
+                { href: "/shop", label: "Shop All" },
               ].map((item) => (
                 <li key={item.href}>
                   <Link href={item.href} className="font-body text-xs text-muted-foreground hover:text-primary transition-colors hover:pl-1 inline-block" style={{ transitionProperty: "color, padding-left" }}>

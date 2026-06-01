@@ -1,0 +1,101 @@
+⚠️ CRITICAL RULES — READ BEFORE STARTING:
+— This website is LIVE on Vercel + Cloudflare at luxeandline.uk. Replit is only the code editor.
+— Every single fix MUST be committed and pushed to GitHub after completion so Vercel auto-deploys.
+— Use MINIMUM credits. Work in parallel on all fixes at the same time.
+— Do NOT rebuild anything new. Only fix existing issues.
+— After all fixes, run: git add . && git commit -m "Fix 404, mobile video, scroll, nav, shop" && git push
+— Do not stop until everything is pushed to GitHub.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[1] 404 ERROR — STILL BROKEN ON ALL DIRECT LINKS — MOST URGENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Clicking ANY button or link that opens a new page still gives 404 NOT_FOUND. The vercel.json fix is not working. Fix this permanently now:
+
+— Open vercel.json and show me its EXACT current contents
+— The file must contain ONLY this — nothing else, no headers, no builds, no routes:
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
+— If there is ANYTHING else in vercel.json (headers, cache rules, builds, routes) — DELETE IT. Keep only the rewrites rule above.
+— Also check if there is a _redirects file in the public folder — if not, create one with this single line:
+/* /index.html 200
+— This is a Netlify/Vercel fallback that catches any route not handled by vercel.json
+— Commit and push to GitHub immediately after this fix
+— The 4 shop buttons (Shop Stitched Suits, Shop Levi's Jeans, Shop Wallets, View All Collections) must work without 404
+— Opening any product page in a new tab must work without 404
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[2] MOBILE — WEBSITE OPENS WITH BLANK BLACK SCREEN INSTEAD OF VIDEO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+On mobile, when the website loads it shows a blank black/empty background for 1-2 seconds before anything appears. Fix this:
+
+— On mobile (under 768px) the hero section currently shows NO video and NO image for the first seconds
+— Make sure swan-poster.webp shows IMMEDIATELY on mobile as a full screen background image before anything else loads
+— The poster image must be set as the CSS background-image of the hero section on mobile with background-size: cover and background-position: center
+— Add it as an inline style so it renders before any CSS files load
+— On desktop the video plays as normal — do not change desktop behaviour
+— The hero section must NEVER show a blank black screen on any device
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[3] AUTO SCROLL WITH ANIMATED SCROLL BUTTON
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+After the hero video/poster section, add a smooth auto-scroll experience:
+
+A) ANIMATED SCROLL DOWN BUTTON:
+— Add a bouncing animated arrow/chevron button at the bottom of the hero section
+— Style it as a small white or gold animated chevron pointing downward
+— It must bounce up and down continuously using CSS animation to draw attention
+— When clicked/tapped it smoothly scrolls to the first text/content section below the hero
+— It must be visible on both mobile and desktop
+
+B) AUTO SCROLL BEHAVIOUR:
+— After the hero video finishes playing (or after 6 seconds on mobile where there is no video), automatically smooth-scroll to the first content section below the hero
+— The auto scroll must be smooth — use scroll-behavior: smooth
+— Use JavaScript: setTimeout(() => { document.getElementById('content-section').scrollIntoView({ behavior: 'smooth' }) }, 6000)
+— The auto scroll should feel natural — not jarring or sudden
+— If the user has already scrolled manually, do NOT auto scroll (check window.scrollY before triggering)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[4] SHOP PAGE — CHANGE "THE EDIT" HEADING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+The shop page currently shows "OUR COLLECTION — The Edit" as a heading. Change this to:
+— Small text above: "EXPLORE OUR RANGE"
+— Large heading: "Shop All Collections"
+— Keep the same font styling and gold/white colour scheme — just change the text content
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[5] BOTTOM NAVIGATION CATEGORY NAMES — FIX ALL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+The bottom/footer navigation shows these category names which are wrong or not working:
+— "Shalwar Kameez" — change to "Stitched Suits"
+— "Premium Jeans" — change to "Levi's Jeans"
+— "Leather Wallets" — change to "Wallets"
+— "Kunafa Chocolates" — keep this name ✅
+— "All Collections" — change to "Shop All"
+
+Also make sure every single one of these links works correctly and navigates to the right filtered shop page. They must NOT give 404. Fix the link/route for each one.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[6] HERO BUTTONS — FIX ALL 4 SHOP BUTTONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+The 4 buttons on the hero section are giving 404:
+— "SHOP STITCHED SUITS" button
+— "SHOP LEVI'S JEANS" button
+— "SHOP WALLETS" button
+— "VIEW ALL COLLECTIONS" button
+
+Fix all 4 buttons so they navigate correctly to the shop page with the right category filter applied. Use React Router links — not anchor tags with href. Make sure the routes exist and do not 404.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FINAL — AFTER ALL FIXES:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+— Run TypeScript check — fix any errors
+— Run: git add . && git commit -m "Fix 404, mobile video, scroll, nav, shop headings and buttons" && git push
+— Confirm push was successful
+— List every file that was changed
+
+Do NOT stop until GitHub push is confirmed successful.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

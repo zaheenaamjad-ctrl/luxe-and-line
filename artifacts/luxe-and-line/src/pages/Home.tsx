@@ -97,6 +97,13 @@ function VideoHero({ onExit }: { onExit: () => void }) {
     });
   }, [videoIdx]);
 
+  // Auto-exit after 6 s if user hasn't interacted (helpful on mobile where video doesn't auto-play)
+  useEffect(() => {
+    const t = setTimeout(() => { if (stage === 0) onExit(); }, 6000);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const advance = useCallback(() => {
     if (locked) return;
     const now = Date.now();
@@ -152,7 +159,7 @@ function VideoHero({ onExit }: { onExit: () => void }) {
   return (
     <div
       className="fixed inset-0 z-50 bg-black overflow-hidden"
-      style={{ touchAction: "none" }}
+      style={{ touchAction: "none", backgroundImage: "url('/videos/swan-poster.webp')", backgroundSize: "cover", backgroundPosition: "center" }}
     >
       {/* Videos */}
       {VIDEOS.map((vid, idx) => (
@@ -298,17 +305,19 @@ function VideoHero({ onExit }: { onExit: () => void }) {
         ))}
       </div>
 
-      {/* Scroll indicator — always visible, changes label */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-3 pointer-events-auto">
+      {/* Bouncing scroll-down chevron */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 pointer-events-auto">
         <button
           aria-label={showText ? "Proceed to next section" : "Scroll to reveal content"}
-          className="scroll-indicator cursor-pointer bg-transparent border-0 p-0 focus:outline-none focus:ring-2 focus:ring-primary"
+          className="cursor-pointer bg-transparent border-0 p-0 focus:outline-none animate-bounce"
           onClick={advance}
         >
-          <div className="scroll-line" />
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 12L16 20L24 12" stroke="rgba(255,255,255,0.75)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
         </button>
         <span className="text-[9px] uppercase tracking-[0.4em] font-body text-white/35" aria-hidden="true">
-          {stage === 5 ? "Enter" : showText ? "Next" : "Scroll"}
+          {showText ? "Next" : "Scroll"}
         </span>
       </div>
 
@@ -1116,10 +1125,10 @@ export function Home() {
               Beyond clothing, Luxe &amp; Line curates a selection of premium Atrix genuine leather wallets — available in accordion and snap-button styles in brown and beige — and our exclusive Kunafa chocolates by B.C.C, filled with rich pistachio in premium chocolate. Whether you are looking for a gift, a treat, or a statement outfit, Luxe &amp; Line delivers quality and luxury to your door across the UK. Free delivery is included on everything we sell.
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
-              <a href="/shop?category=shalwar-kameez" className="text-[10px] uppercase tracking-widest font-body text-primary border border-primary/40 px-5 py-2.5 hover:bg-primary/10 transition-colors">Shop Stitched Suits</a>
-              <a href="/shop?category=jeans" className="text-[10px] uppercase tracking-widest font-body text-primary border border-primary/40 px-5 py-2.5 hover:bg-primary/10 transition-colors">Shop Levi's Jeans</a>
-              <a href="/shop?category=wallets" className="text-[10px] uppercase tracking-widest font-body text-primary border border-primary/40 px-5 py-2.5 hover:bg-primary/10 transition-colors">Shop Wallets</a>
-              <a href="/shop" className="text-[10px] uppercase tracking-widest font-body text-white px-5 py-2.5 transition-all hover:opacity-90" style={{ background: "linear-gradient(135deg, hsl(270,80%,65%), hsl(270,60%,48%))" }}>View All Collections</a>
+              <Link href="/shop?category=shalwar-kameez" className="text-[10px] uppercase tracking-widest font-body text-primary border border-primary/40 px-5 py-2.5 hover:bg-primary/10 transition-colors">Shop Stitched Suits</Link>
+              <Link href="/shop?category=jeans" className="text-[10px] uppercase tracking-widest font-body text-primary border border-primary/40 px-5 py-2.5 hover:bg-primary/10 transition-colors">Shop Levi's Jeans</Link>
+              <Link href="/shop?category=wallets" className="text-[10px] uppercase tracking-widest font-body text-primary border border-primary/40 px-5 py-2.5 hover:bg-primary/10 transition-colors">Shop Wallets</Link>
+              <Link href="/shop" className="text-[10px] uppercase tracking-widest font-body text-white px-5 py-2.5 transition-all hover:opacity-90" style={{ background: "linear-gradient(135deg, hsl(270,80%,65%), hsl(270,60%,48%))" }}>View All Collections</Link>
             </div>
           </div>
         </section>
