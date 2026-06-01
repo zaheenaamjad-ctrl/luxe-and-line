@@ -96,12 +96,6 @@ function VideoHero({ onExit }: { onExit: () => void }) {
     });
   }, [videoIdx]);
 
-  // Auto-exit after 6 s if user hasn't interacted (helpful on mobile where video doesn't auto-play)
-  useEffect(() => {
-    const t = setTimeout(() => { if (stage === 0) onExit(); }, 6000);
-    return () => clearTimeout(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const advance = useCallback(() => {
     if (locked) return;
@@ -198,13 +192,8 @@ function VideoHero({ onExit }: { onExit: () => void }) {
             onEnded={() => {
               onExit();
               setTimeout(() => {
-                const next = document.getElementById('main-content');
-                if (next) {
-                  next.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                } else {
-                  window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
-                }
-              }, 100);
+                document.getElementById('nureh-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }, 150);
             }}
           />
           <div
@@ -1084,13 +1073,12 @@ export function Home() {
         scrollToNureh.current = true;
         return true;
       }
-      return sessionStorage.getItem("luxe_hero_done") === "1";
-    } catch { return false; }
+    } catch {}
+    return false;
   });
   useRevealOnScroll();
 
   const handleVideoExit = useCallback(() => {
-    try { sessionStorage.setItem("luxe_hero_done", "1"); } catch {}
     setVideoDone(true);
   }, []);
 
