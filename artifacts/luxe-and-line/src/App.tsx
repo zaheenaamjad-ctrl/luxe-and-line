@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect } from "react";
 import { Switch, Route, Router as WouterRouter, Redirect } from "wouter";
+import { usePageTracking } from "@/hooks/usePageTracking";
 import { getAuthUser } from "@/lib/auth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -71,6 +72,7 @@ const queryClient = new QueryClient({
 });
 
 function Router() {
+  usePageTracking();
   return (
     <Layout>
       <Suspense fallback={<PageLoader />}>
