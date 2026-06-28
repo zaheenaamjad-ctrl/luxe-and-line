@@ -4,6 +4,19 @@
 
 html {
   scroll-behavior: auto !important;
+  /* Prevent iOS from auto-scaling text on orientation change */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Remove the blue tap-highlight flash on iOS/Android */
+*, *::before, *::after {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Eliminate the 300ms click delay on touch devices */
+a, button, [role="button"], input, select, textarea, label, summary {
+  touch-action: manipulation;
 }
 
 @custom-variant dark (&:is(.dark *));

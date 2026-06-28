@@ -62,11 +62,26 @@ export default defineConfig({
     fs: {
       strict: true,
     },
+    headers: {
+      // Applied to all dev-server responses including the HTML shell
+      "X-Content-Type-Options": "nosniff",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=(), usb=()",
+      "Cross-Origin-Opener-Policy": "same-origin-allow-popups",
+      // Note: X-Frame-Options intentionally omitted — Replit preview runs in an iframe
+    },
   },
   preview: {
     port,
     host: "0.0.0.0",
     allowedHosts: true,
+    headers: {
+      "X-Content-Type-Options": "nosniff",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=(), usb=()",
+      "X-Frame-Options": "DENY",
+      "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+    },
   },
   define: {
     // Expose GOOGLE_CLIENT_ID (set as server secret) to the Vite client bundle

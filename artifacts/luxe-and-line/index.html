@@ -11,6 +11,12 @@
     <meta name="author" content="Luxe &amp; Line" />
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
     <meta name="theme-color" content="#0D1117" />
+    <!-- Dark colour scheme — prevents white flash on mobile before CSS loads -->
+    <meta name="color-scheme" content="dark" />
+    <!-- Prevent iOS from auto-linking plain-text phone/address/email strings -->
+    <meta name="format-detection" content="telephone=no, address=no, email=no" />
+    <!-- Windows tile colour -->
+    <meta name="msapplication-TileColor" content="#0D1117" />
     <link rel="canonical" href="https://www.luxeandline.uk/" />
 
     <!-- Open Graph -->
@@ -37,6 +43,9 @@
     <!-- Fonts: non-blocking link (moved from CSS @import which was render-blocking) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Preconnect for Google Sign-In (reduces latency on /admin) -->
+    <link rel="preconnect" href="https://accounts.google.com" />
+    <link rel="preconnect" href="https://gsi.gstatic.com" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" media="print" onload="this.media='all'" />
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" /></noscript>
     <link rel="dns-prefetch" href="https://images.unsplash.com" />

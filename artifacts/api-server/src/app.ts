@@ -11,13 +11,42 @@ const app: Express = express();
 
 // Security headers
 app.use((_req: Request, res: Response, next: NextFunction) => {
+  // Prevent clickjacking
   res.setHeader("X-Frame-Options", "DENY");
+  // Prevent MIME sniffing
   res.setHeader("X-Content-Type-Options", "nosniff");
+  // Limit referrer information
   res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
-  res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+  // Restrict browser features
+  res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=()");
+  // HSTS: enforce HTTPS for 1 year, include subdomains, submit to preload list
+  res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
+  // Allow Google Sign-In popup without breaking security isolation
+  res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
+  // Prevent cross-origin embedding of API resources
+  res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+  // Comprehensive CSP:
+  //  - media-src: required for <video> elements
+  //  - frame-src: required for Google Sign-In popup
+  //  - worker-src: required for Vite HMR in dev / any service workers
+  //  - connect-src: all GA4 + GTM domains required for analytics
+  //  - base-uri / form-action: defence-in-depth against injection
   res.setHeader(
     "Content-Security-Policy",
-    "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://accounts.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com; frame-ancestors 'none'"
+    [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://accounts.google.com https://gsi.gstatic.com",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "font-src 'self' https://fonts.gstatic.com",
+      "img-src 'self' data: blob: https:",
+      "media-src 'self' blob:",
+      "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://region1.google-analytics.com",
+      "frame-src https://accounts.google.com",
+      "worker-src 'self' blob:",
+      "base-uri 'self'",
+      "form-action 'self'",
+      "frame-ancestors 'none'",
+    ].join("; ")
   );
   next();
 });
