@@ -511,7 +511,7 @@ function NurehGardeniaSection() {
           eyebrow="Gardenia by Nurèh · Summer 2026 New Arrival"
           title="Nureh Collection"
           italic="Fully Stitched Luxury Suits"
-          desc="Embroidered and printed lawn collection with embroidered chiffon dupatta — by Riaz Arts. 10 piece set. Fully stitched and ready to wear. Available in sizes S, M, L, XL, XXL. UK delivery included."
+          desc="Embroidered cotton lawn collection with chiffon dupatta — by Riaz Arts. 10 fully stitched, ready-to-wear women's suits in premium lawn fabric. Sizes S, M, L, XL, XXL. Free UK delivery included."
         />
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 mb-14">
@@ -581,7 +581,7 @@ function ZeenatSection() {
           eyebrow="Luxury Pret Collection · Summer 2026 New Arrival"
           title="Luxury Pret Collection"
           italic="Ready to Wear Elegance"
-          desc="Luxury Pret Stitched Cotton Lawn Vol-1 — Embroidered lawn with fancy chiffon dupatta. 10 designs · Fully stitched and ready to wear · Sizes S, M, L, XL, XXL · UK delivery included."
+          desc="Affordable luxury in embroidered cotton lawn with fancy chiffon dupatta. 10 fully stitched, ready-to-wear women's suits — premium quality at an accessible price. Sizes S, M, L, XL, XXL. Free UK delivery."
         />
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 mb-14">
@@ -651,10 +651,10 @@ function CharizmaSection() {
         </RevealSection>
 
         <CatalogHeading
-          eyebrow="Charizma · Summer 2026 New Arrival"
+          eyebrow="Charizma Sun Shine · Summer 2026 New Arrival"
           title="Charizma Collection"
           italic="Premium Designer Suits"
-          desc="Charizma Sun Shine Stitched Embroidered Lawn Suit Collection with Embroidered Chiffon Dupatta Vol.01. 3-piece stitched suit — ready to wear. UK delivery included."
+          desc="Charizma Sun Shine Vol.01 — premium embroidered lawn 3-piece stitched suit with embroidered chiffon dupatta. Fully stitched and ready to wear. Free UK delivery on every order."
         />
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 mb-14">
@@ -702,10 +702,10 @@ function JeansSection() {
     >
       <div className="max-w-7xl mx-auto">
         <CatalogHeading
-          eyebrow="Levi's Premium Denim · Men & Women"
+          eyebrow="Levi's Premium Denim · Authentic & Original"
           title="Levi's Jeans"
           italic="Collection"
-          desc="Authentic Levi's wide-leg and straight-cut silhouettes for men and women. Available in light blue, mid blue and charcoal washes. Custom waist × length sizing — just let us know your measurements. UK delivery included."
+          desc="Authentic Levi's wide-leg and straight-cut jeans for women. Available in light blue, mid blue and charcoal washes. Custom waist × length sizing — WhatsApp us your measurements. Free UK delivery on every pair."
         />
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-14">
           {JEANS_ITEMS.map((item, i) => (
@@ -754,10 +754,10 @@ function WalletsSection() {
     >
       <div className="max-w-7xl mx-auto">
         <CatalogHeading
-          eyebrow="Atrix Leather · Handcrafted"
+          eyebrow="Atrix Leather · Genuine Leather Accessories"
           title="Leather Wallets"
           italic="by Atrix"
-          desc="Genuine leather accordion card wallets. Zip-around and snap-button styles. Available in brown and beige. Each wallet holds 8+ cards. Premium everyday carry — £12 each."
+          desc="Atrix genuine leather wallets — zip-around accordion and snap-button styles in brown and beige. Holds 8+ cards. A premium everyday carry or luxury gift, UK-delivered from £12."
         />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-14">
           {WALLET_ITEMS.map((item, i) => (
@@ -807,7 +807,7 @@ function KunafaSection() {
           eyebrow="B.C.C. · Premium Confectionery"
           title="Kunafa Chocolates"
           italic="by B.C.C."
-          desc="Artisan Kunafa Chocolates — rich pistachio filling encased in crispy pastry, crafted with premium chocolate and authentic flavours. Individually wrapped — perfect as a gift or indulgence. UK delivery included."
+          desc="Handcrafted Kunafa Chocolates by B.C.C — pistachio-filled crispy pastry enrobed in premium chocolate. Individually wrapped and perfect as a luxury gift or personal indulgence. Free UK delivery."
         />
         <RevealSection>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 max-w-3xl mx-auto">
@@ -942,16 +942,24 @@ const MINI_REVIEWS = [
 
 const MINI_FAQS = [
   {
-    q: "How long does delivery take?",
-    a: "All orders are delivered within 4–5 business days after payment. Free UK delivery is included on every item — no hidden charges.",
+    q: "How long does delivery take across the UK?",
+    a: "All orders are delivered within 4–5 business days after payment confirmation. Free UK delivery is included on every item — no hidden charges at checkout.",
   },
   {
     q: "Are the suits ready to wear?",
-    a: "Yes! All shalwar kameez suits are fully stitched and ready to wear immediately. They are available in sizes S, M, L, XL and XXL. For Levi's jeans, we offer custom waist × length sizing — just WhatsApp us on +44 7449 507661.",
+    a: "Yes — all shalwar kameez suits are fully stitched and ready to wear immediately. Available in sizes S, M, L, XL and XXL. For Levi's jeans, we offer custom waist × length sizing; just WhatsApp us on +44 7449 507661.",
   },
   {
     q: "What payment methods do you accept?",
-    a: "We accept Bank Transfer and Cash on Delivery (COD). Payment details are shown at checkout after you place your order.",
+    a: "We accept Bank Transfer and Cash on Delivery (COD). Payment details are provided once your order is placed. Bank transfers are confirmed before dispatch.",
+  },
+  {
+    q: "Which brands do you stock?",
+    a: "We carry Nureh Gardenia, Charizma Sun Shine, and Luxury Pret embroidered lawn suit collections, authentic Levi's jeans, Atrix genuine leather wallets, and handcrafted Kunafa chocolates — all available online with free UK delivery.",
+  },
+  {
+    q: "Do you accept returns or exchanges?",
+    a: "Yes — returns and exchanges are accepted within 7 days of delivery, provided items are unworn and in original packaging. Contact us via WhatsApp on +44 7449 507661 or at hello@luxeandline.uk to arrange.",
   },
 ];
 
@@ -1146,13 +1154,13 @@ export function Home() {
             </h1>
             <div className="mx-auto mb-8" style={{ width: 100, height: 1, background: "linear-gradient(90deg, transparent, hsl(270,80%,65%), transparent)" }} />
             <p className="font-body text-base text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-6">
-              Welcome to Luxe &amp; Line — your destination for premium luxury fashion in the UK. We offer fully stitched suits from the Nureh Gardenia and Charizma Sunshine collections, authentic Levi's jeans for women, genuine Atrix leather wallets, and handcrafted Kunafa chocolates. All suits are fully stitched and ready to wear. Fast UK delivery available on every order. Order via WhatsApp for personalised service.
+              Welcome to Luxe &amp; Line — an online luxury fashion boutique based in the UK. We specialise in fully stitched women's suits from the Nureh Gardenia and Charizma Sun Shine collections, authentic Levi's jeans, genuine Atrix leather wallets, and handcrafted Kunafa chocolates. Everything is ready to wear and priced with free UK delivery included — no hidden charges, no surprises.
             </p>
             <p className="font-body text-sm text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-6">
-              Our Nureh Gardenia Summer 2026 collection features 10 stunning embroidered lawn suits with chiffon dupattas — each piece beautifully crafted and ready to wear. The Luxury Pret Vol-1 range offers elegant embroidered cotton lawn at an exceptional price point, while our Charizma Sunshine collection brings vibrant summer prints to your wardrobe. Every suit is available in sizes S, M, L, XL and XXL, with UK delivery included in the price.
+              Our Nureh Gardenia Summer 2026 collection features 10 embroidered lawn suits with chiffon dupattas — premium, ready-to-wear women's clothing crafted to the highest standard. The Luxury Pret Vol-1 range delivers affordable luxury in embroidered cotton lawn, while Charizma Sun Shine brings vibrant summer prints to your wardrobe. All stitched suits are available in sizes S, M, L, XL and XXL.
             </p>
             <p className="font-body text-sm text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-8">
-              Beyond clothing, Luxe &amp; Line curates a selection of premium Atrix genuine leather wallets — available in accordion and snap-button styles in brown and beige — and our exclusive Kunafa chocolates by B.C.C, filled with rich pistachio in premium chocolate. Whether you are looking for a gift, a treat, or a statement outfit, Luxe &amp; Line delivers quality and luxury to your door across the UK. Free delivery is included on everything we sell.
+              Beyond clothing, we curate Atrix genuine leather wallets in accordion and snap-button styles, and artisan Kunafa chocolates by B.C.C — pistachio-filled and premium-wrapped. Whether you're searching for a statement outfit, a luxury gift, or quality everyday accessories, Luxe &amp; Line is your trusted UK destination for affordable luxury fashion delivered free to your door.
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
               <Link href="/shop?category=shalwar-kameez" className="text-[10px] uppercase tracking-widest font-body text-primary border border-primary/40 px-5 py-2.5 hover:bg-primary/10 transition-colors">Shop Stitched Suits</Link>

@@ -6,10 +6,24 @@ import { Filter, ArrowRight } from "lucide-react";
 const CATEGORIES = [
   { value: "", label: "All Products" },
   { value: "shalwar-kameez", label: "Shalwar Kameez" },
-  { value: "jeans", label: "Jeans" },
+  { value: "jeans", label: "Levi's Jeans" },
   { value: "wallets", label: "Wallets" },
   { value: "food", label: "Gourmet" },
 ];
+
+const CATEGORY_HEADING: Record<string, string> = {
+  "shalwar-kameez": "Stitched Suits — Shalwar Kameez",
+  jeans: "Levi's Jeans — Premium Denim",
+  wallets: "Leather Wallets & Accessories",
+  food: "Kunafa Chocolates & Artisan Gifts",
+};
+
+const CATEGORY_SUBTITLE: Record<string, string> = {
+  "shalwar-kameez": "fully stitched, ready-to-wear women's suits · free UK delivery",
+  jeans: "authentic Levi's denim · custom sizing available · free UK delivery",
+  wallets: "genuine leather · premium everyday carry · free UK delivery",
+  food: "handcrafted artisan chocolates · luxury gifting · free UK delivery",
+};
 
 const GOLD = "hsl(43,65%,50%)";
 
@@ -255,10 +269,10 @@ export function Shop() {
         {!isLoading && products && (
           <>
             <h2 className="font-serif text-2xl text-foreground mb-2">
-              {activeCategory ? activeCategory.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase()) : "All Products"}
+              {activeCategory ? (CATEGORY_HEADING[activeCategory] ?? activeCategory.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())) : "All Collections"}
             </h2>
             <p className="text-xs font-body text-muted-foreground mb-8 tracking-widest uppercase">
-              {products.length} {activeCategory ? activeCategory.replace(/-/g, " ") : "items in collection"}
+              {products.length} {activeCategory ? (CATEGORY_SUBTITLE[activeCategory] ?? activeCategory.replace(/-/g, " ")) : "premium products · free UK delivery on all orders"}
             </p>
           </>
         )}
