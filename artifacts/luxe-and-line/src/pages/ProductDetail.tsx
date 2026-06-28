@@ -76,6 +76,75 @@ export function ProductDetail() {
     return () => el.removeEventListener("wheel", onWheel);
   }, []);
 
+  /* SEO: title, meta description, canonical, OG tags, JSON-LD Product schema */
+  useEffect(() => {
+    if (!product) return;
+    const imgs = ((product.images ?? []) as string[]).map((s: string) => s.replace(/\.(png|jpg|jpeg)$/i, ".webp"));
+    const ogImg = imgs[0] ? `https://www.luxeandline.uk${imgs[0]}` : "https://www.luxeandline.uk/opengraph.jpg";
+    const desc = ((product.description ?? "").slice(0, 155)) || `Buy ${product.name} at Luxe & Line UK. Premium luxury fashion with free UK delivery.`;
+    const url = `https://www.luxeandline.uk/product/${product.id}`;
+
+    const prevTitle = document.title;
+    document.title = `${product.name} | Luxe & Line`;
+
+    let metaDesc = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
+    if (!metaDesc) { metaDesc = document.createElement("meta"); metaDesc.name = "description"; document.head.appendChild(metaDesc); }
+    const prevDesc = metaDesc.content;
+    metaDesc.content = desc;
+
+    let canon = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    if (!canon) { canon = document.createElement("link"); canon.rel = "canonical"; document.head.appendChild(canon); }
+    const prevCanon = canon.href;
+    canon.href = url;
+
+    const upsertMeta = (attr: string, val: string, content: string) => {
+      let el = document.querySelector(`meta[${attr}="${val}"]`) as HTMLMetaElement | null;
+      if (!el) { el = document.createElement("meta"); el.setAttribute(attr, val); document.head.appendChild(el); }
+      el.content = content;
+    };
+    upsertMeta("property", "og:title", `${product.name} | Luxe & Line`);
+    upsertMeta("property", "og:description", desc);
+    upsertMeta("property", "og:url", url);
+    upsertMeta("property", "og:type", "product");
+    upsertMeta("property", "og:image", ogImg);
+    upsertMeta("name", "twitter:title", `${product.name} | Luxe & Line`);
+    upsertMeta("name", "twitter:description", desc);
+    upsertMeta("name", "twitter:image", ogImg);
+
+    const SCHEMA_ID = "product-schema-jsonld";
+    document.getElementById(SCHEMA_ID)?.remove();
+    const script = document.createElement("script");
+    script.id = SCHEMA_ID;
+    script.type = "application/ld+json";
+    script.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "@id": url,
+      name: product.name,
+      description: product.description ?? "",
+      image: imgs.map(img => `https://www.luxeandline.uk${img}`),
+      brand: { "@type": "Brand", name: "Luxe & Line" },
+      offers: {
+        "@type": "Offer",
+        price: product.price,
+        priceCurrency: "GBP",
+        availability: "https://schema.org/InStock",
+        url,
+        seller: { "@type": "Organization", name: "Luxe & Line" },
+      },
+    });
+    document.head.appendChild(script);
+
+    return () => {
+      document.title = prevTitle;
+      const md = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
+      if (md) md.content = prevDesc;
+      const cl = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+      if (cl) cl.href = prevCanon;
+      document.getElementById(SCHEMA_ID)?.remove();
+    };
+  }, [product]);
+
   const handleImgMouseDown = useCallback((e: React.MouseEvent) => {
     imgDragging.current = true;
     imgDragStart.current = { x: e.clientX, y: e.clientY, px: imgPos.x, py: imgPos.y };

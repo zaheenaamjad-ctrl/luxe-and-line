@@ -46,11 +46,7 @@ const BuySuitsOnlineLeeds = lazy(() => import("@/pages/locations/BuySuitsOnlineL
 const StitchedSuitsUK = lazy(() => import("@/pages/locations/StitchedSuitsUK").then((m) => ({ default: m.StitchedSuitsUK })));
 
 function PageLoader() {
-  return (
-    <div className="min-h-[60vh] flex items-center justify-center">
-      <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
-    </div>
-  );
+  return null;
 }
 
 const ADMIN_EMAILS = new Set(["syedimad348@gmail.com", "zaheenaamjad@gmail.com"]);

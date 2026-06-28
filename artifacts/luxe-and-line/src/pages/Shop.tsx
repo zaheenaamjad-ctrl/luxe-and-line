@@ -128,6 +128,29 @@ export function Shop() {
     try { sessionStorage.setItem("luxe_from_shop", "1"); } catch {}
   }, []);
 
+  useEffect(() => {
+    const LABELS: Record<string, { title: string; desc: string }> = {
+      "shalwar-kameez": { title: "Stitched Suits", desc: "Shop fully stitched luxury suits from Nureh Gardenia, Charizma and Zeenat collections at Luxe & Line UK. Free UK delivery." },
+      jeans: { title: "Levi's Jeans", desc: "Shop authentic Levi's jeans for women at Luxe & Line UK. Premium denim with free UK delivery." },
+      wallets: { title: "Wallets", desc: "Shop genuine leather wallets at Luxe & Line UK — accordion and snap-button styles. Free UK delivery." },
+      food: { title: "Kunafa Chocolates", desc: "Shop handcrafted pistachio Kunafa chocolates at Luxe & Line UK. Free UK delivery." },
+    };
+    const lbl = activeCategory ? LABELS[activeCategory] : null;
+    const prevTitle = document.title;
+    document.title = lbl ? `${lbl.title} | Shop | Luxe & Line` : "Shop All Collections | Luxe & Line";
+    let metaDesc = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
+    const prevDesc = metaDesc?.content ?? "";
+    if (metaDesc) metaDesc.content = lbl?.desc ?? "Shop all luxury fashion at Luxe & Line UK — stitched suits, Levi's jeans, wallets and Kunafa chocolates. Free UK delivery.";
+    let canon = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    const prevCanon = canon?.href ?? "";
+    if (canon) canon.href = activeCategory ? `https://www.luxeandline.uk/shop?category=${activeCategory}` : "https://www.luxeandline.uk/shop";
+    return () => {
+      document.title = prevTitle;
+      if (metaDesc) metaDesc!.content = prevDesc;
+      if (canon) canon!.href = prevCanon;
+    };
+  }, [activeCategory]);
+
   const { data: products, isLoading } = useListProducts(
     activeCategory ? { category: activeCategory } : {}
   );
