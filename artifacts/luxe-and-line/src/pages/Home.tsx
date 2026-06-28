@@ -1084,6 +1084,47 @@ export function Home() {
     }
   }, [videoDone]);
 
+  useEffect(() => {
+    const prevTitle = document.title;
+    document.title = "Luxe & Line | Luxury Stitched Suits & Fashion UK";
+    const SCHEMA_ID = "home-webpage-jsonld";
+    document.getElementById(SCHEMA_ID)?.remove();
+    const script = document.createElement("script");
+    script.id = SCHEMA_ID;
+    script.type = "application/ld+json";
+    script.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "https://www.luxeandline.uk/",
+      "url": "https://www.luxeandline.uk/",
+      "name": "Luxe & Line — Premium Luxury Fashion UK",
+      "description": "Shop fully stitched luxury suits, Levi's jeans, leather wallets and Kunafa chocolates at Luxe & Line UK. Free delivery on all orders.",
+      "isPartOf": { "@id": "https://www.luxeandline.uk/#website" },
+      "about": { "@id": "https://www.luxeandline.uk/#business" },
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.luxeandline.uk" },
+        ],
+      },
+      "mainEntity": {
+        "@type": "ItemList",
+        "name": "Featured Collections",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Stitched Suits", "url": "https://www.luxeandline.uk/shop?category=shalwar-kameez" },
+          { "@type": "ListItem", "position": 2, "name": "Levi's Jeans", "url": "https://www.luxeandline.uk/shop?category=jeans" },
+          { "@type": "ListItem", "position": 3, "name": "Wallets", "url": "https://www.luxeandline.uk/shop?category=wallets" },
+          { "@type": "ListItem", "position": 4, "name": "Kunafa Chocolates", "url": "https://www.luxeandline.uk/shop?category=food" },
+        ],
+      },
+    });
+    document.head.appendChild(script);
+    return () => {
+      document.title = prevTitle;
+      document.getElementById(SCHEMA_ID)?.remove();
+    };
+  }, []);
+
   return (
     <div className="w-full">
       {!videoDone && <VideoHero onExit={handleVideoExit} />}

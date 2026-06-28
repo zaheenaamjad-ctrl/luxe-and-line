@@ -52,9 +52,61 @@ function GeometricBg() {
   return <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-0 opacity-50" />;
 }
 
+const CONTACT_SCHEMA = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ContactPage",
+      "@id": "https://www.luxeandline.uk/contact",
+      "url": "https://www.luxeandline.uk/contact",
+      "name": "Contact Luxe & Line",
+      "description": "Contact Luxe & Line UK via WhatsApp, email or our online form. Get help with sizing, orders, delivery and custom requests.",
+      "isPartOf": { "@id": "https://www.luxeandline.uk/#website" },
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.luxeandline.uk" },
+          { "@type": "ListItem", "position": 2, "name": "Contact", "item": "https://www.luxeandline.uk/contact" },
+        ],
+      },
+    },
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://www.luxeandline.uk/#business",
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer service",
+          "telephone": "+447449507661",
+          "email": "hello@luxeandline.uk",
+          "availableLanguage": "English",
+          "contactOption": "TollFree",
+          "areaServed": "GB",
+        },
+      ],
+    },
+  ],
+});
+
 export function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [sent, setSent] = useState(false);
+
+  useEffect(() => {
+    const prevTitle = document.title;
+    document.title = "Contact Us | Luxe & Line";
+    let metaDesc = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
+    const prevDesc = metaDesc?.content ?? "";
+    if (metaDesc) metaDesc.content = "Contact Luxe & Line UK via WhatsApp (+44 7449 507661), email hello@luxeandline.uk, or our online form. Fast response on sizing, orders and delivery.";
+    let canon = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    const prevCanon = canon?.href ?? "";
+    if (canon) canon.href = "https://www.luxeandline.uk/contact";
+    return () => {
+      document.title = prevTitle;
+      if (metaDesc) metaDesc!.content = prevDesc;
+      if (canon) canon!.href = prevCanon;
+    };
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,6 +115,7 @@ export function Contact() {
 
   return (
     <div className="relative min-h-screen bg-background">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: CONTACT_SCHEMA }} />
       <GeometricBg />
       <div className="relative z-10 max-w-5xl mx-auto px-6 py-20">
         <div className="text-center mb-16">

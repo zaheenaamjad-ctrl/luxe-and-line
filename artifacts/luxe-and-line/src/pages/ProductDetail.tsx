@@ -76,13 +76,29 @@ export function ProductDetail() {
     return () => el.removeEventListener("wheel", onWheel);
   }, []);
 
-  /* SEO: title, meta description, canonical, OG tags, JSON-LD Product schema */
+  /* SEO: title, meta, canonical, OG, Product JSON-LD, BreadcrumbList JSON-LD */
   useEffect(() => {
     if (!product) return;
     const imgs = ((product.images ?? []) as string[]).map((s: string) => s.replace(/\.(png|jpg|jpeg)$/i, ".webp"));
     const ogImg = imgs[0] ? `https://www.luxeandline.uk${imgs[0]}` : "https://www.luxeandline.uk/opengraph.jpg";
     const desc = ((product.description ?? "").slice(0, 155)) || `Buy ${product.name} at Luxe & Line UK. Premium luxury fashion with free UK delivery.`;
     const url = `https://www.luxeandline.uk/product/${product.id}`;
+    const sku = `LNL-${product.id}`;
+    const categoryMap: Record<string, string> = {
+      "shalwar-kameez": "Women's Clothing > Stitched Suits",
+      jeans: "Women's Clothing > Jeans",
+      wallets: "Accessories > Wallets & Purses",
+      food: "Food & Gifts > Chocolates",
+    };
+    const category = categoryMap[product.category ?? ""] ?? (product.category ?? "");
+    const catLabel: Record<string, string> = {
+      "shalwar-kameez": "Stitched Suits",
+      jeans: "Jeans",
+      wallets: "Wallets",
+      food: "Kunafa Chocolates",
+    };
+    const catName = catLabel[product.category ?? ""] ?? "Shop";
+    const catSlug = product.category ? `/shop?category=${product.category}` : "/shop";
 
     const prevTitle = document.title;
     document.title = `${product.name} | Luxe & Line`;
@@ -111,6 +127,7 @@ export function ProductDetail() {
     upsertMeta("name", "twitter:description", desc);
     upsertMeta("name", "twitter:image", ogImg);
 
+    // Enhanced Product schema with SKU, category, shipping, return policy
     const SCHEMA_ID = "product-schema-jsonld";
     document.getElementById(SCHEMA_ID)?.remove();
     const script = document.createElement("script");
@@ -122,6 +139,9 @@ export function ProductDetail() {
       "@id": url,
       name: product.name,
       description: product.description ?? "",
+      sku,
+      mpn: sku,
+      category,
       image: imgs.map(img => `https://www.luxeandline.uk${img}`),
       brand: { "@type": "Brand", name: "Luxe & Line" },
       offers: {
@@ -129,11 +149,53 @@ export function ProductDetail() {
         price: product.price,
         priceCurrency: "GBP",
         availability: "https://schema.org/InStock",
+        itemCondition: "https://schema.org/NewCondition",
+        priceValidUntil: "2027-01-01",
         url,
-        seller: { "@type": "Organization", name: "Luxe & Line" },
+        seller: {
+          "@type": "Organization",
+          name: "Luxe & Line",
+          url: "https://www.luxeandline.uk",
+        },
+        shippingDetails: {
+          "@type": "OfferShippingDetails",
+          shippingRate: { "@type": "MonetaryAmount", value: "0", currency: "GBP" },
+          shippingDestination: { "@type": "DefinedRegion", addressCountry: "GB" },
+          deliveryTime: {
+            "@type": "ShippingDeliveryTime",
+            handlingTime: { "@type": "QuantitativeValue", minValue: 1, maxValue: 2, unitCode: "d" },
+            transitTime: { "@type": "QuantitativeValue", minValue: 2, maxValue: 3, unitCode: "d" },
+          },
+        },
+        hasMerchantReturnPolicy: {
+          "@type": "MerchantReturnPolicy",
+          applicableCountry: "GB",
+          returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+          merchantReturnDays: 7,
+          returnMethod: "https://schema.org/ReturnByMail",
+          returnFees: "https://schema.org/FreeReturn",
+        },
       },
     });
     document.head.appendChild(script);
+
+    // BreadcrumbList schema
+    const BREADCRUMB_ID = "product-breadcrumb-jsonld";
+    document.getElementById(BREADCRUMB_ID)?.remove();
+    const breadcrumb = document.createElement("script");
+    breadcrumb.id = BREADCRUMB_ID;
+    breadcrumb.type = "application/ld+json";
+    breadcrumb.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://www.luxeandline.uk" },
+        { "@type": "ListItem", position: 2, name: "Shop", item: "https://www.luxeandline.uk/shop" },
+        { "@type": "ListItem", position: 3, name: catName, item: `https://www.luxeandline.uk${catSlug}` },
+        { "@type": "ListItem", position: 4, name: product.name, item: url },
+      ],
+    });
+    document.head.appendChild(breadcrumb);
 
     return () => {
       document.title = prevTitle;
@@ -142,6 +204,7 @@ export function ProductDetail() {
       const cl = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
       if (cl) cl.href = prevCanon;
       document.getElementById(SCHEMA_ID)?.remove();
+      document.getElementById(BREADCRUMB_ID)?.remove();
     };
   }, [product]);
 

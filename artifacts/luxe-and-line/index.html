@@ -62,17 +62,17 @@
       });
     </script>
 
-    <!-- JSON-LD: Local Business + Organization -->
+    <!-- JSON-LD: Organization graph — LocalBusiness, Organization, WebSite, OnlineStore -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@graph": [
         {
-          "@type": "LocalBusiness",
+          "@type": ["LocalBusiness", "ClothingStore"],
           "@id": "https://www.luxeandline.uk/#business",
           "name": "Luxe & Line",
           "alternateName": "Luxe and Line",
-          "description": "Premium luxury fashion boutique in the UK. Fully stitched suits, embroidered collections, leather wallets and artisan confectionery with free UK delivery.",
+          "description": "Premium luxury fashion boutique in the UK. Fully stitched suits from Nureh Gardenia, Charizma and Zeenat collections, Levi's jeans, genuine leather wallets and Kunafa chocolates. Free UK delivery.",
           "url": "https://www.luxeandline.uk",
           "telephone": "+447449507661",
           "email": "hello@luxeandline.uk",
@@ -100,15 +100,62 @@
           "priceRange": "££",
           "currenciesAccepted": "GBP",
           "paymentAccepted": "Bank Transfer, Cash on Delivery",
-          "areaServed": {
-            "@type": "Country",
-            "name": "United Kingdom"
-          },
+          "areaServed": { "@type": "Country", "name": "United Kingdom" },
           "image": "https://www.luxeandline.uk/og-image.jpg",
-          "logo": "https://www.luxeandline.uk/logo-transparent.png",
+          "logo": { "@type": "ImageObject", "url": "https://www.luxeandline.uk/logo-transparent.png" },
           "founder": [
             { "@type": "Person", "name": "Amjad Khan" },
             { "@type": "Person", "name": "Zaheena Khan" }
+          ],
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "6",
+            "bestRating": "5",
+            "worstRating": "1"
+          },
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Luxe & Line Collections",
+            "itemListElement": [
+              { "@type": "OfferCatalog", "name": "Stitched Suits", "url": "https://www.luxeandline.uk/shop?category=shalwar-kameez" },
+              { "@type": "OfferCatalog", "name": "Levi's Jeans", "url": "https://www.luxeandline.uk/shop?category=jeans" },
+              { "@type": "OfferCatalog", "name": "Wallets", "url": "https://www.luxeandline.uk/shop?category=wallets" },
+              { "@type": "OfferCatalog", "name": "Kunafa Chocolates", "url": "https://www.luxeandline.uk/shop?category=food" }
+            ]
+          },
+          "sameAs": []
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://www.luxeandline.uk/#organization",
+          "name": "Luxe & Line",
+          "alternateName": "Luxe and Line",
+          "url": "https://www.luxeandline.uk",
+          "logo": { "@type": "ImageObject", "url": "https://www.luxeandline.uk/logo-transparent.png" },
+          "description": "UK luxury fashion boutique specialising in fully stitched suits, premium denim, leather accessories and artisan confectionery with free nationwide delivery.",
+          "telephone": "+447449507661",
+          "email": "hello@luxeandline.uk",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "39 Stanley Street",
+            "addressLocality": "Liverpool",
+            "postalCode": "L7 0JN",
+            "addressCountry": "GB"
+          },
+          "founder": [
+            { "@type": "Person", "name": "Amjad Khan" },
+            { "@type": "Person", "name": "Zaheena Khan" }
+          ],
+          "knowsAbout": [
+            "Luxury Women's Fashion",
+            "Stitched Suits",
+            "Shalwar Kameez",
+            "Embroidered Suits",
+            "Levi's Jeans",
+            "Leather Wallets",
+            "Kunafa Chocolates",
+            "UK Fashion Delivery"
           ],
           "sameAs": []
         },
@@ -118,6 +165,7 @@
           "url": "https://www.luxeandline.uk",
           "name": "Luxe & Line",
           "description": "Premium Luxury Fashion — UK",
+          "publisher": { "@id": "https://www.luxeandline.uk/#organization" },
           "potentialAction": {
             "@type": "SearchAction",
             "target": {
@@ -132,11 +180,55 @@
           "@id": "https://www.luxeandline.uk/#store",
           "name": "Luxe & Line Online Shop",
           "url": "https://www.luxeandline.uk/shop",
+          "parentOrganization": { "@id": "https://www.luxeandline.uk/#organization" },
           "offers": {
             "@type": "AggregateOffer",
             "priceCurrency": "GBP",
+            "lowPrice": "12",
+            "highPrice": "85",
+            "offerCount": "35",
             "description": "Premium luxury fashion, leather accessories and artisan goods with free UK delivery"
           }
+        }
+      ]
+    }
+    </script>
+
+    <!-- JSON-LD: FAQPage — common customer questions -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How long does delivery take across the UK?",
+          "acceptedAnswer": { "@type": "Answer", "text": "All orders are delivered within 4–5 business days after payment confirmation. We ship across the entire UK and all prices include delivery — there are no hidden charges at checkout." }
+        },
+        {
+          "@type": "Question",
+          "name": "Are the shalwar kameez suits ready to wear?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes! All shalwar kameez suits at Luxe & Line are fully stitched and ready to wear. Available in sizes S, M, L, XL and XXL. For Levi's jeans we offer custom waist × length sizing." }
+        },
+        {
+          "@type": "Question",
+          "name": "What payment methods does Luxe & Line accept?",
+          "acceptedAnswer": { "@type": "Answer", "text": "We accept Bank Transfer and Cash on Delivery (COD). Payment details are provided after your order is placed. Bank transfers must be confirmed before dispatch. COD is available for most UK addresses." }
+        },
+        {
+          "@type": "Question",
+          "name": "What is Luxe & Line's return policy?",
+          "acceptedAnswer": { "@type": "Answer", "text": "We accept returns and exchanges within 7 days of delivery, provided items are unworn and in original packaging. Contact hello@luxeandline.uk or WhatsApp +44 7449 507661 to arrange." }
+        },
+        {
+          "@type": "Question",
+          "name": "What brands does Luxe & Line stock?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Luxe & Line stocks Nureh Gardenia, Charizma Sun Shine, and Zeenat Solid Pret stitched suit collections, Levi's jeans, Atrix leather wallets, and handcrafted Kunafa chocolates." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Luxe & Line offer free delivery?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes — free UK delivery is included on all orders. There are no hidden delivery charges. We deliver to all UK postcodes within 4–5 business days." }
         }
       ]
     }

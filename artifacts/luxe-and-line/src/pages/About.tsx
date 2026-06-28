@@ -42,9 +42,64 @@ function ParticleBackground() {
   return <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-0 opacity-30" />;
 }
 
+const ABOUT_SCHEMA = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "AboutPage",
+      "@id": "https://www.luxeandline.uk/about",
+      "url": "https://www.luxeandline.uk/about",
+      "name": "About Luxe & Line — Premium UK Luxury Fashion Boutique",
+      "description": "Luxe & Line is a UK luxury fashion boutique founded by Amjad and Zaheena Khan, offering fully stitched suits, Levi's jeans, leather wallets and Kunafa chocolates with free UK delivery.",
+      "isPartOf": { "@id": "https://www.luxeandline.uk/#website" },
+      "about": { "@id": "https://www.luxeandline.uk/#organization" },
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.luxeandline.uk" },
+          { "@type": "ListItem", "position": 2, "name": "About", "item": "https://www.luxeandline.uk/about" },
+        ],
+      },
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://www.luxeandline.uk/#organization",
+      "name": "Luxe & Line",
+      "url": "https://www.luxeandline.uk",
+      "logo": { "@type": "ImageObject", "url": "https://www.luxeandline.uk/logo-transparent.png" },
+      "foundingDate": "2024",
+      "foundingLocation": { "@type": "Place", "addressLocality": "Liverpool", "addressCountry": "GB" },
+      "founder": [
+        { "@type": "Person", "name": "Amjad Khan" },
+        { "@type": "Person", "name": "Zaheena Khan" },
+      ],
+      "description": "UK luxury fashion boutique specialising in fully stitched suits from Nureh Gardenia, Charizma and Zeenat collections, Levi's jeans, genuine leather wallets and artisan Kunafa chocolates.",
+      "areaServed": { "@type": "Country", "name": "United Kingdom" },
+      "knowsAbout": ["Luxury Women's Fashion", "Stitched Suits", "Shalwar Kameez", "Levi's Jeans", "Leather Wallets", "Kunafa Chocolates"],
+    },
+  ],
+});
+
 export function About() {
+  useEffect(() => {
+    const prevTitle = document.title;
+    document.title = "About | Luxe & Line — Premium UK Luxury Fashion";
+    let metaDesc = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
+    const prevDesc = metaDesc?.content ?? "";
+    if (metaDesc) metaDesc.content = "About Luxe & Line — a UK luxury fashion boutique founded by Amjad and Zaheena Khan. Fully stitched suits, Levi's jeans, leather wallets and Kunafa chocolates with free UK delivery.";
+    let canon = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    const prevCanon = canon?.href ?? "";
+    if (canon) canon.href = "https://www.luxeandline.uk/about";
+    return () => {
+      document.title = prevTitle;
+      if (metaDesc) metaDesc!.content = prevDesc;
+      if (canon) canon!.href = prevCanon;
+    };
+  }, []);
+
   return (
     <div className="relative min-h-screen bg-background">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: ABOUT_SCHEMA }} />
       <ParticleBackground />
 
       {/* Hero */}

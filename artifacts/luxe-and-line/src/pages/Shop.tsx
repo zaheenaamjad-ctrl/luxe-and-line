@@ -155,6 +155,52 @@ export function Shop() {
     activeCategory ? { category: activeCategory } : {}
   );
 
+  // CollectionPage + BreadcrumbList schema
+  useEffect(() => {
+    const DISP: Record<string, string> = {
+      "shalwar-kameez": "Stitched Suits",
+      jeans: "Levi's Jeans",
+      wallets: "Wallets",
+      food: "Kunafa Chocolates",
+    };
+    const name = activeCategory ? (DISP[activeCategory] ?? activeCategory) : "All Collections";
+    const url = activeCategory
+      ? `https://www.luxeandline.uk/shop?category=${activeCategory}`
+      : "https://www.luxeandline.uk/shop";
+
+    const SCHEMA_ID = "shop-collection-jsonld";
+    document.getElementById(SCHEMA_ID)?.remove();
+    const script = document.createElement("script");
+    script.id = SCHEMA_ID;
+    script.type = "application/ld+json";
+    script.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "CollectionPage",
+          "@id": url,
+          name,
+          url,
+          description: activeCategory
+            ? `Browse the Luxe & Line ${name} collection — premium fashion with free UK delivery.`
+            : "Browse all Luxe & Line collections — stitched suits, Levi's jeans, wallets and Kunafa chocolates. Free UK delivery.",
+          isPartOf: { "@id": "https://www.luxeandline.uk/#website" },
+          about: { "@id": "https://www.luxeandline.uk/#store" },
+        },
+        {
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: "https://www.luxeandline.uk" },
+            { "@type": "ListItem", position: 2, name: "Shop", item: "https://www.luxeandline.uk/shop" },
+            ...(activeCategory ? [{ "@type": "ListItem", position: 3, name, item: url }] : []),
+          ],
+        },
+      ],
+    });
+    document.head.appendChild(script);
+    return () => { document.getElementById(SCHEMA_ID)?.remove(); };
+  }, [activeCategory]);
+
   return (
     <div className="min-h-screen bg-background">
       {/* Page hero */}

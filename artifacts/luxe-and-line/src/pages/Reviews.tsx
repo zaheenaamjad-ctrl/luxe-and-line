@@ -157,12 +157,62 @@ function useDbReviews() {
   return { reviews, loading };
 }
 
+const REVIEW_SCHEMA = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://www.luxeandline.uk/#business",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "6",
+        "bestRating": "5",
+        "worstRating": "1",
+      },
+      "review": REVIEWS.map((r) => ({
+        "@type": "Review",
+        "author": { "@type": "Person", "name": r.name },
+        "reviewRating": { "@type": "Rating", "ratingValue": r.rating, "bestRating": 5 },
+        "reviewBody": r.review,
+        "datePublished": r.date,
+        "name": r.product,
+      })),
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": FAQS.map((f) => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": { "@type": "Answer", "text": f.a },
+      })),
+    },
+  ],
+});
+
 export function Reviews() {
   const avg = (REVIEWS.reduce((s, r) => s + r.rating, 0) / REVIEWS.length).toFixed(1);
   const { reviews: dbReviews, loading: dbLoading } = useDbReviews();
 
+  useEffect(() => {
+    const prevTitle = document.title;
+    document.title = "Customer Reviews | Luxe & Line";
+    let metaDesc = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
+    const prevDesc = metaDesc?.content ?? "";
+    if (metaDesc) metaDesc.content = "Read genuine customer reviews for Luxe & Line UK. 4.8★ average rating across stitched suits, Levi's jeans, wallets and Kunafa chocolates. Free UK delivery.";
+    let canon = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    const prevCanon = canon?.href ?? "";
+    if (canon) canon.href = "https://www.luxeandline.uk/reviews";
+    return () => {
+      document.title = prevTitle;
+      if (metaDesc) metaDesc!.content = prevDesc;
+      if (canon) canon!.href = prevCanon;
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: REVIEW_SCHEMA }} />
       <section
         className="py-28 px-6 text-center border-b border-border/30"
         style={{ background: "linear-gradient(180deg, hsl(265,28%,5%) 0%, hsl(265,25%,8%) 100%)" }}
